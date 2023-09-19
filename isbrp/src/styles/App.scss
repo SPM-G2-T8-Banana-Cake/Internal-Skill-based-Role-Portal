@@ -1,0 +1,96 @@
+
+$theme-colors: (
+    "button": #a7abaf,
+    "grey": #DFDFDF,
+    "light": #eff1f3,
+    "secondary": #7e7e7e,
+    "error": rgb(212, 20, 20),
+    "primary": #6D8BE6,
+    "warning": #13315C,
+    "white": #ffffff,
+    "background": #e9e9e9
+);
+
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+.footerTitles {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.footerText {
+  font-size: 12px;
+}
+
+.loginBox {
+  margin-top: 64.25px;
+  // background-image: url(../assets/login.webp);
+  // background-attachment:fixed;
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  // min-height: 100vh;
+}
+
+.contentBox {
+  margin-top: 64.25px;
+  background-color: #eff1f3;
+  min-height: 100vh;
+}
+
+.pcContentBox {
+  margin-top: 64.25px;
+  background-color: #EEF4ED;
+  min-height: 100vh;
+}
+
+.hero {
+  margin-top: 64.25px;
+  height: 150px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.scrollableDiv {
+  height: calc(100vh - 89px);
+  overflow-y: scroll;
+}
+
+.fileUpload {
+  border: black 1px dashed;
+  cursor: pointer;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.loader-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.834);
+  z-index: 1;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: #eff1f3 transparent #eff1f3 transparent;
+  border-radius: 50%;
+  animation: spin-anim 1.2s linear infinite;
+}
+
+@keyframes spin-anim {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
