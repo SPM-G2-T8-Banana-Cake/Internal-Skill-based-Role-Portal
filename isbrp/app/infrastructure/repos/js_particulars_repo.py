@@ -1,4 +1,4 @@
-from interfaces.repo_interfaces import IJsParticularsRepository
+from infrastructure.repos.interfaces.repo_interfaces import IJsParticularsRepository
 
 class JsParticularsRepository(IJsParticularsRepository):
     def __init__(self, client) -> None:

@@ -5,8 +5,8 @@ import time
 
 from uuid import uuid4
 from domain.models.js_particulars import JsParticulars
-from services.interfaces.service_interfaces import IJsParticularsService
-from repos.interfaces.repo_interfaces import IJsParticularsRepository
+from infrastructure.services.interfaces.service_interfaces import IJsParticularsService
+from infrastructure.repos.interfaces.repo_interfaces import IJsParticularsRepository
 from boto3.dynamodb.conditions import Key, Attr
 
 class JsParticiularsService(IJsParticularsService):
