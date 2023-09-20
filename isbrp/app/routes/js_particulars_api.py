@@ -7,7 +7,7 @@ js_particulars_api = Blueprint("js_particulars_api", __name__)
 js_particulars_repo = JsParticularsRepository(client=app_aws_wrapper.client)
 js_particulars_service = JsParticiularsService(js_particulars_repo=js_particulars_repo)
 
-@js_particulars_api.route('/test_endpoint', methods=['GET'])
+@js_particulars_api.route('/test_jsp_endpoint', methods=['GET'])
 def test_endpoint():
     return 'Default JS particulars endpoint returned.'
 
