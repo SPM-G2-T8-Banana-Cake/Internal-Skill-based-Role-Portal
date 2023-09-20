@@ -1,18 +1,46 @@
-import boto3
 
-class AwsServicesWrapper:
-    AWS_ACCESS_KEY_ID = ''
-    AWS_SECRET_ACCESS_KEY = ''
-    AWS_SESSION_TOKEN = ''
-    AWS_S3_BUCKET = 'pingudevelopersbucket'
+import pymssql
+
+
+class SqlServicesWrapper:
 
     def __init__(self):
-        self.client = boto3.client('dynamodb', region_name='ap-southeast-1',
-                        aws_access_key_id= self.AWS_ACCESS_KEY_ID,
-                        aws_secret_access_key= self.AWS_SECRET_ACCESS_KEY,
-                        aws_session_token= self.AWS_SESSION_TOKEN)
+        self.host = 'is212g2t8db.cozufzqpaqz5.ap-southeast-1.rds.amazonaws.com'
+        self.username = 'admin'
+        self.password = ''
+        self.db = 'is212g2t8db'
 
-    def get_client(self):
-        return self.client
+    def connection(self):
+        return(pymssql.connect(self.host, self.username, self.password, self.db))
     
-app_aws_wrapper = AwsServicesWrapper()
+    ##require cursor to query
+    def cursor(self):
+        cursor = self.connection.cursor()
+
+app_sql_wrapper = SqlServicesWrapper()
+print(app_sql_wrapper)
+app_sql_wrapper.cursor.execute('SELECT * FROM spm.Staff')
+rows = app_sql_wrapper.cursor.fetchall()
+
+for row in rows:
+    print(row)
+
+# Sample SELECT query for the Role_Skill table
+app_sql_wrapper.cursor.execute('SELECT * FROM spm.Role_Skill')
+rows = app_sql_wrapper.cursor.fetchall()
+
+# Display the results
+for row in rows:
+    print(row)
+
+# Sample SELECT query for the Staff_Skill table
+app_sql_wrapper.cursor.execute('SELECT * FROM spm.Staff_Skill')
+rows = app_sql_wrapper.cursor.fetchall()
+
+# Display the results
+for row in rows:
+    print(row)
+
+# Close cursor and connection
+app_sql_wrapper.cursor.close()
+app_sql_wrapper.conn.close()
