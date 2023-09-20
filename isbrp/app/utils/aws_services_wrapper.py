@@ -14,3 +14,5 @@ class AwsServicesWrapper:
 
     def get_client(self):
         return self.client
+    
+app_aws_wrapper = AwsServicesWrapper()
