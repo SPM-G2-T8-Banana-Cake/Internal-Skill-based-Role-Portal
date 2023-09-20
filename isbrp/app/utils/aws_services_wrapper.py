@@ -13,6 +13,7 @@ class SqlServicesWrapper:
     def connection(self):
         return(pymssql.connect(self.host, self.username, self.password, self.db))
     
+    ##require cursor to query
     def cursor(self):
         cursor = self.connection.cursor()
 
@@ -21,7 +22,6 @@ print(app_sql_wrapper)
 app_sql_wrapper.cursor.execute('SELECT * FROM spm.Staff')
 rows = app_sql_wrapper.cursor.fetchall()
 
-# Display the results
 for row in rows:
     print(row)
 
