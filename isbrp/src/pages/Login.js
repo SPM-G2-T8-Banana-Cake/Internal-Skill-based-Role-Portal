@@ -48,11 +48,11 @@ function Login() {
             <LoginHeader type={'bg-secondary'} />
             <Container fluid className='loginBox'>
             <Row className='mx-auto'>
-                        <Image className='mx-auto' src={logo} style={{height: '580px', width:'630px'}} fluid />
+                        <Image className='mx-auto' src={logo} style={{height: '470px', width:'630px'}} fluid />
         </Row>
                 <Row className='mx-auto'>
                     <Col className='d-flex align-items-center justify-content-center'>
-                        <div style={{ width: '50vw', height: '40vh'}} className='bg-light rounded m-5 mt-sm-0 mt-md-0 mt-lg-0 p-5'>
+                        <div style={{ width: '45vw', height: '40vh'}} className='w-lg-50 bg-light rounded m-5 mt-sm-0 mt-md-0 mt-lg-0 p-5'>
                             <h1>
                                 {hrLogin ?
                                 <OverlayTrigger placement="top" overlay={<Tooltip>Back to Roles</Tooltip>}>

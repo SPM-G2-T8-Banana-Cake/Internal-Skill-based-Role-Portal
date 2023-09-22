@@ -17,14 +17,14 @@ function Footer(props) {
                 </Col>
                 <Col sm={12} md={6} lg={3}>
                     <p className="footerTitles">Data Protection Officer</p>
-                    <span>enquiry@projectsuccess.com.sg</span>
+                    <span>enquiry@allinone.com.sg</span>
                     <br /><br />
                     <span>+65 9171 3573</span>
                 </Col>
                 <Col sm={12} md={6} lg={3}>
                     <p className="footerTitles">Social</p>
                     <span>
-                        <a className="text-black text-decoration-none" href="https://projectsuccess.com.sg/" target='_blank' rel="noreferrer">Project Success Website</a>
+                        <a className="text-black text-decoration-none" href="https://projectsuccess.com.sg/" target='_blank' rel="noreferrer">All-In-One Website</a>
                     </span>
                     <br /><br />
                     <span>
