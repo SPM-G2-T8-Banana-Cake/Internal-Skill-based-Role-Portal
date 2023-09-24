@@ -1,4 +1,4 @@
-class IJsParticularsRepository:
+class IRolePostingsRepository:
     def create(self, params):
         pass
 
