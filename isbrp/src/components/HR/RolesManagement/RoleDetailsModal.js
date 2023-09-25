@@ -9,10 +9,10 @@ import Col from "react-bootstrap/Col";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import Table from "react-bootstrap/Table";
-
+import ModifyRoleModal from "./ModifyRoleModal";
 import { FiMoreVertical, FiEdit } from 'react-icons/fi'
 
-function RolesDetailsModal(props) {
+function RoleDetailsModal(props) {
     console.log(props)
     const [show, setShow] = useState(false);
     const [currentModal, setCurrentModal] = useState('details');
@@ -34,7 +34,7 @@ function RolesDetailsModal(props) {
                 <Modal.Title>
                     {props.id}
                 </Modal.Title>
-                <OverlayTrigger placement="right" overlay={<Tooltip>Edit Profile</Tooltip>}>
+                <OverlayTrigger placement="right" overlay={<Tooltip>Edit Role</Tooltip>}>
                     <Button variant="bg-light" className="rounded-circle" onClick={() => setCurrentModal('modify')}>
                         <FiEdit /> 
                     </Button>
@@ -80,9 +80,9 @@ function RolesDetailsModal(props) {
                 </Modal.Footer>
                 </Modal>
               : null }
-
+        {currentModal === 'modify' ? <ModifyRoleModal setCurrentModal={setCurrentModal} openSnackbar={props.openSnackbar} reloadProfiles={props.reloadProfiles} /> : null}
         </>
     )
 }
 
-export default RolesDetailsModal;
+export default RoleDetailsModal;
