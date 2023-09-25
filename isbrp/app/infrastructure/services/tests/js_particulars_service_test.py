@@ -1,2 +1,2 @@
 def test(test):
-    print(test)
+    assert "test" == 'test'
