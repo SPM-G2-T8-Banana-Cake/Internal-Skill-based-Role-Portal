@@ -34,7 +34,7 @@ function ModifyRoleModal(props) {
           handleSubmit(e);
         }}
       >
-        <Modal.Header className="bg-grey text-black p-2 ps-4">
+        <Modal.Header className="bg-details text-black p-2 ps-4">
           <Modal.Title className="me-2">Edit Role: {props.id}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-4 bg-light">
