@@ -2,3 +2,4 @@ boto3==1.28.27
 Flask==2.3.2
 Flask-Cors==4.0.0
 pymssql==2.2.8
+pytest==7.4.2
