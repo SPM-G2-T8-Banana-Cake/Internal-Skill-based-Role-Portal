@@ -52,7 +52,7 @@ function Login() {
         </Row>
                 <Row className='mx-auto'>
                     <Col className='d-flex align-items-center justify-content-center'>
-                        <div style={{ width: '45vw', height: '40vh'}} className='w-lg-50 bg-light rounded m-5 mt-sm-0 mt-md-0 mt-lg-0 p-5'>
+                        <div style={{ width: '42vw', height: '38vh'}} className='bg-light rounded m-5 mt-sm-0 mt-md-0 mt-lg-0 p-5'>
                             <h1>
                                 {hrLogin ?
                                 <OverlayTrigger placement="top" overlay={<Tooltip>Back to Roles</Tooltip>}>
