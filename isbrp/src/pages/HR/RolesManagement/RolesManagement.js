@@ -13,7 +13,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
-import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetails";
+import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
 import { styled } from '@mui/system';
 import {
     TablePagination,
@@ -133,6 +133,7 @@ function RolesManagement() {
 
   useEffect(() => {
     document.title = "Roles Management";
+    window.scrollTo(0, 0);
   }, []);
 
   return (
