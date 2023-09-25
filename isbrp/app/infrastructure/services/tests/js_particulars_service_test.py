@@ -1,2 +1,2 @@
 def test(test):
-    assert "test" != "test"
+    assert test == "print test"
