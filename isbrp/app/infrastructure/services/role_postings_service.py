@@ -13,10 +13,20 @@ class RolePostingsService(RolePostingsRepository):
         start_time = time.time()
         try:
             Role_Name = role_postings_json.get('Role_Name')
-            Skill_Name = role_postings_json.get('Skill_Name')
-            create_role_sql = "INSERT INTO spm.Role_Skill (Role_Name, Skill_Name) VALUES (%s, %s)"
-            params = (Role_Name, Skill_Name)
+            Application_Deadline = role_postings_json.get('Application_Deadline')
+
+            # Insert Role_Name, Skill_Name, Application_Deadline and Role_Desc 
+            # by joining Role_Skill and Role tables then passing in Application_Deadline
+            create_role_sql = '''
+                INSERT INTO spm.Role_Listing (Role_Name, Skill_Name, Role_Desc, Application_Deadline) 
+                SELECT rs.Role_Name, rs.Skill_Name, r.Role_Desc, %s
+                FROM spm.Role_Skill rs
+                INNER JOIN spm.Role r ON rs.Role_Name = r.Role_Name
+                WHERE rs.Role_Name = %s
+            '''
+            params = (Application_Deadline, Role_Name)
             self.repository.create(create_role_sql, params)
+
         except (TypeError, AttributeError) as e:
             print(f"Error creating instance: {e}")
             return f"Error creating instance: {e}"
