@@ -12,8 +12,8 @@ import Table from 'react-bootstrap/Table'
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Dropdown from 'react-bootstrap/Dropdown'
-
+import Dropdown from 'react-bootstrap/Dropdown';
+import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetails";
 import { styled } from '@mui/system';
 import {
     TablePagination,
@@ -22,12 +22,13 @@ import {
 import { FaPlus } from "react-icons/fa";
 import { FiSearch, FiFilter } from 'react-icons/fi';
 import { TbReload } from 'react-icons/tb';
-import { roleListings } from "../../../services/constants";
+import roleListings  from "../../../utils/DummyData/dummyRoleData.json";
 
 function RolesManagement() {
     const navigate = useNavigate();
     const location = useLocation();
-    const [loading, setLoading] = useState(false)
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     
@@ -95,6 +96,36 @@ function RolesManagement() {
         setPage(0)
     }
 
+    const handleSearch = (value) => {
+        if (value !== '') {
+            setLoading(true)
+            let input = value
+            if (input.includes(' ')) {
+                input = input.replace(/\s+/g, '-')
+            }
+            // searchProfile(input)
+            // .then(function(response) {
+            //     console.log(response.data)
+            //     if (response.data.length > 0) {
+            //         setJSInfo(response.data)
+            //     } else {
+            //         setJSInfo([])
+            //     }
+            //     setLoading(false)
+            // })
+            // .catch(function(error) {
+            //     console.log(error)
+            //     openSnackbar('searchError')
+            //     setLoading(false)
+            // })
+        }
+    }
+
+    const handleSearchEnter = (value) => {
+        if (value === 'Enter') {
+            handleSearch(search)
+        }
+    }
 
     const toCreateRoles = () => {
         navigate('/create-role-listing', {state: {id: location.state.id}})
@@ -117,21 +148,24 @@ function RolesManagement() {
                             <Col xs={12} md={6} lg={7}>
                                 <h1>Roles Management</h1>
                             </Col>
-                            {/* <Col xs={9} md={4} lg={3}>
+                            <Col xs={9} md={4} lg={3}>
                                 <InputGroup>
                                     <OverlayTrigger
                                         placement="bottom"
                                         overlay={
                                             <Tooltip>
-                                                Name: e.g. Chen Jie Yi
-                                                <br />
+                                                Role Name: e.g. Data Analyst
+                                                {/* <br />
                                                 NRIC: e.g. SXXXX567A = 567A
                                                 <br />
-                                                Phone Number: e.g. 91234567
+                                                Phone Number: e.g. 91234567 */}
                                             </Tooltip>}
                                     >
-                                        <Form.Control className='bg-secondary' placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} onKeyDown={e => handleSearchEnter(e.key)} />
+                                        <Form.Control className='bg-grey' placeholder="Search by Role Name..." value={search} onChange={e => setSearch(e.target.value)} onKeyDown={e => handleSearchEnter(e.key)} />
                                     </OverlayTrigger>
+                                    </InputGroup>
+                                </Col>
+                                    {/* 
                                     <OverlayTrigger placement="top" overlay={<Tooltip>Search</Tooltip>}>
                                         <Button variant="secondary" onClick={() => handleSearch(search)}><FiSearch /></Button>
                                     </OverlayTrigger>
@@ -163,13 +197,14 @@ function RolesManagement() {
                                 </ButtonGroup>
                             </Col>
                         </Row>
+                        <hr/>
                         <Container fluid>
                             <Table responsive hover className='rounded-3 overflow-hidden align-middle' size="sm">
                                 <thead>
                                     <tr>
                                         <th className='bg-details text-dark ps-3'>ID</th>
                                         <th className='bg-details text-dark'>Role Name</th>
-                                        <th className='bg-details text-dark'>Skill Name</th>
+                                        <th className='bg-details text-dark'>Role Description</th>
                                         <th className='bg-details text-dark'></th>
                                         {/* <th className='bg-details text-dark'>Phone Number</th>
                                         <th className='bg-details text-dark'>Status</th>
@@ -177,16 +212,18 @@ function RolesManagement() {
                                     </tr>
                                 </thead>
                                 <tbody>
+
+                                    {roleListings ? console.log(roleListings) : null}
                                     {(rowsPerPage > 0
                                         ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         : roleListings
                                     ).map((roles) => (
-                                        <tr className="border-details" key={roles.id}>
-                                            <td className='bg-grey ps-3'>{roles.id}</td>
-                                            <td className='bg-grey'>{roles.roleName}</td>
-                                            <td className='bg-grey'>{roles.skillName}</td>
+                                        <tr className="border-details" key={roles.Role.id}>
+                                            <td className='bg-grey ps-3'>{roles.Role.id}</td>
+                                            <td className='bg-grey'>{roles.Role.Role_Name}</td>
+                                            <td className='bg-grey'>{roles.Role.Role_Desc}</td>
                                             <td className='bg-grey'>
-                                                {/* <RolesDetailsModal id={js.jsID} jsParticular={js.particulars} jsResumeInfo={js.resumeInfo} openSnackbar={openSnackbar} reloadProfiles={reloadProfiles} /> */}
+                                                <RolesDetailsModal className='bg-grey' role={roles.Role} />
                                             </td>
                                         </tr>
                                     ))}
