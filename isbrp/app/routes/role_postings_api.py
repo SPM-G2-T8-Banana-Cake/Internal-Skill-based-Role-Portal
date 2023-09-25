@@ -20,19 +20,4 @@ def create_role_posting():
     res = role_postings_service.create_role_posting(role_postings_json)
     return res
 
-    # host = 'is212g2t8db.cozufzqpaqz5.ap-southeast-1.rds.amazonaws.com'
-    # username = 'admin'
-    # password = 'PinguDevelopers123!'
-    # db = 'is212g2t8db'
-    # conn = pymssql.connect(host, username, password, db)
-
-    # cursor = conn.cursor()
-    # cursor.execute("INSERT INTO spm.Staff VALUES (1, 'John', 'Doe', 'Resources', 'United States', 'john.doe@example.com', 3)")
-    # conn.commit()
-    # cursor.execute("SELECT * FROM spm.Staff")
-    # records = cursor.fetchall()
-    # conn.close()
-    # return jsonify(records)
-    # result = js_particulars_service.get_all_jobseeker_particulars()
-    # return jsonify(result)
 
