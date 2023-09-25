@@ -1,9 +1,205 @@
+import React, { useEffect, useState } from "react";
+import HrHeader from "../../../components/Header/HrHeader";
+import Footer from "../../../components/Footer/Footer";
+import Container from "react-bootstrap/esm/Container.js";
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
+import Form from "react-bootstrap/Form";
+import Image from "react-bootstrap/esm/Image";
+import Button from "react-bootstrap/Button";
+import { motion } from "framer-motion";
+import bgHero from "../../../assets/heroImage.png";
+// import Select from "react-select";
+
+// Form validation
+import { useFormik, Formik } from "formik";
+
+// Form error checking
+import * as Yup from "yup";
+
 function CreateRoleListing() {
-    return (
-        <>
-            <h1>Create Role Listing</h1>
-        </>
-    )
+  const [animation, setAnimation] = useState(false);
+  const [timer, setTimer] = useState(5);
+
+  const initialValues = {
+    roleName: "",
+    roleDesc: "",
+    appDateline: "",
+  };
+
+  const validationSchema = Yup.object({
+    roleName: Yup.string().required("Role Name is a required field"),
+    roleDesc: Yup.string().required("Role Description is a required field"),
+    appDateline: Yup.string().required("Application Deadline is a required field"),
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values, errors) => {},
+  });
+
+  const handleSubmit = () => {
+
+  }
+
+  useEffect(() => {
+    document.title = "Create Role Listing";
+  }, []);
+
+  return (
+    <>
+      <HrHeader />
+      {animation ? (
+        <motion.div
+          className="animate-success h-100"
+          variants={{
+            hidden: { opacity: 0, x: -75 },
+            visible: { opacity: 1, x: 0 },
+          }}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.5, delay: 0.25 }}
+        >
+          <Container
+            fluid
+            className="bg-hero"
+            style={{
+              marginTop: "59.58px",
+              minHeight: "100vh",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+            }}
+          >
+            <div className="message-box" style={{ paddingTop: "15vh" }}>
+              <p className="text-center" style={{ fontSize: "60px" }}>
+                Job Application created
+              </p>
+              <p className="text-center fw-light" style={{ fontSize: "25px" }}>
+                Redirecting you in <strong style={{ fontSize: "28px" }}>{timer}</strong> seconds...
+                <br />
+                <Image className="mx-auto" style={{ width: "600px" }} src={bgHero} alt="Create Application Success Background" fluid />
+              </p>
+            </div>
+          </Container>
+        </motion.div>
+      ) : (
+        <Container fluid className="contentBox bg-light h-100 p-0">
+          <motion.div
+            animate={{ x: "1px" }}
+            style={{
+              height: "200px",
+              backgroundImage: `url(${bgHero})`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+            }}
+          ></motion.div>
+          <div className="bg-inputFields p-5 border border-details" style={{ height: "160px" }}>
+            <h3 style={{ fontWeight: "bold" }}>Role Listing Creation</h3>
+            <h6 style={{ fontWeight: "lighter" }}>Fill the form below accurately.</h6>
+          </div>
+          <div className="personalParticulars">
+            <h3 className="text-center mt-5" style={{ fontWeight: "normal" }}>
+              Role Details
+            </h3>
+            <Formik validateOnChange={false} and validateOnBlur={false}>
+              <motion.div animate={{ x: "5px" }} className="inputFields box-shadow p-5 d-flex justify-content-center mx-auto">
+                <Form autoComplete="off" onSubmit={formik.handleSubmit} style={{ width: "750px" }}>
+                  <Row className="mx-auto p-3">
+                    <Col className="mx-5">
+                      <Form.Group className="mb-3" controlId="roleName">
+                        <Form.Label>
+                          Role Name&nbsp;
+                          <span style={{ color: "red" }}>*</span>
+                        </Form.Label>
+                        <Form.Control className="bg-grey p-2" name="roleName" type="text" placeholder="" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleName} />
+                        {formik.touched.roleName && formik.errors.roleName ? <p className="text-error">{formik.errors.roleName}</p> : null}
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row className="mx-auto p-3">
+                    <Col className="mx-5">
+                      <Form.Group className="mb-3" controlId="roleDesc">
+                        <Form.Label>
+                          Role Description&nbsp;
+                          <span style={{ color: "red" }}>*</span>
+                        </Form.Label>
+                        <Form.Control className="bg-grey p-2" name="roleDesc" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleDesc} />
+                        {formik.touched.roleDesc && formik.errors.roleDesc ? <p className="text-error">{formik.errors.roleDesc}</p> : null}
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row className="mx-auto p-3">
+                    <Col className="mx-5">
+                      <Form.Group className="mb-3" controlId="appDateline">
+                        <Form.Label>
+                          Application Deadline&nbsp;
+                          <span style={{ color: "red" }}>*</span>
+                        </Form.Label>
+                        <Form.Control className="bg-grey p-2" name="appDateline" type="date" min="01-01-1920" max="12-31-2023" placeholder="dd-mm-yy" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.appDateline} />
+                        {formik.touched.appDateline && formik.errors.appDateline ? <p className="text-error">{formik.errors.appDateline}</p> : null}
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  {/* <Row className="mx-auto p-3">
+                    <Col className="mx-5">
+                      <Form.Group className="mb-3" controlId="desiredIndustry">
+                        <Form.Label>
+                          Required Skill Sets&nbsp;
+                          <span style={{ color: "red" }}>*</span>
+                        </Form.Label>
+                        <Select
+                          isMulti
+                          id="desiredIndustry"
+                          name="desiredIndustry"
+                          // options={newIndustryList}
+                          styles={{
+                            control: (baseStyles, state) => ({
+                              ...baseStyles,
+                              // dropdownIndicator: 'red',
+                              // borderColor: state.isFocused ? 'grey' : 'red',
+                              color: state.isFocused ? "" : "black",
+                              backgroundColor: state.isFocused ? "" : "#DFDFDF",
+                            }),
+                          }}
+                          placeholder="--- Select up to 3 desired industries ---"
+                          value={formik.values.desiredIndustry}
+                          onBlur={formik.handleBlur}
+                          isOptionDisabled={() => formik.values.desiredIndustry.length >= 3}
+                          onChange={(selectedIndustry) => formik.setFieldValue("desiredIndustry", selectedIndustry)}
+                        />
+                        {formik.touched.desiredIndustry && formik.errors.desiredIndustry ? <p className="text-error">{formik.errors.desiredIndustry}</p> : null}
+                      </Form.Group>
+                    </Col>
+                  </Row> */}
+                  <Row className="mx-auto px-3">
+                    <Col className="mx-5">
+                      <hr />
+                      <Button
+                        className="bg-button"
+                        style={{
+                          float: "right",
+                          color: "black",
+                          fontWeight: "bold",
+                          borderStyle: "none",
+                          borderRadius: "5px",
+                        }}
+                        onClick={(e) => handleSubmit(e)}
+                      >
+                        Create Role Listing
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form>
+              </motion.div>
+            </Formik>
+          </div>
+        </Container>
+      )}
+    <Footer type="bg-secondary" />
+    </>
+  );
 }
 
 export default CreateRoleListing;

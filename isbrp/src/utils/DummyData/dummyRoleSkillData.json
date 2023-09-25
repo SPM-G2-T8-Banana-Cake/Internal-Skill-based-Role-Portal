@@ -1,0 +1,62 @@
+[
+    {
+        "Role_Skill": {
+            "Role_Name": "Software Developer",
+            "Skill_Name": "Java"
+        }
+    },
+    {
+        "Role_Skill": {
+            "Role_Name": "Data Analyst",
+            "Skill_Name": "SQL"
+        }
+    },
+    {
+        "Role_Skill": {
+            "Role_Name": "UX Designer",
+            "Skill_Name": "User Research"
+        }
+    },
+    {
+        "Role_Skill": {
+            "Role_Name": "Marketing Manager",
+            "Skill_Name": "Digital Marketing"
+        }
+    },
+    {
+        "Role_Skill": {
+            "Role_Name": "Sales Representative",
+            "Skill_Name": "Negotiation"
+        }
+    },
+    {
+        "Role_Skill": {
+            "Role_Name": "Data Scientist",
+            "Skill_Name": "Python"
+        }
+    },
+    {
+        "Role_Skill": {
+            "Role_Name": "Web Developer",
+            "Skill_Name": "HTML/CSS"
+        }
+    },
+    {
+        "Role_Skill": {
+            "Role_Name": "Graphic Designer",
+            "Skill_Name": "Adobe Illustrator"
+        }
+    },
+    {
+        "Role_Skill": {
+            "Role_Name": "Product Manager",
+            "Skill_Name": "Product Lifecycle Management"
+        }
+    },
+    {
+        "Role_Skill": {
+            "Role_Name": "Content Writer",
+            "Skill_Name": "Copywriting"
+        }
+    }
+]

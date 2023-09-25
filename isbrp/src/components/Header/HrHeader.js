@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useLocation, withRouter } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import NavDropdown from "react-bootstrap/NavDropdown";
