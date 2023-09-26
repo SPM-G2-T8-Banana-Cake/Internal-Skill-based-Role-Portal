@@ -24,13 +24,13 @@ function CreateRoleListing() {
   const initialValues = {
     roleName: "",
     roleDesc: "",
-    appDateline: "",
+    skillsRequired: "",
   };
 
   const validationSchema = Yup.object({
     roleName: Yup.string().required("Role Name is a required field"),
     roleDesc: Yup.string().required("Role Description is a required field"),
-    appDateline: Yup.string().required("Application Deadline is a required field"),
+    skillsRequired: Yup.string().required("Skills Required is a required field"),
   });
 
   const formik = useFormik({
@@ -40,7 +40,7 @@ function CreateRoleListing() {
   });
 
   const handleSubmit = () => {
-
+    formik.handleSubmit();
   }
 
   useEffect(() => {
@@ -131,13 +131,13 @@ function CreateRoleListing() {
                   </Row>
                   <Row className="mx-auto p-3">
                     <Col className="mx-5">
-                      <Form.Group className="mb-3" controlId="appDateline">
+                      <Form.Group className="mb-3" controlId="skillsRequired">
                         <Form.Label>
-                          Application Deadline&nbsp;
+                          Skills Required&nbsp;
                           <span style={{ color: "red" }}>*</span>
                         </Form.Label>
-                        <Form.Control className="bg-grey p-2" name="appDateline" type="date" min="01-01-1920" max="12-31-2023" placeholder="dd-mm-yy" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.appDateline} />
-                        {formik.touched.appDateline && formik.errors.appDateline ? <p className="text-error">{formik.errors.appDateline}</p> : null}
+                        <textarea className="bg-grey form-control p-2" name="skillsRequired" placeholder="Enter various skills required separated by ','" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.skillsRequired} />
+                        {formik.touched.skillsRequired && formik.errors.skillsRequired ? <p className="text-error">{formik.errors.skillsRequired}</p> : null}
                       </Form.Group>
                     </Col>
                   </Row>
