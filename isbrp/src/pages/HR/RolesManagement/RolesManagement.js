@@ -178,21 +178,16 @@ function RolesManagement() {
               <Table responsive hover className="rounded-3 overflow-hidden align-middle" size="sm">
                 <thead>
                   <tr>
-                    <th className="bg-details text-dark ps-3">ID</th>
-                    <th className="bg-details text-dark">Role Name</th>
+                    <th className="bg-details text-dark ps-3">Role Name</th>
                     <th className="bg-details text-dark">Role Description</th>
                     <th className="bg-details text-dark"></th>
-                    {/* <th className='bg-details text-dark'>Phone Number</th>
-                                        <th className='bg-details text-dark'>Status</th>
-                                        <th className='bg-details text-dark'></th> */}
                   </tr>
                 </thead>
                 <tbody>
                   {roleListings ? console.log(roleListings) : null}
                   {(rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
                     <tr className="border-details" key={roles.Role.id}>
-                      <td className="bg-grey ps-3">{roles.Role.id}</td>
-                      <td className="bg-grey">{roles.Role.Role_Name}</td>
+                      <td className="bg-grey ps-3">{roles.Role.Role_Name}</td>
                       <td className="bg-grey">{roles.Role.Role_Desc}</td>
                       <td className="bg-grey">
                         <RolesDetailsModal className="bg-grey" role={roles.Role} />
