@@ -6,6 +6,7 @@ import Footer from "../../components/Footer/Footer";
 function HrHome () {
     useEffect(() => {
         document.title = 'Home'
+        window.scrollTo(0,0);
     }, [])
 
     return (
