@@ -1,0 +1,62 @@
+[
+    {
+
+            "Role_Name": "Software Developer",
+            "Skill_Name": "Java"
+
+    },
+    {
+
+            "Role_Name": "Data Analyst",
+            "Skill_Name": "SQL"
+
+    },
+    {
+
+            "Role_Name": "UX Designer",
+            "Skill_Name": "User Research"
+
+    },
+    {
+
+            "Role_Name": "Marketing Manager",
+            "Skill_Name": "Digital Marketing"
+
+    },
+    {
+
+            "Role_Name": "Sales Representative",
+            "Skill_Name": "Negotiation"
+
+    },
+    {
+
+            "Role_Name": "Data Scientist",
+            "Skill_Name": "Python"
+
+    },
+    {
+
+            "Role_Name": "Web Developer",
+            "Skill_Name": "HTML/CSS"
+
+    },
+    {
+
+            "Role_Name": "Graphic Designer",
+            "Skill_Name": "Adobe Illustrator"
+
+    },
+    {
+
+            "Role_Name": "Product Manager",
+            "Skill_Name": "Product Lifecycle Management"
+
+    },
+    {
+
+            "Role_Name": "Content Writer",
+            "Skill_Name": "Copywriting"
+
+    }
+]
