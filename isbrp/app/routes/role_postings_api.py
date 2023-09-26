@@ -20,4 +20,13 @@ def create_role_posting():
     res = role_postings_service.create_role_posting(role_postings_json)
     return res
 
+@role_postings_api.route('/test')
+def ingest_role_dummy_data():
+    return role_postings_service.ingest_role("dummyRoleData.json")
+
+@role_postings_api.route('/test2')
+def ingest_role_skill_dummy_data():
+    return role_postings_service.ingest_role_skill("dummyRoleSkillData.json")
+
+
 
