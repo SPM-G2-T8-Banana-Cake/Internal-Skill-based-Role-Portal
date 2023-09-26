@@ -181,9 +181,6 @@ function RolesManagement() {
                     <th className="bg-details text-dark ps-3">Role Name</th>
                     <th className="bg-details text-dark">Role Description</th>
                     <th className="bg-details text-dark"></th>
-                    {/* <th className='bg-details text-dark'>Phone Number</th>
-                                        <th className='bg-details text-dark'>Status</th>
-                                        <th className='bg-details text-dark'></th> */}
                   </tr>
                 </thead>
                 <tbody>

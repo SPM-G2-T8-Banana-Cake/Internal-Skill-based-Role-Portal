@@ -11,8 +11,8 @@ import { FiMoreVertical, FiEdit } from "react-icons/fi";
 import roleSkillData from "../../../utils/DummyData/dummyRoleSkillData.json";
 
 function RoleDetailsModal(props) {
-  console.log(props);
   const [show, setShow] = useState(false);
+  const roleName = props.role.Role_Name;
   const [currentModal, setCurrentModal] = useState("details");
   const [skillsRequired, setSkillsRequired] = useState("");
 
@@ -21,8 +21,7 @@ function RoleDetailsModal(props) {
 
   useEffect(() => {
     for (let i=0; i < roleSkillData.length; i++) {
-      console.log(roleSkillData[i])
-      if(props.role.Role_Name === roleSkillData[i].Role_Skill.Role_Name) {
+      if (roleName === roleSkillData[i].Role_Skill.Role_Name) {
         setSkillsRequired(roleSkillData[i].Role_Skill.Skill_Name)
       }
     }
