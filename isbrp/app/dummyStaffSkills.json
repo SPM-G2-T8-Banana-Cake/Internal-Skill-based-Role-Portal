@@ -1,62 +1,52 @@
 [
     {
-        "Staff_Skill": {
+
             "Staff_ID": 1,
             "Skill_Name": "Java"
-        }
     },
     {
-        "Staff_Skill": {
+
             "Staff_ID": 2,
             "Skill_Name": "SQL"
-        }
     },
     {
-        "Staff_Skill": {
+
             "Staff_ID": 3,
             "Skill_Name": "Python"
-        }
     },
     {
-        "Staff_Skill": {
+
             "Staff_ID": 4,
             "Skill_Name": "Digital Marketing"
-        }
     },
     {
-        "Staff_Skill": {
+
             "Staff_ID": 5,
             "Skill_Name": "Negotiation"
-        }
     },
     {
-        "Staff_Skill": {
+
             "Staff_ID": 6,
             "Skill_Name": "HTML/CSS"
-        }
     },
     {
-        "Staff_Skill": {
+
             "Staff_ID": 7,
             "Skill_Name": "Adobe Illustrator"
-        }
     },
     {
-        "Staff_Skill": {
+
             "Staff_ID": 8,
             "Skill_Name": "Product Lifecycle Management"
-        }
     },
     {
-        "Staff_Skill": {
+
             "Staff_ID": 9,
             "Skill_Name": "Copywriting"
-        }
     },
     {
-        "Staff_Skill": {
+
             "Staff_ID": 10,
             "Skill_Name": "User Research"
-        }
     }
 ]

@@ -2,7 +2,7 @@ import json
 import time
 
 from uuid import uuid4
-from domain.models.role_postings import RolePostingDetails, RoleDetails
+from domain.models.role_postings import RolePostingDetails, RoleDetails, StaffSkill, StaffData
 from infrastructure.repos.role_postings_repo import RolePostingsRepository
 from utils.aws_services_wrapper import SqlServicesWrapper
 
@@ -42,7 +42,43 @@ class RolePostingsService(RolePostingsRepository):
                     self.repository.create(create_role_skill_sql, val)
         return "Success"
 
+    def ingest_staff_data(self, file_name):
+        with open (file_name, 'r') as json_file:
+            data = json.load(json_file)
+            for d in data: 
+                try:
+                    StaffData(**d)
+                except (TypeError, AttributeError) as e:
+                    print(f"Error creating role posting: {e}")
+                else:
+                    Staff_ID = d['Staff_ID']
+                    Staff_FName = d['Staff_FName']
+                    Staff_LName = d['Staff_LName']
+                    Dept = d['Dept']
+                    Country = d['Country']
+                    Email = d['Email']
+                    Access_Rights = d['Access_Rights']
+                    create_staff_data_sql = "INSERT INTO spm.Staff (Staff_ID, Staff_FName, Staff_LName, Dept, Country, Email, Access_Rights) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                    val = (Staff_ID, Staff_FName, Staff_LName, Dept, Country, Email, Access_Rights)
+                    self.repository.create(create_staff_data_sql, val)
+        return "Success"
+    
+    def ingest_staff_skill_data(self, file_name):
+            with open (file_name, 'r') as json_file:
+                data = json.load(json_file)
+                for d in data: 
+                    try:
+                        StaffSkill(**d)
+                    except (TypeError, AttributeError) as e:
+                        print(f"Error creating role posting: {e}")
+                    else:
+                        Staff_ID = d['Staff_ID']
+                        Skill_Name = d['Skill_Name']
+                        create_staff_skill_sql = "INSERT INTO spm.Staff_Skill (Staff_ID, Skill_Name) VALUES (%s, %s)"
+                        val = (Staff_ID, Skill_Name)
+                        self.repository.create(create_staff_skill_sql, val)
 
+            return "Success"
 
     def create_role_posting(self, role_postings_json: RolePostingDetails):
         start_time = time.time()
