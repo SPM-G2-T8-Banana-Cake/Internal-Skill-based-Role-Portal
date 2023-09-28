@@ -160,7 +160,7 @@ function RolesManagement() {
               <Col xs={3} md={2} lg={2}>
                 <ButtonGroup>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Create a role listing</Tooltip>}>
-                    <Button variant="secondary" className="rounded-pill px-4 me-2 my-auto text-end" onClick={toCreateRoles}>
+                    <Button variant="button" className="rounded-pill px-4 me-2 my-auto text-end" onClick={toCreateRoles}>
                       <FaPlus />
                       &nbsp;Add Role
                     </Button>
