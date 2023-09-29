@@ -13,6 +13,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
+import isbrpSnackbar from "../../components/Standard/isbrpSnackbar"
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FaPlus } from "react-icons/fa";
@@ -27,7 +28,30 @@ function RolesManagement() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
-
+  
+  const openSnackbar = (value) => {
+    if (value === 'deleteRoleSuccess') {
+        setSeverity('success')
+        setMessage('Role deleted successfully.')
+        setOpen(true)
+    } else if (value === 'deleteRoleError') {
+        setSeverity('error')
+        setMessage('Something went wrong while deleting role. Please try again.')
+        setOpen(true)
+    } else if (value === 'modifyRoleSuccess') {
+        setSeverity('success')
+        setMessage('Role modified successfully.')
+        setOpen(true)
+    } else if (value === 'modifyRoleError') {
+        setSeverity('error')
+        setMessage('Something went wrong while modifying role. Please try again.')
+        setOpen(true)
+    } else if (value === 'getAllError') {
+        setSeverity('error')
+        setMessage('Something went wrong while getting all roles. Please try again.')
+        setOpen(true)   
+  }
+  }
   const CustomTablePagination = styled(TablePagination)`
     & .${classes.toolbar} {
       display: flex;
@@ -225,5 +249,6 @@ function RolesManagement() {
     </div>
   );
 }
+
 
 export default RolesManagement;
