@@ -15,12 +15,12 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
-import { FaPlus } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
-// import staffSkill from "../../../utils/DummyData/dummyStaffSkills.json";
-// import staffData from "../../../utils/DummyData/dummyStaffData.json";
+import staffSkill from "../../../utils/DummyData/dummyStaffSkills.json";
+import staffData from "../../../utils/DummyData/dummyStaffData.json";
 import roleListings  from "../../../utils/DummyData/dummyRoleData.json";
+import ApplicantDetailsModal from "../../../components/HR/ApplicationsManagement/ApplicantDetailsModal";
 
 function ApplicationsManagement() {
   const navigate = useNavigate();
@@ -125,9 +125,6 @@ function ApplicationsManagement() {
     }
   };
 
-  const toCreateRoles = () => {
-    navigate("/create-role-listing", { state: { id: location.state.id } });
-  };
 
   useEffect(() => {
     document.title = "Applications Management";
@@ -180,13 +177,18 @@ function ApplicationsManagement() {
                   </tr>
                 </thead>
                 <tbody>
-                  {roleListings ? console.log(roleListings) : null}
-                  {(rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
-                    <tr className="border-details" key={roles.Role.id}>
-                      <td className="bg-grey ps-3">{roles.Role.Role_Name}</td>
-                      <td className="bg-grey">{roles.Role.Role_Desc}</td>
+                  {(rowsPerPage > 0 ? staffData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : staffData).map((staff) => (
+                    <tr className="border-details" key={staff.Staff.ID}>
+                      <td className="bg-grey ps-3 w-25">{staff.Staff.Staff_FName + " " + staff.Staff.Staff_LName}</td>
+                
+                        {staffSkill.map((staffSkill) => (
+                            staffSkill.Staff_Skill.Staff_ID === staff.Staff.Staff_ID ? 
+                            <td className="bg-grey">{staffSkill.Staff_Skill.Skill_Name}</td>
+                            :   null
+                        ))}
+          
                       <td className="bg-grey">
-                        <RolesDetailsModal className="bg-grey" role={roles.Role} />
+                        <ApplicantDetailsModal className="bg-grey" staffName={staff.Staff.Staff_FName + " " + staff.Staff.Staff_LName} />
                       </td>
                     </tr>
                   ))}
