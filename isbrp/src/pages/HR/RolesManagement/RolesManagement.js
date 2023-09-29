@@ -28,17 +28,9 @@ function RolesManagement() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
-  
+
   const openSnackbar = (value) => {
-    if (value === 'deleteRoleSuccess') {
-        setSeverity('success')
-        setMessage('Role deleted successfully.')
-        setOpen(true)
-    } else if (value === 'deleteRoleError') {
-        setSeverity('error')
-        setMessage('Something went wrong while deleting role. Please try again.')
-        setOpen(true)
-    } else if (value === 'modifyRoleSuccess') {
+      if (value === 'modifyRoleSuccess') {
         setSeverity('success')
         setMessage('Role modified successfully.')
         setOpen(true)
@@ -49,6 +41,10 @@ function RolesManagement() {
     } else if (value === 'getAllError') {
         setSeverity('error')
         setMessage('Something went wrong while getting all roles. Please try again.')
+        setOpen(true)   
+    } else if (value === 'searchError') {
+        setSeverity('error')
+        setMessage('Something went wrong while searching for the role. Please try again.')
         setOpen(true)   
   }
   }
@@ -214,7 +210,7 @@ function RolesManagement() {
                       <td className="bg-grey ps-3">{roles.Role.Role_Name}</td>
                       <td className="bg-grey">{roles.Role.Role_Desc}</td>
                       <td className="bg-grey">
-                        <RolesDetailsModal className="bg-grey" role={roles.Role} />
+                        <RolesDetailsModal className="bg-grey" role={roles.Role} openSnackbar = {openSnackbar}/>
                       </td>
                     </tr>
                   ))}
@@ -245,7 +241,7 @@ function RolesManagement() {
         </>
       )}
       <Footer type={"bg-secondary"} />
-      {/* <JARSSnackbar open={open} setOpen={setOpen} severity={severity} message={message} /> */}
+      <isbrpSnackbar open={open} setOpen={setOpen} severity={severity} message={message} />
     </div>
   );
 }
