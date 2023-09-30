@@ -29,3 +29,15 @@ axiosClient.interceptors.response.use(
 export function createRolePosting(data) {
     return axiosClient.post("/create_role_posting", JSON.stringify(data));
   }
+
+export function readRolePosting(data) {
+    return axiosClient.get("/create_role_posting", JSON.stringify(data));
+  }
+
+export function searchRolePosting(data) {
+    return axiosClient.get("/search_role_posting", JSON.stringify(data));
+  }
+
+export function deleteRolePosting(data) {
+    return axiosClient.delete("/delete_role_posting", JSON.stringify(data));
+  }
