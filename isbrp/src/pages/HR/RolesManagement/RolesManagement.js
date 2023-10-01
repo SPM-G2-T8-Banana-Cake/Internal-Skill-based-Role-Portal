@@ -13,7 +13,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
-import isbrpSnackbar from "../../components/Standard/isbrpSnackbar"
+import isbrpSnackbar from "../../../components/Standard/isbrpSnackBar";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FaPlus } from "react-icons/fa";
@@ -24,6 +24,9 @@ import roleListings from "../../../utils/DummyData/dummyRoleData.json";
 function RolesManagement() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [severity, setSeverity] = useState("");
+  const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
