@@ -21,7 +21,7 @@ function HrHeader() {
     <Navbar fixed="top" expand="md" className="bg-secondary navbar-dark px-3">
       <Navbar.Toggle className="text-dark" />
       <Navbar.Brand>
-        <NavLink to="/home" state={{ id: location.state.id }}>
+        <NavLink to="/hr-home" state={{ id: location.state.id }}>
           <Image src={logo} alt="Logo" width="50" />
         </NavLink>
       </Navbar.Brand>
