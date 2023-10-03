@@ -7,7 +7,7 @@ import Nav from "react-bootstrap/Nav";
 import { FiLogOut, FiUser } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 
-function HrHeader() {
+function StaffHeader() {
   const location = useLocation();
 
   const user = (
@@ -21,14 +21,14 @@ function HrHeader() {
     <Navbar fixed="top" expand="md" className="bg-secondary navbar-dark px-3">
       <Navbar.Toggle className="text-dark" />
       <Navbar.Brand>
-        <NavLink to="/hr-home" state={{ id: location.state.id }}>
+        <NavLink to="/staff-home" state={{ id: location.state.id }}>
           <Image src={logo} alt="Logo" width="50" />
         </NavLink>
       </Navbar.Brand>
       <Navbar.Collapse>
         <Nav className="me-auto">
           <NavLink
-            to="/roles-management"
+            to=""
             className="text-decoration-none text-dark me-3"
             style={({ isActive, isPending }) => {
               return {
@@ -38,21 +38,7 @@ function HrHeader() {
             }}
             state={{ id: location.state.id }}
           >
-            Roles Management
-          </NavLink>
-          {/* <NavLink to="/job-management" state={{id: location.state.id}} className='text-decoration-none text-dark me-3'>Job Management</NavLink> */}
-          <NavLink
-            to="/applications-management"
-            style={({ isActive, isPending }) => {
-              return {
-                fontWeight: isActive ? "bold" : "",
-                color: isPending ? "black" : "black",
-              };
-            }}
-            state={{ id: location.state.id }}
-            className="text-decoration-none text-dark"
-          >
-            Applications Management
+            Avaliable Roles
           </NavLink>
         </Nav>
         <NavDropdown title={user} className="text-dark">
@@ -66,4 +52,4 @@ function HrHeader() {
   );
 }
 
-export default HrHeader;
+export default StaffHeader;
