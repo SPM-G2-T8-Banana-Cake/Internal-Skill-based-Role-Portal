@@ -25,19 +25,36 @@ axiosClient.interceptors.response.use(
     }
   );
 
-// ROLE MANAGEMENT
-export function createRolePosting(data) {
+// HR ROLE MANAGEMENT
+export function hrCreateRolePosting(data) {
     return axiosClient.post("/create_role_posting", JSON.stringify(data));
   }
 
-export function readRolePosting(data) {
-    return axiosClient.get("/create_role_posting", JSON.stringify(data));
+export function hrReadRolePosting(data) {
+    return axiosClient.get("/hr_read_role_posting", JSON.stringify(data));
   }
 
-export function searchRolePosting(data) {
-    return axiosClient.get("/search_role_posting", JSON.stringify(data));
+export function hrReadRoleApplicants(data) {
+    return axiosClient.get("/hr_read_role_applicant", JSON.stringify(data));
   }
 
-export function deleteRolePosting(data) {
-    return axiosClient.delete("/delete_role_posting", JSON.stringify(data));
+export function updateRolePosting(data) {
+    return axiosClient.delete("/update_role_posting", JSON.stringify(data));
   }
+
+// STAFF
+export function staffReadRoleListings(data) {
+  return axiosClient.post("/staff_read_role_posting", JSON.stringify(data));
+}
+
+export function staffReadRoleSkillMatch(data) {
+  return axiosClient.post("/staff_read_role_skill_match", JSON.stringify(data));
+}
+
+export function staffFilterRolePosting(data) {
+  return axiosClient.get("/filter_role_posting", JSON.stringify(data));
+}
+
+export function staffCreateRoleApplication(data) {
+  return axiosClient.delete("/create_role_application", JSON.stringify(data));
+}
