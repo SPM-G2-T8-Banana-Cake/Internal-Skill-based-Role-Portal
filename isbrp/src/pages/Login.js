@@ -45,13 +45,11 @@ function Login() {
 
   const handleStaffLogin = () => {
     if (username === "staff10001" && password === "password") {
-        navigate("/staff-home", { state: { id: "staff10001" } });
-        setError(false);
-      }
-    
-      else {
-        setError(true);
-      }
+      navigate("/staff-home", { state: { id: "staff10001" } });
+      setError(false);
+    } else {
+      setError(true);
+    }
   };
 
   useEffect(() => {
@@ -74,11 +72,10 @@ function Login() {
                     <div className="card-body p-4 p-lg-5 text-black">
                       <Form>
                         <img src={logo} className="w-100 mb-4 mx-1" alt="Brand Logo" fluid style={{ borderRadius: "1rem 0 0 1rem" }} />
-
                         {termsOfUse ? (
                           <>
                             <Form.Group className="mt-2 mb-3">
-                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Roles</Tooltip>}>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
                                 <Button
                                   variant="light"
                                   className="rounded-circle me-1 d-inline"
@@ -133,7 +130,7 @@ function Login() {
                         ) : hrLogin ? (
                           <>
                             <Form.Group className="mt-2 mb-3">
-                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Roles</Tooltip>}>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
                                 <Button
                                   variant="light"
                                   className="rounded-circle me-1 d-inline"
@@ -152,11 +149,11 @@ function Login() {
                               </h5>
                               <br />
                               <br />
-                              <Form.Label className="fw-bold">Username</Form.Label>
+                              <Form.Label className="fw-bold">HR Username</Form.Label>
                               <Form.Control className="bg-grey" defaultValue={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} />
                             </Form.Group>
                             <Form.Group className="mb-3">
-                              <Form.Label className="fw-bold">Password</Form.Label>
+                              <Form.Label className="fw-bold">HR Password</Form.Label>
                               <Form.Control className="bg-grey" defaultValue={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} type="password" />
                             </Form.Group>
                             {error ? <Alert variant="danger">Username or password is incorrect. Please try again.</Alert> : null}
@@ -166,10 +163,10 @@ function Login() {
                               </Button>
                             </div>
                           </>
-                        ) :  staffLogin ? (
-                            <>
+                        ) : staffLogin ? (
+                          <>
                             <Form.Group className="mt-2 mb-3">
-                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Roles</Tooltip>}>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
                                 <Button
                                   variant="light"
                                   className="rounded-circle me-1 d-inline"
@@ -188,11 +185,11 @@ function Login() {
                               </h5>
                               <br />
                               <br />
-                              <Form.Label className="fw-bold">Username</Form.Label>
+                              <Form.Label className="fw-bold">Staff Username</Form.Label>
                               <Form.Control className="bg-grey" defaultValue={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} />
                             </Form.Group>
                             <Form.Group className="mb-3">
-                              <Form.Label className="fw-bold">Password</Form.Label>
+                              <Form.Label className="fw-bold">Staff Password</Form.Label>
                               <Form.Control className="bg-grey" defaultValue={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} type="password" />
                             </Form.Group>
                             {error ? <Alert variant="danger">Username or password is incorrect. Please try again.</Alert> : null}
@@ -202,10 +199,7 @@ function Login() {
                               </Button>
                             </div>
                           </>
-
-                        ) :
-                        
-                        (
+                        ) : (
                           <>
                             <p className="fw-bold t">I am a...</p>
                             <InputGroup className="mb-3">
@@ -230,7 +224,13 @@ function Login() {
                         <Button onClick={(e) => setTermsOfUse(true)} className="bg-transparent border-0 text-decoration-underline small text-muted">
                           Terms of Use
                         </Button>
-                        <Button onClick={(e) => { setTermsOfUse(false); setPrivacyPolicy(true); }} className="bg-transparent border-0 text-decoration-underline small text-muted ps-5">
+                        <Button
+                          onClick={(e) => {
+                            setTermsOfUse(false);
+                            setPrivacyPolicy(true);
+                          }}
+                          className="bg-transparent border-0 text-decoration-underline small text-muted ps-5"
+                        >
                           Privacy Policy
                         </Button>
                       </Form>
