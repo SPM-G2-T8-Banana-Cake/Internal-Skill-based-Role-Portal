@@ -13,7 +13,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
-import isbrpSnackbar from "../../../components/Standard/isbrpSnackBar";
+import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackBar";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FaPlus } from "react-icons/fa";
@@ -153,6 +153,10 @@ function RolesManagement() {
   useEffect(() => {
     document.title = "Roles Management";
     window.scrollTo(0, 0);
+
+    if(roleListings.length > 0) {
+      openSnackbar("getAllError")
+    }
   }, []);
 
   return (
@@ -213,7 +217,7 @@ function RolesManagement() {
                       <td className="bg-grey ps-3">{roles.Role.Role_Name}</td>
                       <td className="bg-grey">{roles.Role.Role_Desc}</td>
                       <td className="bg-grey">
-                        <RolesDetailsModal className="bg-grey" role={roles.Role} openSnackbar = {openSnackbar}/>
+                        <RolesDetailsModal className="bg-grey" role={roles.Role} />
                       </td>
                     </tr>
                   ))}
@@ -244,7 +248,7 @@ function RolesManagement() {
         </>
       )}
       <Footer type={"bg-secondary"} />
-      <isbrpSnackbar open={open} setOpen={setOpen} severity={severity} message={message} />
+      <IsbrpSnackbar open={open} setOpen={setOpen} severity={severity} message={message} />
     </div>
   );
 }
