@@ -13,7 +13,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
-// import IsbrpSnackbar from "../../components/Standard/IsbrpSnackBar";
+import IsbrpSnackbar from "../../components/Standard/IsbrpSnackBar";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FiSearch, FiFilter } from "react-icons/fi";
@@ -31,9 +31,9 @@ function ViewRoleListings() {
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
   const openSnackbar = (value) => {
-      if (value === 'modifyRoleSuccess') {
+      if (value === 'applyRoleSuccess') {
         setSeverity('success')
-        setMessage('Role modified successfully.')
+        setMessage('Successfully applied for role.')
         setOpen(true)
     } else if (value === 'modifyRoleError') {
         setSeverity('error')
@@ -49,6 +49,7 @@ function ViewRoleListings() {
         setOpen(true)   
   }
   }
+
   const CustomTablePagination = styled(TablePagination)`
     & .${classes.toolbar} {
       display: flex;
@@ -241,7 +242,7 @@ function ViewRoleListings() {
                       <td className="bg-grey ps-3">{roles.Role.Role_Name}</td>
                       <td className="bg-grey">{roles.Role.Role_Desc}</td>
                       <td className="bg-grey">
-                        <ViewRoleDetailsModal className="bg-grey" role={roles.Role} openSnackbar = {openSnackbar}/>
+                        <ViewRoleDetailsModal className="bg-grey" role={roles.Role} openSnackbar={openSnackbar}/>
                       </td>
                     </tr>
                   ))}
@@ -272,7 +273,7 @@ function ViewRoleListings() {
         </>
       )}
       <Footer type={"bg-secondary"} />
-      <isbrpSnackbar open={open} setOpen={setOpen} severity={severity} message={message} />
+      <IsbrpSnackbar open={open} setOpen={setOpen} severity={severity} message={message} />
     </div>
   );
 }
