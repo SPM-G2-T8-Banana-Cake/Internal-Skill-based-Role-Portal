@@ -25,7 +25,7 @@ function RoleDetailsModal(props) {
         setSkillsRequired(roleSkillData[i].Role_Skill.Skill_Name)
       }
     }
-}, [])
+}, [roleName])
 
 
   return (

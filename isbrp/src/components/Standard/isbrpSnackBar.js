@@ -2,7 +2,7 @@ import React from "react";
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert';
 
-function isbrpSnackbar(props) {
+function IsbrpSnackbar(props) {
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} {...props} />;
     });
@@ -16,4 +16,4 @@ function isbrpSnackbar(props) {
     )
 }
 
-export default isbrpSnackbar;
+export default IsbrpSnackbar;
