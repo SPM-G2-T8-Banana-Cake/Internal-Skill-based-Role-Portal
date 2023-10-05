@@ -11,7 +11,7 @@ import ApplicationsManagement from "./pages/HR/ApplicationsManagement/Applicatio
 
 // STAFF
 import StaffHome from "./pages/Staff/Home";
-
+import ViewRoleListings from "./pages/Staff/RolesPage";
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
         <Route path="/create-role-listing" element={<CreateRoleListing />} />
         <Route path="/applications-management" element={<ApplicationsManagement />} />
         <Route path="/staff-home" element={<StaffHome />} />
+        <Route path="/available-roles" element={<ViewRoleListings />} />
         </Routes>
       </Router>
     </div>

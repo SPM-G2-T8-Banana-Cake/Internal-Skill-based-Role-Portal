@@ -28,7 +28,7 @@ function StaffHeader() {
       <Navbar.Collapse>
         <Nav className="me-auto">
           <NavLink
-            to=""
+            to="/available-roles"
             className="text-decoration-none text-dark me-3"
             style={({ isActive, isPending }) => {
               return {
