@@ -20,6 +20,14 @@ def create_role_posting():
     res = role_postings_service.create_role_posting(role_postings_json)
     return res
 
+@role_postings_api.route('/view_role_listings', methods=['GET'])
+def view_role_listings():
+    return role_postings_service.view_role_listings()
+
+@role_postings_api.route('/view_applicant_skills', methods=['GET'])
+def view_applicant_skills():
+    return role_postings_service.view_applicant_skills()
+=======
 #Run the 4 tests in sequential order else error
 
 @role_postings_api.route('/test')
