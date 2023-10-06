@@ -24,7 +24,8 @@ class RolePostingsService(RolePostingsRepository):
                     create_role_sql = "INSERT INTO spm.Role (Role_Name, Role_Desc) VALUES (%s, %s)"
                     val = (Role_Name, Role_Desc)
                     self.repository.create(create_role_sql, val)
-        return "Success"
+        return "Success" 
+    
     
     def ingest_role_skill(self, file_name):
         with open (file_name, 'r') as json_file:
