@@ -27,4 +27,21 @@ def view_role_listings():
 @role_postings_api.route('/view_applicant_skills', methods=['GET'])
 def view_applicant_skills():
     return role_postings_service.view_applicant_skills()
+=======
+#Run the 4 tests in sequential order else error
 
+@role_postings_api.route('/test')
+def ingest_role_dummy_data():
+    return role_postings_service.ingest_role("dummyRoleData.json")
+
+@role_postings_api.route('/test2')
+def ingest_role_skill_dummy_data():
+    return role_postings_service.ingest_role_skill("dummyRoleSkillData.json")
+
+@role_postings_api.route('/test3')
+def ingest_staff_dummy_data():
+    return role_postings_service.ingest_staff_data("dummyStaffData.json")
+
+@role_postings_api.route('/test4')
+def ingest_staff_skill_dummy_data():
+    return role_postings_service.ingest_staff_skill_data("dummyStaffSkills.json")

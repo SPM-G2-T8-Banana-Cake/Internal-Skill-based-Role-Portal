@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/esm/Container.js";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
+import Dropdown from 'react-bootstrap/Dropdown'
 import InputGroup from "react-bootstrap/InputGroup";
-import HrHeader from "../../../components/Header/HrHeader";
-import Footer from "../../../components/Footer/Footer";
+import StaffHeader from "../../components/Header/StaffHeader";
+import Footer from "../../components/Footer/Footer";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
-import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackBar";
+import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
+import IsbrpSnackbar from "../../components/Standard/IsbrpSnackBar";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
-import { FaPlus } from "react-icons/fa";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiFilter } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
-import roleListings from "../../../utils/DummyData/dummyRoleData.json";
+import roleListings from "../../utils/DummyData/dummyRoleData.json";
+import { staffFilterRole } from "../../utils/constants";
 
-function RolesManagement() {
-  const navigate = useNavigate();
-  const location = useLocation();
+function ViewRoleListings() {
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -33,9 +31,9 @@ function RolesManagement() {
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
   const openSnackbar = (value) => {
-      if (value === 'modifyRoleSuccess') {
+      if (value === 'applyRoleSuccess') {
         setSeverity('success')
-        setMessage('Role modified successfully.')
+        setMessage('Successfully applied for role.')
         setOpen(true)
     } else if (value === 'modifyRoleError') {
         setSeverity('error')
@@ -51,6 +49,7 @@ function RolesManagement() {
         setOpen(true)   
   }
   }
+
   const CustomTablePagination = styled(TablePagination)`
     & .${classes.toolbar} {
       display: flex;
@@ -106,6 +105,35 @@ function RolesManagement() {
     }
   `;
 
+  const sortByStatus = (status) => {
+    setLoading(true)
+    // getAllProfiles()
+    // .then(function(response) {
+    //     if (response.data.length > 0) {
+    //         let data = []
+    //         for (let i=0; i<response.data.length; i++) {
+    //             data.push(response.data[i])
+    //         }
+    //         let result = []
+    //         for (let i=0; i<data.length; i++) {
+    //             if (data[i].particulars.caseStatus === status) {
+    //                 result.push(data[i])
+    //             }
+    //         }
+    //         setJSInfo(result)
+    //     } else {
+    //         setJSInfo([])
+    //     }
+    //     setSearch('')
+    //     setLoading(false)
+    // })
+    // .catch(function(error) {
+    //     console.log(error)
+    //     openSnackbar('sortError')
+    // })
+}
+
+
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
   };
@@ -146,22 +174,14 @@ function RolesManagement() {
     }
   };
 
-  const toCreateRoles = () => {
-    navigate("/create-role-listing", { state: { id: location.state.id } });
-  };
-
   useEffect(() => {
-    document.title = "Roles Management";
+    document.title = "Available Roles";
     window.scrollTo(0, 0);
-
-    if(roleListings.length > 0) {
-      openSnackbar("getAllError")
-    }
   }, []);
 
   return (
     <div>
-      <HrHeader />
+      <StaffHeader />
       {loading ? (
         // <Loader />
         <h1>Loading...</h1>
@@ -170,7 +190,7 @@ function RolesManagement() {
           <Container fluid className="contentBox pt-4">
             <Row className="mb-2 ms-1 me-4">
               <Col xs={12} md={6} lg={7}>
-                <h1>Roles Management</h1>
+                <h1>Available Roles</h1>
               </Col>
               <Col xs={9} md={4} lg={3}>
                 <InputGroup>
@@ -182,16 +202,21 @@ function RolesManagement() {
                       <FiSearch />
                     </Button>
                   </OverlayTrigger>
+                  <Dropdown>
+                    <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
+                        <Dropdown.Toggle variant='secondary' size="sm"><FiFilter /></Dropdown.Toggle>
+                    </OverlayTrigger>
+                    <Dropdown.Menu>
+                        <Dropdown.Header>Status</Dropdown.Header>
+                        {staffFilterRole.map((status) => (
+                            <Dropdown.Item key={status} onClick={() => sortByStatus(status)}>{status}</Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
                 </InputGroup>
               </Col>
               <Col xs={3} md={2} lg={2}>
                 <ButtonGroup>
-                  <OverlayTrigger placement="top" overlay={<Tooltip>Create a role listing</Tooltip>}>
-                    <Button variant="button" className="rounded-pill px-4 me-2 my-auto text-end" onClick={toCreateRoles}>
-                      <FaPlus />
-                      &nbsp;Add Role
-                    </Button>
-                  </OverlayTrigger>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Reload</Tooltip>}>
                     <Button variant="light" className="rounded-circle">
                       <TbReload />
@@ -217,7 +242,7 @@ function RolesManagement() {
                       <td className="bg-grey ps-3">{roles.Role.Role_Name}</td>
                       <td className="bg-grey">{roles.Role.Role_Desc}</td>
                       <td className="bg-grey">
-                        <RolesDetailsModal className="bg-grey" role={roles.Role} />
+                        <ViewRoleDetailsModal className="bg-grey" role={roles.Role} openSnackbar={openSnackbar}/>
                       </td>
                     </tr>
                   ))}
@@ -254,4 +279,4 @@ function RolesManagement() {
 }
 
 
-export default RolesManagement;
+export default ViewRoleListings;

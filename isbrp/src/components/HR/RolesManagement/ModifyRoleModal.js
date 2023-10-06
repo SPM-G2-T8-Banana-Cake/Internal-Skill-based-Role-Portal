@@ -13,6 +13,7 @@ function ModifyRoleModal(props) {
   // Form Values
   const [roleName, setRoleName] = useState(props.role.Role_Name);
   const [roleDesc, setRoleDesc] = useState(props.role.Role_Desc);
+  const [skillsRequired, setSkillsRequired] = useState(props.skillsRequired);
 
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState(false);
@@ -35,28 +36,44 @@ function ModifyRoleModal(props) {
         }}
       >
         <Modal.Header className="bg-details text-black p-2 ps-4">
-          <Modal.Title className="me-2">Edit Role: {props.id}</Modal.Title>
+          <Modal.Title className="me-2">Edit Role: {roleName}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-4 bg-light">
-          <h4 className="mb-4">Role Name</h4>
-          <Row className="mb-3">
-            <Col>
-              <Form.Group>
+        <h3 className="mb-4">Role Details</h3>
+        <hr/>
+            <Row className="mb-4">
+              <Col>
+                <span className="fw-bold">Role Name</span>
+                <br />
+                <Form.Group>
                 <Form.Control type="text" defaultValue={roleName} className="bg-inputFields" onChange={(e) => setRoleName(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
               </Form.Group>
-            </Col>
-          </Row>
-          <hr />
-          <h4 className="mb-4">Role Description</h4>
-          <Row className="mb-3">
-            <Col>
-              <Form.Group>
-                <Form.Control type="text" defaultValue={roleDesc} className="bg-inputFields" onChange={(e) => setRoleDesc(e.target.value)} required />
+              </Col>
+            </Row>
+
+            <Row className="mb-4">
+              <Col>
+                <span className="fw-bold">Role Description</span>
+                <br />
+                <Form.Group>
+                <textarea className="form-control w-100 bg-inputFields" rows="3" defaultValue={roleDesc} onChange={(e) => setRoleDesc(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
               </Form.Group>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+
+            <Row className="mb-4">
+              <Col>
+                <span className="fw-bold">Skills Required</span>
+                <br />
+                <Form.Group>
+                <Form.Control type="text" defaultValue={skillsRequired} className="bg-inputFields" onChange={(e) => setSkillsRequired(e.target.value)} required />
+                <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+              </Form.Group>
+              </Col>
+            </Row>
+
 
           <Row>{error ? <Alert variant="danger">Please clear the above errors.</Alert> : null}</Row>
         </Modal.Body>
