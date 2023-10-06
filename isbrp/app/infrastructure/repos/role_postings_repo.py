@@ -9,8 +9,8 @@ class RolePostingsRepository(IRolePostingsRepository):
         self.cursor.connection.commit()
         return "Created Role Posting Success"
 
-    def get(self, params: str):
-        res = self.cursor.execute(**params)
+    def get(self, sql_query: str, params=None):
+        res = self.cursor.execute(sql_query, params)
         return res
     
     def update(self, sql_query: str, params=None):

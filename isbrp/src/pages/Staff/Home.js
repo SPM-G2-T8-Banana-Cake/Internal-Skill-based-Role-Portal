@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/esm/Container.js';
-import HrHeader from "../../components/Header/HrHeader";
+import StaffHeader from "../../components/Header/StaffHeader";
 import Footer from "../../components/Footer/Footer";
 
-function HrHome () {
+function StaffHome () {
     useEffect(() => {
         document.title = 'Home'
         window.scrollTo(0,0);
@@ -11,13 +11,12 @@ function HrHome () {
 
     return (
         <>
-            <HrHeader />
-
+            <StaffHeader />
             <Container fluid className='contentBox p-4'>
-                <h1>Notifications</h1>
+                <h1>Roles Applied to</h1>
                 <hr />
                 <div className='bg-grey rounded p-3'>
-                    <h4>Roles was updated.</h4>
+                    <h4>You have a new application status.</h4>
                     <p>Something was updated by someone at dd/mm/yy, hh:mm am.</p>
                 </div>
             </Container>
@@ -26,4 +25,4 @@ function HrHome () {
     );
 }
 
-export default HrHome;
+export default StaffHome;

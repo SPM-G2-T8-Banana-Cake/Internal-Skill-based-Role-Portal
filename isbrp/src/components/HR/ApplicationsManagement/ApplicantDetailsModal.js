@@ -6,26 +6,26 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import ModifyRoleModal from "./ModifyRoleModal";
 import { FiMoreVertical, FiEdit } from "react-icons/fi";
-import roleSkillData from "../../../utils/DummyData/dummyRoleSkillData.json";
 
-function RoleDetailsModal(props) {
+function ApplicantDetailsModal(props) {
   const [show, setShow] = useState(false);
-  const roleName = props.role.Role_Name;
+//   const skill = props.skill;
+  const staffName = props.staffName
   const [currentModal, setCurrentModal] = useState("details");
   const [skillsRequired, setSkillsRequired] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  console.log("Props", props)
   useEffect(() => {
-    for (let i=0; i < roleSkillData.length; i++) {
-      if (roleName === roleSkillData[i].Role_Skill.Role_Name) {
-        setSkillsRequired(roleSkillData[i].Role_Skill.Skill_Name)
-      }
-    }
-}, [roleName])
+    // for (let i=0; i < roleSkillData.length; i++) {
+    //   if (roleName === roleSkillData[i].Role_Skill.Role_Name) {
+    //     setSkillsRequired(roleSkillData[i].Role_Skill.Skill_Name)
+    //   }
+    // }
+}, [])
 
 
   return (
@@ -39,7 +39,7 @@ function RoleDetailsModal(props) {
       {currentModal === "details" ? (
         <Modal show={show} fullscreen={"lg-down"} size="lg" onHide={handleClose}>
           <Modal.Header className="bg-details text-dark p-2 px-4">
-            <Modal.Title>Role: {props.role.Role_Name}</Modal.Title>
+            <Modal.Title>Applicant: {staffName}</Modal.Title>
             <OverlayTrigger placement="left" overlay={<Tooltip>Edit Role</Tooltip>}>
               <Button variant="bg-light" className="rounded-circle" onClick={() => setCurrentModal("modify")}>
                 <FiEdit />
@@ -48,28 +48,28 @@ function RoleDetailsModal(props) {
             <CloseButton variant="white" onClick={handleClose} />
           </Modal.Header>
           <Modal.Body className="p-4 bg-light">
-            <h3 className="">Role Details</h3>
+            <h3 className="">Applicant Details</h3>
             <hr/>
             <Row className="mb-4">
               <Col>
-                <span className="fw-bold">Role Name</span>
+                <span className="fw-bold">Applicant Name</span>
                 <br />
-                <span>{props.role.Role_Name}</span>
+                <span>{staffName}</span>
               </Col>
             </Row>
             <Row className="mb-4">
-            <Col>
+            {/* <Col>
                 <span className="fw-bold">Role Description</span>
                 <br />
                 <span>{props.role.Role_Desc}</span>
-              </Col>
+              </Col> */}
             </Row>
              <Row className="mb-3">
-                    <Col>
+                    {/* <Col>
                         <span className="fw-bold">Skills Required</span>
                         <br />
                         <span>{skillsRequired}</span>
-                    </Col>
+                    </Col> */}
               
                 </Row>
           </Modal.Body>
@@ -78,9 +78,8 @@ function RoleDetailsModal(props) {
                     </Button> */}</Modal.Footer>
         </Modal>
       ) : null}
-      {currentModal === "modify" ? <ModifyRoleModal role={props.role} skillsRequired={skillsRequired} setCurrentModal={setCurrentModal} openSnackbar={props.openSnackbar} reloadProfiles={props.reloadProfiles} /> : null}
     </>
   );
 }
 
-export default RoleDetailsModal;
+export default ApplicantDetailsModal;
