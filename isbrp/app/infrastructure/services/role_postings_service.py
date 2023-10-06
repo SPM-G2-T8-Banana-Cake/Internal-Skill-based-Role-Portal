@@ -35,3 +35,34 @@ class RolePostingsService(RolePostingsRepository):
             response_message = f"create_role_posting: Time taken in seconds: {time_taken}"
             print(response_message)
             return response_message
+        
+    def view_role_listings(self):
+        start_time = time.time()
+
+        try:
+            read_role_sql = '''SELECT * FROM spm.Role;
+            '''
+            res = self.repository.get(read_role_sql)
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in view_role_listings: {e}")
+            return {}
+        
+        else:
+            print("view_role_listings Time taken in seconds: " + str(time.time()-start_time))
+            return res
+
+    def view_applicant_skills(self, StaffID):
+        start_time = time.time()
+        try:
+            get_applicant_skills_sql = '''SELECT * FROM spm.Staff_Skill WHERE Staff_ID = %s;
+            '''
+
+            params = (StaffID)
+            res = self.repository.get(get_applicant_skills_sql, params)
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in get_applicant_skills_sql: {e}")
+            return {}
+        
+        else:
+            print("get_applicant_skills_sql Time taken in seconds: " + str(time.time()-start_time))
+            return res
