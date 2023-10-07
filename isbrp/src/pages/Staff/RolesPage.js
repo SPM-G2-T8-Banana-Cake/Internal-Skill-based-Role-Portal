@@ -19,7 +19,8 @@ import { TablePagination, tablePaginationClasses as classes } from "@mui/base/Ta
 import { FiSearch, FiFilter } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
 import roleListings from "../../utils/DummyData/dummyRoleData.json";
-import { staffFilterRole } from "../../utils/constants";
+import { staffFilterRoleByStatus } from "../../utils/constants";
+import { staffFilterRoleByDepartment } from "../../utils/constants";
 
 function ViewRoleListings() {
   const [severity, setSeverity] = useState("");
@@ -131,6 +132,34 @@ function ViewRoleListings() {
     //     console.log(error)
     //     openSnackbar('sortError')
     // })
+  }
+
+const sortByDepartment = (department) => {
+  setLoading(true)
+  // getAllProfiles()
+  // .then(function(response) {
+  //     if (response.data.length > 0) {
+  //         let data = []
+  //         for (let i=0; i<response.data.length; i++) {
+  //             data.push(response.data[i])
+  //         }
+  //         let result = []
+  //         for (let i=0; i<data.length; i++) {
+  //             if (data[i].particulars.caseStatus === status) {
+  //                 result.push(data[i])
+  //             }
+  //         }
+  //         setJSInfo(result)
+  //     } else {
+  //         setJSInfo([])
+  //     }
+  //     setSearch('')
+  //     setLoading(false)
+  // })
+  // .catch(function(error) {
+  //     console.log(error)
+  //     openSnackbar('sortError')
+  // })
 }
 
 
@@ -208,8 +237,13 @@ function ViewRoleListings() {
                     </OverlayTrigger>
                     <Dropdown.Menu>
                         <Dropdown.Header>Status</Dropdown.Header>
-                        {staffFilterRole.map((status) => (
+                        {staffFilterRoleByStatus.map((status) => (
                             <Dropdown.Item key={status} onClick={() => sortByStatus(status)}>{status}</Dropdown.Item>
+                        ))}
+                        <br />
+                        <Dropdown.Header>Department</Dropdown.Header>
+                        {staffFilterRoleByDepartment.map((department) => (
+                            <Dropdown.Item key={department} onClick={() => sortByDepartment(department)}>{department}</Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
