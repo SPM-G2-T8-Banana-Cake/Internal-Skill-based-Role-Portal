@@ -17,7 +17,7 @@ class RolePostingsService(RolePostingsRepository):
                 try:
                     StaffTable(**d)
                 except (TypeError, AttributeError) as e:
-                    print(f"Error creating role posting: {e}")
+                    print(f"Error creating staff: {e}")
                 else:
                     Staff_ID = d['Staff_ID']
                     Staff_FName = d['Staff_FName']
@@ -39,7 +39,7 @@ class RolePostingsService(RolePostingsRepository):
                 try:
                     StaffSkillTable(**d)
                 except (TypeError, AttributeError) as e:
-                    print(f"Error creating role posting: {e}")
+                    print(f"Error creating staff skills: {e}")
                 else:
                     Staff_Skill_ID = d['Staff_Skill_ID']
                     Staff_ID = d['Staff_ID']
@@ -56,7 +56,7 @@ class RolePostingsService(RolePostingsRepository):
                 try:
                     RoleTable(**d)
                 except (TypeError, AttributeError) as e:
-                    print(f"Error creating role posting: {e}")
+                    print(f"Error creating role: {e}")
                 else:
                     Role_ID = d['Role_ID']
                     Role_Name = d['Role_Name']
@@ -73,7 +73,7 @@ class RolePostingsService(RolePostingsRepository):
                     try:
                         RoleSkillTable(**d)
                     except (TypeError, AttributeError) as e:
-                        print(f"Error creating role posting: {e}")
+                        print(f"Error creating role skill: {e}")
                     else:
                         Role_Skill_ID = d['Role_Skill_ID']
                         Role_ID = d['Role_ID']
@@ -90,7 +90,7 @@ class RolePostingsService(RolePostingsRepository):
                     try:
                         RoleListingTable(**d)
                     except (TypeError, AttributeError) as e:
-                        print(f"Error creating role posting: {e}")
+                        print(f"Error creating role listing: {e}")
                     else:
                         Role_Listing_ID = d['Role_Listing_ID']
                         Role_ID = d['Role_ID']
@@ -108,7 +108,7 @@ class RolePostingsService(RolePostingsRepository):
                     try:
                         RoleApplicationTable(**d)
                     except (TypeError, AttributeError) as e:
-                        print(f"Error creating role posting: {e}")
+                        print(f"Error creating role listing application: {e}")
                     else:
                         Role_Listing_App_ID = d['Role_Listing_App_ID']
                         Role_Listing_ID = d['Role_Listing_ID']
@@ -125,7 +125,7 @@ class RolePostingsService(RolePostingsRepository):
                     try:
                         CounterTable(**d)
                     except (TypeError, AttributeError) as e:
-                        print(f"Error creating role posting: {e}")
+                        print(f"Error ingesting counter: {e}")
                     else:
                         Ct = d['CT']
                         Staff_ID_Counter = d['Staff_ID_Counter']
