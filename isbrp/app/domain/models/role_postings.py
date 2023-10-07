@@ -1,19 +1,21 @@
 from dataclasses import dataclass
 
 @dataclass
-class RolePostingDetails:
-    Role_Name: str
+class RoleSkillTable:
+    Role_Skill_ID: str
+    Role_ID: str
     Skill_Name: str
     
 @dataclass
-class RoleDetails:
+class RoleTable:
+    Role_ID: str
     Role_Name: str
     Role_Desc: str
 
 
 @dataclass
-class StaffData:
-    Staff_ID: int
+class StaffTable:
+    Staff_ID: str
     Staff_FName: str
     Staff_LName: str
     Dept: str
@@ -21,7 +23,31 @@ class StaffData:
     Email: str
     Access_Rights: int
 
+
 @dataclass
-class StaffSkill:
-    Staff_ID: int
+class StaffSkillTable:
+    Staff_Skill_ID: str
+    Staff_ID: str
     Skill_Name: str
+
+
+@dataclass
+class RoleListingTable:
+    Role_Listing_ID: str
+    Role_ID: str
+    Dept: str
+
+
+@dataclass
+class RoleApplicationTable:
+    Role_Listing_App_ID: str
+    Role_Listing_ID: str
+    Applicant_ID: str
+    Application_Deadline: str
+
+@dataclass
+class CounterTable:
+    Role_Listing_App_ID: str
+    Role_Listing_ID: str
+    Applicant_ID: str
+    Application_Deadline: str

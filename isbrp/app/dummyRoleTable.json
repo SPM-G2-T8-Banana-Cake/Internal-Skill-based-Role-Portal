@@ -1,0 +1,62 @@
+[
+    {
+        "Role_ID":"ro1",
+        "Role_Name": "Software Developer",
+        "Role_Desc": "A software developer is responsible for designing, coding, testing, and maintaining software applications and systems."
+
+    },
+    {
+        "Role_ID":"ro2",
+        "Role_Name": "Data Analyst",
+        "Role_Desc": "A data analyst collects, processes, and analyzes data to provide insights and support decision-making within an organization."
+
+    },
+    {
+        "Role_ID":"ro3",
+        "Role_Name": "UX Designer",
+        "Role_Desc": "A UX designer focuses on creating user-friendly and intuitive digital experiences by designing interfaces and conducting user research."
+
+    },
+    {
+        "Role_ID":"ro4",
+        "Role_Name": "Marketing Manager",
+        "Role_Desc": "A marketing manager oversees marketing campaigns, strategies, and initiatives to promote products or services."
+
+    },
+    {
+        "Role_ID":"ro5",
+        "Role_Name": "Sales Representative",
+        "Role_Desc": "A sales representative builds and maintains relationships with clients to sell products or services and meet sales targets."
+
+    },
+    {
+        "Role_ID":"ro6",
+        "Role_Name": "Data Scientist",
+        "Role_Desc": "A data scientist explores complex data sets, builds predictive models, and extracts valuable insights to support data-driven decisions."
+
+    },
+    {
+        "Role_ID":"ro7",
+        "Role_Name": "Web Developer",
+        "Role_Desc": "A web developer creates and maintains websites, web applications, and online platforms using various programming languages and technologies."
+
+    },
+    {
+        "Role_ID":"ro8",
+        "Role_Name": "Graphic Designer",
+        "Role_Desc": "A graphic designer designs visual content and graphics for various mediums, including print and digital."
+
+    },
+    {
+        "Role_ID":"ro9",
+        "Role_Name": "Product Manager",
+        "Role_Desc": "A product manager leads the development and management of a product from ideation to launch, focusing on its success in the market."
+
+    },
+    {
+        "Role_ID":"ro10",
+        "Role_Name": "Content Writer",
+        "Role_Desc": "A content writer creates written content for websites, blogs, marketing materials, and other platforms to engage and inform the audience."
+
+    }
+]
