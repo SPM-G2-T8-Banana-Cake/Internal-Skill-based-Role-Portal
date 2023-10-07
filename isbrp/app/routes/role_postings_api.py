@@ -27,7 +27,11 @@ def view_role_listings():
 @role_postings_api.route('/view_applicant_skills', methods=['GET'])
 def view_applicant_skills():
     return role_postings_service.view_applicant_skills()
-=======
+
+@role_postings_api.route('/delete_role_listing/', methods=['DELETE'])
+def delete_role_posting():
+    return role_postings_service.delete_role_posting()
+
 #Run the 4 tests in sequential order else error
 
 @role_postings_api.route('/test')

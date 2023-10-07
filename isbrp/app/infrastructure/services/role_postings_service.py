@@ -165,3 +165,16 @@ class RolePostingsService(RolePostingsRepository):
         else:
             print("get_applicant_skills_sql Time taken in seconds: " + str(time.time()-start_time))
             return res
+        
+    def delete_role_posting(self, role_listing_id):
+        start_time = time.time()
+        try:
+            delete_role_sql = f"DELETE FROM spm.Role_Listing WHERE Role_Listing_ID = '{role_listing_id}'"
+            
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in delete_role_posting: {e}")
+            return {}
+        
+        else:
+            print("delete_role_posting Time taken in seconds: " + str(time.time()-start_time))
+            return self.repository.delete(delete_role_sql)
