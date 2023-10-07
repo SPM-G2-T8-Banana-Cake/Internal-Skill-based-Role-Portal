@@ -127,7 +127,7 @@ class RolePostingsService(RolePostingsRepository):
                     except (TypeError, AttributeError) as e:
                         print(f"Error creating role posting: {e}")
                     else:
-                        CT = d['CT']
+                        Ct = d['CT']
                         Staff_ID_Counter = d['Staff_ID_Counter']
                         Role_ID_Counter = d['Role_ID_Counter']
                         Role_Listing_ID_Counter = d['Role_Listing_ID_Counter']
@@ -135,7 +135,7 @@ class RolePostingsService(RolePostingsRepository):
                         Role_Skill_ID_Counter = d['Role_Skill_ID_Counter']
                         Role_Listing_App_ID_Counter = d['Role_Listing_App_ID_Counter']
                         create_counter_table_sql = "INSERT INTO spm.Counter_Table (CT, Staff_ID_Counter, Role_ID_Counter, Role_Listing_ID_Counter, Staff_Skill_ID_Counter, Role_Skill_ID_Counter, Role_Listing_App_ID_Counter) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-                        val = (CT, Staff_ID_Counter, Role_ID_Counter, Role_Listing_ID_Counter, Staff_Skill_ID_Counter, Role_Skill_ID_Counter, Role_Listing_App_ID_Counter)
+                        val = (Ct, Staff_ID_Counter, Role_ID_Counter, Role_Listing_ID_Counter, Staff_Skill_ID_Counter, Role_Skill_ID_Counter, Role_Listing_App_ID_Counter)
                         self.repository.create(create_counter_table_sql, val)
             return "Success"
 
