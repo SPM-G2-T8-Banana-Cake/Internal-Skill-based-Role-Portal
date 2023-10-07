@@ -28,6 +28,7 @@ def view_role_listings():
 def view_applicant_skills():
     return role_postings_service.view_applicant_skills()
 
+
 @role_postings_api.route('/delete_role_listing/<role_listing_id>', methods=['DELETE'])
 def delete_role_listing(role_listing_id):
     return role_postings_service.delete_role_listing(role_listing_id)
@@ -35,17 +36,29 @@ def delete_role_listing(role_listing_id):
 #Run the 4 tests in sequential order else error
 
 @role_postings_api.route('/test')
-def ingest_role_dummy_data():
-    return role_postings_service.ingest_role("dummyRoleData.json")
+def ingest_staff_table_dummydata():
+    return role_postings_service.ingest_staff_table("dummyStaffTable.json")
 
 @role_postings_api.route('/test2')
-def ingest_role_skill_dummy_data():
-    return role_postings_service.ingest_role_skill("dummyRoleSkillData.json")
+def ingest_staff_skills_table_dummy_data():
+    return role_postings_service.ingest_staff_skills_table("dummyStaffSkillsTable.json")
 
 @role_postings_api.route('/test3')
-def ingest_staff_dummy_data():
-    return role_postings_service.ingest_staff_data("dummyStaffData.json")
+def ingest_role_table_dummy_data():
+    return role_postings_service.ingest_role_table("dummyRoleTable.json")
 
 @role_postings_api.route('/test4')
-def ingest_staff_skill_dummy_data():
-    return role_postings_service.ingest_staff_skill_data("dummyStaffSkills.json")
+def ingest_role_skill_table_dummy_data():
+    return role_postings_service.ingest_role_skill_table("dummyRoleSkillTable.json")
+
+@role_postings_api.route('/test5')
+def ingest_role_listing_table_dummy_data():
+    return role_postings_service.ingest_role_listing_table("dummyRoleListingTable.json")
+
+@role_postings_api.route('/test6')
+def ingest_role_listing_application_table_dummy_data():
+    return role_postings_service.ingest_role_listing_application_table("dummyRoleListingApplicationTable.json")
+
+@role_postings_api.route('/test7')
+def ingest_counter_table_dummy_data():
+    return role_postings_service.ingest_counter_table("dummyCounter.json")

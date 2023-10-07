@@ -2,7 +2,7 @@ import json
 import time
 
 from uuid import uuid4
-from domain.models.role_postings import RolePostingDetails, RoleDetails, StaffSkill, StaffData
+from domain.models.role_postings import StaffTable, StaffSkillTable, RoleTable, RoleListingTable, RoleSkillTable, RoleApplicationTable, CounterTable
 from infrastructure.repos.role_postings_repo import RolePostingsRepository
 from utils.aws_services_wrapper import SqlServicesWrapper
 
@@ -10,45 +10,12 @@ class RolePostingsService(RolePostingsRepository):
     def __init__(self, role_postings_repo : RolePostingsRepository) -> None:
         self.repository = role_postings_repo
 
-    def ingest_role(self, file_name):
+    def ingest_staff_table(self, file_name):
         with open (file_name, 'r') as json_file:
             data = json.load(json_file)
             for d in data: 
                 try:
-                    RoleDetails(**d)
-                except (TypeError, AttributeError) as e:
-                    print(f"Error creating role posting: {e}")
-                else:
-                    Role_Name = d['Role_Name']
-                    Role_Desc = d['Role_Desc']
-                    create_role_sql = "INSERT INTO spm.Role (Role_Name, Role_Desc) VALUES (%s, %s)"
-                    val = (Role_Name, Role_Desc)
-                    self.repository.create(create_role_sql, val)
-        return "Success" 
-    
-    
-    def ingest_role_skill(self, file_name):
-        with open (file_name, 'r') as json_file:
-            data = json.load(json_file)
-            for d in data: 
-                try:
-                    RolePostingDetails(**d)
-                except (TypeError, AttributeError) as e:
-                    print(f"Error creating role posting: {e}")
-                else:
-                    Role_Name = d['Role_Name']
-                    Skill_Name = d['Skill_Name']
-                    create_role_skill_sql = "INSERT INTO spm.Role_Skill (Role_Name, Skill_Name) VALUES (%s, %s)"
-                    val = (Role_Name, Skill_Name)
-                    self.repository.create(create_role_skill_sql, val)
-        return "Success"
-
-    def ingest_staff_data(self, file_name):
-        with open (file_name, 'r') as json_file:
-            data = json.load(json_file)
-            for d in data: 
-                try:
-                    StaffData(**d)
+                    StaffTable(**d)
                 except (TypeError, AttributeError) as e:
                     print(f"Error creating role posting: {e}")
                 else:
@@ -59,29 +26,121 @@ class RolePostingsService(RolePostingsRepository):
                     Country = d['Country']
                     Email = d['Email']
                     Access_Rights = d['Access_Rights']
-                    create_staff_data_sql = "INSERT INTO spm.Staff (Staff_ID, Staff_FName, Staff_LName, Dept, Country, Email, Access_Rights) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                    create_staff_table_sql = "INSERT INTO spm.Staff_Table (Staff_ID, Staff_FName, Staff_LName, Dept, Country, Email, Access_Rights) VALUES (%s, %s, %s, %s, %s, %s, %s)"
                     val = (Staff_ID, Staff_FName, Staff_LName, Dept, Country, Email, Access_Rights)
-                    self.repository.create(create_staff_data_sql, val)
+                    self.repository.create(create_staff_table_sql, val)
+        return "Success" 
+    
+    
+    def ingest_staff_skills_table(self, file_name):
+        with open (file_name, 'r') as json_file:
+            data = json.load(json_file)
+            for d in data: 
+                try:
+                    StaffSkillTable(**d)
+                except (TypeError, AttributeError) as e:
+                    print(f"Error creating role posting: {e}")
+                else:
+                    Staff_Skill_ID = d['Staff_Skill_ID']
+                    Staff_ID = d['Staff_ID']
+                    Skill_Name = d['Skill_Name']
+                    create_staff_skills_table_sql = "INSERT INTO spm.Staff_Skills_Table (Staff_Skill_ID, Staff_ID, Skill_Name) VALUES (%s, %s, %s)"
+                    val = (Staff_Skill_ID, Staff_ID, Skill_Name)
+                    self.repository.create(create_staff_skills_table_sql, val)
+        return "Success"
+
+    def ingest_role_table(self, file_name):
+        with open (file_name, 'r') as json_file:
+            data = json.load(json_file)
+            for d in data: 
+                try:
+                    RoleTable(**d)
+                except (TypeError, AttributeError) as e:
+                    print(f"Error creating role posting: {e}")
+                else:
+                    Role_ID = d['Role_ID']
+                    Role_Name = d['Role_Name']
+                    Role_Desc = d['Role_Desc']
+                    create_role_table_sql = "INSERT INTO spm.Role_Table (Role_ID, Role_Name, Role_Desc) VALUES (%s, %s, %s)"
+                    val = (Role_ID, Role_Name, Role_Desc)
+                    self.repository.create(create_role_table_sql, val)
         return "Success"
     
-    def ingest_staff_skill_data(self, file_name):
+    def ingest_role_skill_table(self, file_name):
             with open (file_name, 'r') as json_file:
                 data = json.load(json_file)
                 for d in data: 
                     try:
-                        StaffSkill(**d)
+                        RoleSkillTable(**d)
                     except (TypeError, AttributeError) as e:
                         print(f"Error creating role posting: {e}")
                     else:
-                        Staff_ID = d['Staff_ID']
+                        Role_Skill_ID = d['Role_Skill_ID']
+                        Role_ID = d['Role_ID']
                         Skill_Name = d['Skill_Name']
-                        create_staff_skill_sql = "INSERT INTO spm.Staff_Skill (Staff_ID, Skill_Name) VALUES (%s, %s)"
-                        val = (Staff_ID, Skill_Name)
-                        self.repository.create(create_staff_skill_sql, val)
-
+                        create_role_skill_table_sql = "INSERT INTO spm.Role_Skill_Table (Role_Skill_ID, Role_ID, Skill_Name) VALUES (%s, %s, %s)"
+                        val = (Role_Skill_ID, Role_ID, Skill_Name)
+                        self.repository.create(create_role_skill_table_sql, val)
             return "Success"
 
-    def create_role_posting(self, role_postings_json: RolePostingDetails):
+    def ingest_role_listing_table(self, file_name):
+            with open (file_name, 'r') as json_file:
+                data = json.load(json_file)
+                for d in data: 
+                    try:
+                        RoleListingTable(**d)
+                    except (TypeError, AttributeError) as e:
+                        print(f"Error creating role posting: {e}")
+                    else:
+                        Role_Listing_ID = d['Role_Listing_ID']
+                        Role_ID = d['Role_ID']
+                        Dept = d['Dept']
+                        create_role_listing_table_sql = "INSERT INTO spm.Role_Listing_Table (Role_Listing_ID, Role_ID, Dept) VALUES (%s, %s, %s)"
+                        val = (Role_Listing_ID, Role_ID, Dept)
+                        self.repository.create(create_role_listing_table_sql, val)
+            return "Success"
+    
+    def ingest_role_listing_application_table(self, file_name):
+            with open (file_name, 'r') as json_file:
+                data = json.load(json_file)
+                for d in data: 
+                    try:
+                        RoleApplicationTable(**d)
+                    except (TypeError, AttributeError) as e:
+                        print(f"Error creating role posting: {e}")
+                    else:
+                        Role_Listing_App_ID = d['Role_Listing_App_ID']
+                        Role_Listing_ID = d['Role_Listing_ID']
+                        Applicant_ID = d['Applicant_ID']
+                        Application_Deadline = d['Application_Deadline']
+                        create_role_listing_application_table_sql = "INSERT INTO spm.Role_Listing_Application_Table (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Deadline) VALUES (%s, %s, %s, %s)"
+                        val = (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Deadline)
+                        self.repository.create(create_role_listing_application_table_sql, val)
+            return "Success"
+
+    def ingest_counter_table(self, file_name):
+            with open (file_name, 'r') as json_file:
+                data = json.load(json_file)
+                for d in data: 
+                    try:
+                        CounterTable(**d)
+                    except (TypeError, AttributeError) as e:
+                        print(f"Error creating role posting: {e}")
+                    else:
+                        CT = d['CT']
+                        Staff_ID_Counter = d['Staff_ID_Counter']
+                        Role_ID_Counter = d['Role_ID_Counter']
+                        Role_Listing_ID_Counter = d['Role_Listing_ID_Counter']
+                        Staff_Skill_ID_Counter = d['Staff_Skill_ID_Counter']
+                        Role_Skill_ID_Counter = d['Role_Skill_ID_Counter']
+                        Role_Listing_App_ID_Counter = d['Role_Listing_App_ID_Counter']
+                        create_counter_table_sql = "INSERT INTO spm.Counter_Table (CT, Staff_ID_Counter, Role_ID_Counter, Role_Listing_ID_Counter, Staff_Skill_ID_Counter, Role_Skill_ID_Counter, Role_Listing_App_ID_Counter) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                        val = (CT, Staff_ID_Counter, Role_ID_Counter, Role_Listing_ID_Counter, Staff_Skill_ID_Counter, Role_Skill_ID_Counter, Role_Listing_App_ID_Counter)
+                        self.repository.create(create_counter_table_sql, val)
+            return "Success"
+
+
+    def create_role_posting(self, role_postings_json: RoleListingTable):
         start_time = time.time()
         try:
             Role_Name = role_postings_json.get('Role_Name')
@@ -108,7 +167,7 @@ class RolePostingsService(RolePostingsRepository):
             print(response_message)
             return response_message
 
-    def update_role_posting(self, role_postings_json: RolePostingDetails):
+    def update_role_posting(self, role_postings_json: RoleListingTable):
         start_time = time.time()
         try:
             Role_Name = role_postings_json.get('Role_Name')
