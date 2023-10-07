@@ -20,6 +20,7 @@ class RolePostingsRepository(IRolePostingsRepository):
     
     def delete(self, params: dict):
         res = self.cursor.execute(**params)
+        self.cursor.connection.commit()
         return res
 
     
