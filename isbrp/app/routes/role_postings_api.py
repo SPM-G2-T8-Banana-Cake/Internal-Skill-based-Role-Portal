@@ -62,3 +62,7 @@ def ingest_role_listing_application_table_dummy_data():
 @role_postings_api.route('/test7')
 def ingest_counter_table_dummy_data():
     return role_postings_service.ingest_counter_table("dummyCounter.json")
+
+@role_postings_api.route('/testcounter')
+def test_counter_data():
+    return role_postings_service.testingcounter()

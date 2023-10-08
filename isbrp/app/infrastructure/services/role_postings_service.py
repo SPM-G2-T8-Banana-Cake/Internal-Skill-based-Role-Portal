@@ -139,22 +139,50 @@ class RolePostingsService(RolePostingsRepository):
                         self.repository.create(create_counter_table_sql, val)
             return "Success"
 
+    def testingcounter(self):
+        print(self.repository.get_Role_ID_Counter())
+        print(self.repository.get_Role_Listing_App_ID_Counter())
+        print(self.repository.get_Role_Listing_ID_Counter())
+        print(self.repository.get_Role_Skill_ID_Counter())
+        print(self.repository.get_Staff_ID_Counter())
+        print(self.repository.get_Staff_Skill_ID_Counter())
+        return "Success"
 
-    def create_role_posting(self, role_postings_json: RoleListingTable):
+
+
+
+
+    def create_role_posting(self, role_listings_json: RoleListingTable):
         start_time = time.time()
         try:
-            Role_Name = role_postings_json.get('Role_Name')
-            Application_Deadline = role_postings_json.get('Application_Deadline')
+            Role_Name = role_listings_json.get('Role_Name')
+            Role_Desc = role_listings_json.get('Role_Desc')
+            Dept = role_listings_json.get('Dept')
+            Application_Deadline = role_listings_json.get('Application_Deadline')
+            Skill_Name = role_listings_json.get('Skill_Name')
 
+            create_role_sql = '''
+            INSERT INTO spm.Role_Table(Role_ID, Role_Name, Role_Desc) VALUES (%s, %s, %s)
+            '''
+            Role_ID = ''
+            params = (Role_ID, Role_Name, Role_Desc)
+            self.repository.create(create_role_sql, params)
+
+            create_role_skill_sql = '''
+            INSERT INTO spm.Role_Skill_Table (Role_Skill_ID, Role_ID, Skill_Name) VALUES (%s, %s, %s)
+            '''
             # Insert Role_Name, Skill_Name, Application_Deadline and Role_Desc 
             # by joining Role_Skill and Role tables then passing in Application_Deadline
-            create_role_sql = '''
-                INSERT INTO spm.Role_Listing (Role_Name, Skill_Name, Role_Desc, Application_Deadline) 
-                SELECT rs.Role_Name, rs.Skill_Name, r.Role_Desc, %s
-                FROM spm.Role_Skill rs
-                INNER JOIN spm.Role r ON rs.Role_Name = r.Role_Name
-                WHERE rs.Role_Name = %s
-            '''
+
+            # create_role_sql = '''
+            #     INSERT INTO spm.Role_Listing (Role_Name, Skill_Name, Role_Desc, Application_Deadline) 
+            #     SELECT rs.Role_Name, rs.Skill_Name, r.Role_Desc, %s
+            #     FROM spm.Role_Skill rs
+            #     INNER JOIN spm.Role r ON rs.Role_Name = r.Role_Name
+            #     WHERE rs.Role_Name = %s
+            # '''
+
+
             params = (Application_Deadline, Role_Name)
             self.repository.create(create_role_sql, params)
 
@@ -167,13 +195,14 @@ class RolePostingsService(RolePostingsRepository):
             print(response_message)
             return response_message
 
-    def update_role_posting(self, role_postings_json: RoleListingTable):
+    def update_role_posting(self, role_listings_json: RoleListingTable):
         start_time = time.time()
         try:
-            Role_Name = role_postings_json.get('Role_Name')
-            Skill_Name = role_postings_json.get('Skill_Name')
-            Role_Desc = role_postings_json.get('Role_Desc')
-            Application_Deadline = role_postings_json.get('Application_Deadline')
+            Role_Name = role_listings_json.get('Role_Name')
+            Skill_Name = role_listings_json.get('Skill_Name')
+            Role_Desc = role_listings_json.get('Role_Desc')
+            Application_Deadline = role_listings_json.get('Application_Deadline')
+            Dept = role_listings_json.get('Dept')
 
             # Update spm.Role_Listing by passing in updated
             # Skill_Name, Role_Desc and Application_Deadline where Role_Name = Specified Role_Name
