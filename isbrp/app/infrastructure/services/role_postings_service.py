@@ -3,6 +3,7 @@ import time
 
 from uuid import uuid4
 from domain.models.role_postings import StaffTable, StaffSkillTable, RoleTable, RoleListingTable, RoleSkillTable, RoleApplicationTable, CounterTable
+from domain.models.constants import STAFF_PREFIX, STAFF_SKILLS_PREFIX, ROLE_LISTING_APPLICATION_PREFIX, ROLE_LISTING_PREFIX, ROLE_PREFIX, ROLE_SKILL_PREFIX
 from infrastructure.repos.role_postings_repo import RolePostingsRepository
 from utils.aws_services_wrapper import SqlServicesWrapper
 
@@ -161,20 +162,20 @@ class RolePostingsService(RolePostingsRepository):
             create_role_sql = '''
             INSERT INTO spm.Role_Table(Role_ID, Role_Name, Role_Desc) VALUES (%s, %s, %s)
             '''
-            Role_ID = self.repository.get_Role_ID_Counter
+            Role_ID = ROLE_PREFIX +str(self.repository.get_Role_ID_Counter)
             params = (Role_ID, Role_Name, Role_Desc)
             self.repository.create(create_role_sql, params)
 
             create_role_skill_sql = '''
             INSERT INTO spm.Role_Skill_Table (Role_Skill_ID, Role_ID, Skill_Name) VALUES (%s, %s, %s)
             '''
-            Role_Skill_ID = self.repository.get_Role_Skill_ID_Counter
+            Role_Skill_ID = ROLE_SKILL_PREFIX + str(self.repository.get_Role_Skill_ID_Counter)
             params = (Role_Skill_ID, Role_ID, Skill_Name)
             self.repository.create(create_role_skill_sql, params)
             create_role_listing_sql = '''
             INSERT INTO spm.Role_Listing_Table (Role_Listing_ID, Role_ID, Dept, Application_Deadline) VALUES (%s ,%s, %s, %s)
             '''
-            Role_Listing_ID = self.repository.get_Role_Listing_ID_Counter
+            Role_Listing_ID = ROLE_LISTING_PREFIX + str(self.repository.get_Role_Listing_ID_Counter)
             params = (Role_Listing_ID, Role_ID, Dept, Application_Deadline)
             self.repository.create(create_role_listing_sql, params)
 
@@ -196,7 +197,7 @@ class RolePostingsService(RolePostingsRepository):
             return f"Error creating instance: {e}"
         else:
             time_taken = time.time() - start_time
-            response_message = f"create_role_posting: Time taken in seconds: {time_taken}"
+            response_message = f"create_role_listing: Time taken in seconds: {time_taken}"
             print(response_message)
             return response_message
 
