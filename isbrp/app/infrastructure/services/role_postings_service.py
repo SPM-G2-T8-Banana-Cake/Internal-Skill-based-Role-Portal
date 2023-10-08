@@ -149,9 +149,6 @@ class RolePostingsService(RolePostingsRepository):
         return "Success"
 
 
-
-
-
     def create_role_posting(self, role_listings_json: RoleListingTable):
         start_time = time.time()
         try:
