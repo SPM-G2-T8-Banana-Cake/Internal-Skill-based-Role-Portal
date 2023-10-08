@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import HrHeader from "../../../components/Header/HrHeader";
 import Footer from "../../../components/Footer/Footer";
 import Container from "react-bootstrap/esm/Container.js";
@@ -10,15 +11,18 @@ import Button from "react-bootstrap/Button";
 import { motion } from "framer-motion";
 import bgHero from "../../../assets/heroImage.png";
 // import Select from "react-select";
-import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackBar";
+import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackbar";
+import { hrCreateRoleListing } from "../../../services/api";
 
 // Form validation
 import { useFormik, Formik } from "formik";
 
 // Form error checking
 import * as Yup from "yup";
+import { create } from "@mui/material/styles/createTransitions";
 
 function CreateRoleListing() {
+  const navigate = useNavigate();
   const [animation, setAnimation] = useState(false);
   const [timer, setTimer] = useState(5);
   const [open, setOpen] = useState(false);
@@ -49,8 +53,51 @@ function CreateRoleListing() {
 
   const handleSubmit = () => {
     formik.handleSubmit();
+
     if (Object.keys(formik.errors).length > 0) {
       openSnackbar("pageError");
+    }
+
+    else {
+      let rolePosting = {}
+      rolePosting["Role_Name"] = formik.values.roleName;
+      rolePosting["Role_Desc"] = formik.values.roleDesc;
+      rolePosting["Dept"] = formik.values.dept;
+      rolePosting["Application_deadline"] = formik.values.appDeadline;
+      rolePosting["Skill_Name"] = formik.values.skillsRequired;
+      console.log(rolePosting)
+
+      hrCreateRoleListing(rolePosting)
+      .then((response) => {
+        console.log(response);
+        window.scrollTo(0, 0);
+        setSeverity("success");
+        setMessage("Role posting created successfully.");
+        setOpen(true);
+        setAnimation(true);
+
+        const interval = setInterval(() => {
+          if (timer === 0) {
+            clearInterval(interval);
+          } else {
+            setTimer((timer) => timer - 1);
+          }
+        }, 1000);
+
+        setTimeout(() => {
+          navigate("/roles-management");
+          setTimer(0);
+        }, 5000);
+      })
+
+      .catch((error) => {
+        console.error(error);
+        setSeverity("error");
+        setMessage(
+          "Something went wrong while creating role posting. Please try again."
+        );
+        setOpen(true);
+      });
     }
   };
 
