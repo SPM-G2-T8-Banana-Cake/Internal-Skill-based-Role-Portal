@@ -1,8 +1,7 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from utils.aws_services_wrapper import SqlServicesWrapper
 from infrastructure.repos.role_postings_repo import RolePostingsRepository
 from infrastructure.services.role_postings_service import RolePostingsService
-import pymssql
 
 role_postings_api = Blueprint("role_postings_api", __name__)
 sql_services_wrapper = SqlServicesWrapper()
