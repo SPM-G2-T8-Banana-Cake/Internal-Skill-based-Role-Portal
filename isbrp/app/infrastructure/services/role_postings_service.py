@@ -204,37 +204,71 @@ class RolePostingsService(RolePostingsRepository):
     def update_role_posting(self, role_listings_json: RoleListingTable):
         start_time = time.time()
         try:
+            Role_ID = role_listings_json.get('Role_ID')
+            Role_Skill_ID = role_listings_json.get('Role_Skill_ID')
+            Role_Listing_ID = role_listings_json.get('Role_Listing_ID')
             Role_Name = role_listings_json.get('Role_Name')
             Skill_Name = role_listings_json.get('Skill_Name')
             Role_Desc = role_listings_json.get('Role_Desc')
             Application_Deadline = role_listings_json.get('Application_Deadline')
             Dept = role_listings_json.get('Dept')
 
-            # Update spm.Role_Listing by passing in updated
-            # Skill_Name, Role_Desc and Application_Deadline where Role_Name = Specified Role_Name
-            update_role_posting_sql = '''
-                UPDATE spm.Role_Listing
-                SET Skill_Name = %s, Role_Desc = %s, Application_Deadline = %s
-                WHERE Role_Name = %s;
-            '''
-            params = (Skill_Name, Role_Desc, Application_Deadline, Role_Name)
-            self.repository.update(update_role_posting_sql, params)
+            update_sql = """
+            BEGIN TRANSACTION;
+
+            UPDATE spm.Role_Table 
+            SET Role_Name = %(Role_Name)s, Role_Desc = %(Role_Desc)s 
+            WHERE Role_ID = %(Role_ID)s;
+
+            UPDATE spm.Role_Skill_Table 
+            SET Role_ID = %(Role_ID)s, Skill_Name = %(Skill_Name)s 
+            WHERE Role_Skill_ID = %(Role_Skill_ID)s;
+
+            UPDATE spm.Role_Listing_Table 
+            SET Dept = %(Dept)s, Application_Deadline = %(Application_Deadline)s 
+            WHERE Role_ID = %(Role_ID)s AND Role_Listing_ID = %(Role_Listing_ID)s;
+
+            COMMIT TRANSACTION;
+            """
+            params = {
+                'Role_Name': Role_Name,
+                'Role_Desc': Role_Desc,
+                'Role_ID': Role_ID,
+                'Skill_Name': Skill_Name,
+                'Role_Skill_ID': Role_Skill_ID,
+                'Dept': Dept,
+                'Application_Deadline': Application_Deadline,
+                'Role_Listing_ID': Role_Listing_ID
+            }
+
+            # # Update spm.Role_Listing by passing in updated
+            # # Skill_Name, Role_Desc and Application_Deadline where Role_Name = Specified Role_Name
+            # update_role_posting_sql = '''
+            #     UPDATE spm.Role_Listing
+            #     SET Skill_Name = %s, Role_Desc = %s, Application_Deadline = %s
+            #     WHERE Role_Name = %s;
+            # '''
+            # params = (Skill_Name, Role_Desc, Application_Deadline, Role_Name)
+            # self.repository.update(update_role_posting_sql, params)
 
         except (TypeError, AttributeError) as e:
             print(f"Error updating instance: {e}")
             return f"Error updating instance: {e}"
         else:
             time_taken = time.time() - start_time
-            response_message = f"create_role_listing: Time taken in seconds: {time_taken}"
+            response_message = f"update_role_listing: Time taken in seconds: {time_taken}"
             print(response_message)
             return response_message
 
     def view_role_listings(self):
         start_time = time.time()
-
         try:
-            read_role_sql = '''SELECT * FROM spm.Role;
-            '''
+            read_role_sql = '''
+                SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RST.Skill_Name, RST.Role_Skill_ID, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline
+                FROM spm.Role_Table RT
+                JOIN spm.Role_Skill_Table RST ON RT.Role_ID = RST.Role_ID
+                JOIN spm.Role_Listing_Table RLT ON RT.Role_ID = RLT.Role_ID;
+                '''
             res = self.repository.get(read_role_sql)
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in view_role_listings: {e}")
@@ -247,9 +281,8 @@ class RolePostingsService(RolePostingsRepository):
     def view_applicant_skills(self, StaffID):
         start_time = time.time()
         try:
-            get_applicant_skills_sql = '''SELECT * FROM spm.Staff_Skill WHERE Staff_ID = %s;
+            get_applicant_skills_sql = '''SELECT * FROM spm.Staff_Skill_Table WHERE Staff_ID = %s;
             '''
-
             params = (StaffID)
             res = self.repository.get(get_applicant_skills_sql, params)
         except (AttributeError, TypeError, KeyError, ValueError) as e:
@@ -263,12 +296,10 @@ class RolePostingsService(RolePostingsRepository):
     def delete_role_listing(self, role_listing_id):
         start_time = time.time()
         try:
-            delete_role_sql = f"DELETE FROM spm.Role_Listing WHERE Role_Listing_ID = '{role_listing_id}'"
-            
+            delete_role_sql = f"DELETE FROM spm.Role_Listing_Table WHERE Role_Listing_ID = '{role_listing_id}'"
         except (AttributeError, TypeError, KeyError, ValueError) as e:
-            print(f"An error occurred in delete_role_posting: {e}")
-            return {}
-        
+            print(f"An error occurred in delete_role_listing: {e}")
+            return {} 
         else:
-            print("delete_role_posting Time taken in seconds: " + str(time.time()-start_time))
+            print("delete_role_listing Time taken in seconds: " + str(time.time()-start_time))
             return self.repository.delete(delete_role_sql)
