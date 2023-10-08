@@ -7,7 +7,7 @@ class RolePostingsRepository(IRolePostingsRepository):
     def create(self, sql_query: str, params=None):
         self.cursor.execute(sql_query, params)
         self.cursor.connection.commit()
-        return "Created Role Posting Success"
+        return "Created Role Listing Success"
 
     def get(self, sql_query: str, params=None):
         res = self.cursor.execute(sql_query, params)
@@ -16,7 +16,7 @@ class RolePostingsRepository(IRolePostingsRepository):
     def update(self, sql_query: str, params=None):
         self.cursor.execute(sql_query, params)
         self.cursor.connection.commit()
-        return "Updated Role Posting Success"
+        return "Updated Role Listing Success"
     
     def delete(self, params: dict):
         res = self.cursor.execute(**params)

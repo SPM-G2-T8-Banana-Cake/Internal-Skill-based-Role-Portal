@@ -149,7 +149,7 @@ class RolePostingsService(RolePostingsRepository):
         return "Success"
 
 
-    def create_role_posting(self, role_listings_json: RoleListingTable):
+    def create_role_listing(self, role_listings_json: RoleListingTable):
         start_time = time.time()
         try:
             Role_Name = role_listings_json.get('Role_Name')
@@ -161,13 +161,23 @@ class RolePostingsService(RolePostingsRepository):
             create_role_sql = '''
             INSERT INTO spm.Role_Table(Role_ID, Role_Name, Role_Desc) VALUES (%s, %s, %s)
             '''
-            Role_ID = ''
+            Role_ID = self.repository.get_Role_ID_Counter
             params = (Role_ID, Role_Name, Role_Desc)
             self.repository.create(create_role_sql, params)
 
             create_role_skill_sql = '''
             INSERT INTO spm.Role_Skill_Table (Role_Skill_ID, Role_ID, Skill_Name) VALUES (%s, %s, %s)
             '''
+            Role_Skill_ID = self.repository.get_Role_Skill_ID_Counter
+            params = (Role_Skill_ID, Role_ID, Skill_Name)
+            self.repository.create(create_role_skill_sql, params)
+            create_role_listing_sql = '''
+            INSERT INTO spm.Role_Listing_Table (Role_Listing_ID, Role_ID, Dept, Application_Deadline) VALUES (%s ,%s, %s, %s)
+            '''
+            Role_Listing_ID = self.repository.get_Role_Listing_ID_Counter
+            params = (Role_Listing_ID, Role_ID, Dept, Application_Deadline)
+            self.repository.create(create_role_listing_sql, params)
+
             # Insert Role_Name, Skill_Name, Application_Deadline and Role_Desc 
             # by joining Role_Skill and Role tables then passing in Application_Deadline
 
@@ -178,10 +188,8 @@ class RolePostingsService(RolePostingsRepository):
             #     INNER JOIN spm.Role r ON rs.Role_Name = r.Role_Name
             #     WHERE rs.Role_Name = %s
             # '''
-
-
-            params = (Application_Deadline, Role_Name)
-            self.repository.create(create_role_sql, params)
+            # params = (Application_Deadline, Role_Name)
+            # self.repository.create(create_role_sql, params)
 
         except (TypeError, AttributeError) as e:
             print(f"Error creating instance: {e}")
@@ -216,7 +224,7 @@ class RolePostingsService(RolePostingsRepository):
             return f"Error updating instance: {e}"
         else:
             time_taken = time.time() - start_time
-            response_message = f"create_role_posting: Time taken in seconds: {time_taken}"
+            response_message = f"create_role_listing: Time taken in seconds: {time_taken}"
             print(response_message)
             return response_message
 

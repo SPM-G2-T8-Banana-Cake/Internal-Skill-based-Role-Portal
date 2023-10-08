@@ -13,10 +13,10 @@ role_postings_service = RolePostingsService(role_postings_repo = role_postings_r
 # def test_endpoint():
 #     return 'Default JS particulars endpoint returned.'
 
-@role_postings_api.route('/create_role_posting', methods=['POST'])
-def create_role_posting():
+@role_postings_api.route('/create_role_listing', methods=['POST'])
+def create_role_listing():
     role_postings_json = request.json
-    res = role_postings_service.create_role_posting(role_postings_json)
+    res = role_postings_service.create_role_listing(role_postings_json)
     return res
 
 @role_postings_api.route('/view_role_listings', methods=['GET'])
