@@ -13,7 +13,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
-import IsbrpSnackbar from "../../components/Standard/IsbrpSnackbar";
+import IsbrpSnackbar from "../../components/Standard/IsbrpSnackBar";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FiSearch, FiFilter } from "react-icons/fi";
