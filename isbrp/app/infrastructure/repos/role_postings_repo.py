@@ -7,7 +7,7 @@ class RolePostingsRepository(IRolePostingsRepository):
     def create(self, sql_query: str, params=None):
         self.cursor.execute(sql_query, params)
         self.cursor.connection.commit()
-        return "Created Role Posting Success"
+        return "Created Role Listing Success"
 
     def get(self, sql_query: str, params=None):
         res = self.cursor.execute(sql_query, params)
@@ -16,7 +16,7 @@ class RolePostingsRepository(IRolePostingsRepository):
     def update(self, sql_query: str, params=None):
         self.cursor.execute(sql_query, params)
         self.cursor.connection.commit()
-        return "Updated Role Posting Success"
+        return "Updated Role Listing Success"
     
     def delete(self, params: dict):
         res = self.cursor.execute(**params)
@@ -147,3 +147,20 @@ class RolePostingsRepository(IRolePostingsRepository):
         else:
             print("No Role_Listing_App_ID_Counter exists")
 
+    def getRoleListings(self, sql_query):
+        res = self.cursor.execute(sql_query)
+        results = self.cursor.fetchall()
+        result_array = []
+        if results:
+            for res in results:
+                result_obj = {}
+                result_obj['Role_ID'] = res[0]
+                result_obj['Role_Name'] = res[1]
+                result_obj['Role_Desc'] = res[2]
+                result_obj['Skill_Name'] = res[3]
+                result_obj['Role_Skill_ID'] = res[4]
+                result_obj['Dept'] = res[5]
+                result_obj['Role_Listing_ID'] = res[6]
+                result_obj['Application_Deadline'] = res[7]
+                result_array.append(result_obj)
+        return result_array
