@@ -3,18 +3,21 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/Form";
-// import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-// import Tooltip from "react-bootstrap/Tooltip";
 import Alert from "react-bootstrap/Alert";
-import { useState } from "react";
-// import Select from 'react-select'
+import { useEffect, useState } from "react";
+import { departments } from "../../../utils/constants";
+import { hrUpdateRoleListing } from "../../../services/api";
 
 function ModifyRoleModal(props) {
-  // Form Values
   const [roleName, setRoleName] = useState(props.role.Role_Name);
   const [roleDesc, setRoleDesc] = useState(props.role.Role_Desc);
-  const [skillsRequired, setSkillsRequired] = useState(props.skillsRequired);
+  const [skillsRequired, setSkillsRequired] = useState(props.role.Skill_Name);
+  const [appDeadline, setAppDeadline] = useState(props.role.Application_Deadline);
+  const [department, setDepartment] = useState(props.role.Dept);
 
+  const month = { Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06", Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12" };
+  const structuredDate = (props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[2] + "-" + month[props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[1]] + "-" + props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[0]);
+ 
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState(false);
 
@@ -23,7 +26,41 @@ function ModifyRoleModal(props) {
     props.setCurrentModal("details");
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    const form = e.currentTarget;
+    if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+        setError(true)
+    } else {
+        setError(false)
+
+    let modifiedData = {
+      Role_Name: roleName,
+      Role_Desc: roleDesc,
+      Skill_Name: skillsRequired,
+      Application_Deadline: appDeadline,
+      Dept: department,
+    };
+
+    hrUpdateRoleListing(modifiedData)
+      .then(function (response) {
+        props.reloadRoleListings();
+        props.setCurrentModal("details");
+        props.openSnackbar("modifyRoleSuccess");
+      })
+      .catch(function (error) {
+        console.log(error);
+        props.openSnackbar("modifyRoleError");
+      });
+
+    setValidated(true);
+    }
+  };
+
+  useEffect(() => {
+   
+  }, [])
 
   return (
     <Modal show fullscreen={"lg-down"} size="lg" onHide={() => props.setCurrentModal("details")} backdrop="static" keyboard={false}>
@@ -39,42 +76,63 @@ function ModifyRoleModal(props) {
           <Modal.Title className="me-2">Edit Role: {roleName}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-4 bg-light">
-        <h3 className="mb-4">Role Details</h3>
-        <hr/>
-            <Row className="mb-4">
-              <Col>
-                <span className="fw-bold">Role Name</span>
-                <br />
-                <Form.Group>
+          <h3 className="mb-4">Role Details</h3>
+          <hr />
+          <Row className="mb-4">
+            <Col>
+              <span className="fw-bold">Role Name</span>
+              <br />
+              <Form.Group>
                 <Form.Control type="text" defaultValue={roleName} className="bg-inputFields" onChange={(e) => setRoleName(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
               </Form.Group>
-              </Col>
-            </Row>
+            </Col>
+          </Row>
 
-            <Row className="mb-4">
-              <Col>
-                <span className="fw-bold">Role Description</span>
-                <br />
-                <Form.Group>
+          <Row className="mb-4">
+            <Col>
+              <span className="fw-bold">Role Description</span>
+              <br />
+              <Form.Group>
                 <textarea className="form-control w-100 bg-inputFields" rows="3" defaultValue={roleDesc} onChange={(e) => setRoleDesc(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
               </Form.Group>
-              </Col>
-            </Row>
-
-            <Row className="mb-4">
-              <Col>
-                <span className="fw-bold">Skills Required</span>
-                <br />
-                <Form.Group>
+            </Col>
+          </Row>
+          <Row className="mb-4">
+            <Col>
+              <span className="fw-bold">Department</span>
+              <br />
+              <Form.Group>
+                <Form.Select defaultValue={department} className="bg-inputFields" onChange={(e) => setDepartment(e.target.value)} required>
+                  {departments.map((department) => {
+                    return <option key={department}>{department}</option>;
+                  })}
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="mb-4">
+            <Col>
+              <span className="fw-bold">Skills Required</span>
+              <br />
+              <Form.Group>
                 <Form.Control type="text" defaultValue={skillsRequired} className="bg-inputFields" onChange={(e) => setSkillsRequired(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
               </Form.Group>
-              </Col>
-            </Row>
-
-
+            </Col>
+          </Row>
+          <Row className="mb-4">
+            <Col>
+              <span className="fw-bold">Application Deadline</span>
+              <br />
+              <Form.Group>
+                <Form.Control type="date" defaultValue={structuredDate} className="bg-inputFields" onChange={(e) => setAppDeadline(e.target.value)} required />
+                <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+          </Row>
           <Row>{error ? <Alert variant="danger">Please clear the above errors.</Alert> : null}</Row>
         </Modal.Body>
         <Modal.Footer className="bg-grey">
