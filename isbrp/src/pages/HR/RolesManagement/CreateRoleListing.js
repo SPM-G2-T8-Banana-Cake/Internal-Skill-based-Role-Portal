@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import HrHeader from "../../../components/Header/HrHeader";
 import Footer from "../../../components/Footer/Footer";
 import Container from "react-bootstrap/esm/Container.js";
@@ -10,27 +11,40 @@ import Button from "react-bootstrap/Button";
 import { motion } from "framer-motion";
 import bgHero from "../../../assets/heroImage.png";
 // import Select from "react-select";
+import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackbar";
+import { hrCreateRoleListing } from "../../../services/api";
 
 // Form validation
 import { useFormik, Formik } from "formik";
 
 // Form error checking
 import * as Yup from "yup";
+import { create } from "@mui/material/styles/createTransitions";
 
 function CreateRoleListing() {
+  const navigate = useNavigate();
+  const data = useLocation();
+  console.log(data)
   const [animation, setAnimation] = useState(false);
   const [timer, setTimer] = useState(5);
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState("");
+  const [message, setMessage] = useState("");
 
   const initialValues = {
     roleName: "",
     roleDesc: "",
+    dept: "",
     skillsRequired: "",
+    appDeadline: ""
   };
 
   const validationSchema = Yup.object({
     roleName: Yup.string().required("Role Name is a required field"),
     roleDesc: Yup.string().required("Role Description is a required field"),
+    dept: Yup.string().required("Department is a required field"),
     skillsRequired: Yup.string().required("Skills Required is a required field"),
+    appDeadline: Yup.string().required("Application Deadline is a required field"),
   });
 
   const formik = useFormik({
@@ -41,11 +55,71 @@ function CreateRoleListing() {
 
   const handleSubmit = () => {
     formik.handleSubmit();
-  }
+
+    if (Object.keys(formik.errors).length > 0) {
+      openSnackbar("pageError");
+    }
+
+    else {
+      let rolePosting = {}
+      rolePosting["Role_Name"] = formik.values.roleName;
+      rolePosting["Role_Desc"] = formik.values.roleDesc;
+      rolePosting["Dept"] = formik.values.dept;
+      rolePosting["Application_Deadline"] = formik.values.appDeadline;
+      rolePosting["Skill_Name"] = formik.values.skillsRequired;
+      console.log(rolePosting)
+
+      hrCreateRoleListing(rolePosting)
+      .then((response) => {
+        console.log(response);
+        window.scrollTo(0, 0);
+        setSeverity("success");
+        setMessage("Role posting created successfully.");
+        setOpen(true);
+        setAnimation(true);
+
+        const interval = setInterval(() => {
+          if (timer === 0) {
+            clearInterval(interval);
+          } else {
+            setTimer((timer) => timer - 1);
+          }
+        }, 1000);
+
+        setTimeout(() => {
+          navigate("/roles-management", {state: {id: data.id}});
+          setTimer(0);
+        }, 5000);
+      })
+
+      .catch((error) => {
+        console.error(error);
+        setSeverity("error");
+        setMessage(
+          "Something went wrong while creating role posting. Please try again."
+        );
+        setOpen(true);
+      });
+    }
+  };
+
+  const openSnackbar = (value) => {
+    console.log(value)
+    if (value === "pageError") {
+      setSeverity("error");
+      setMessage("Please check for errors and try again.");
+      setOpen(true);
+    }
+  };
 
   useEffect(() => {
     document.title = "Create Role Listing";
-  }, []);
+    if (!formik.isSubmitting) return;
+    if (Object.keys(formik.errors).length > 0) 
+    {
+      document.getElementsByName(Object.keys(formik.errors)[0])[0].focus();
+    }
+  }, [formik.errors, formik.isSubmitting]);
 
   return (
     <>
@@ -73,7 +147,7 @@ function CreateRoleListing() {
           >
             <div className="message-box" style={{ paddingTop: "15vh" }}>
               <p className="text-center" style={{ fontSize: "60px" }}>
-                Job Application created
+                Role Listing created
               </p>
               <p className="text-center fw-light" style={{ fontSize: "25px" }}>
                 Redirecting you in <strong style={{ fontSize: "28px" }}>{timer}</strong> seconds...
@@ -131,6 +205,18 @@ function CreateRoleListing() {
                   </Row>
                   <Row className="mx-auto p-3">
                     <Col className="mx-5">
+                      <Form.Group className="mb-3" controlId="roleDesc">
+                        <Form.Label>
+                          Department&nbsp;
+                          <span style={{ color: "red" }}>*</span>
+                        </Form.Label>
+                        <Form.Control className="bg-grey p-2" name="dept" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.dept} />
+                        {formik.touched.dept && formik.errors.dept ? <p className="text-error">{formik.errors.dept}</p> : null}
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row className="mx-auto p-3">
+                    <Col className="mx-5">
                       <Form.Group className="mb-3" controlId="skillsRequired">
                         <Form.Label>
                           Skills Required&nbsp;
@@ -141,7 +227,33 @@ function CreateRoleListing() {
                       </Form.Group>
                     </Col>
                   </Row>
-
+                  <Row className="mx-auto p-3">
+                    <Col className="mx-5">
+                  <Form.Group className="mb-3" controlId="appDeadline">
+                        <Form.Label>
+                          Application Deadline&nbsp;
+                          <span style={{ color: "red" }}>*</span>
+                        </Form.Label>
+                        <Form.Control
+                          className="bg-grey p-2"
+                          name="appDeadline"
+                          type="date"
+                          min={new Date().toJSON().slice(0, 10)}
+                          max=""
+                          placeholder="dd-mm-yy"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.appDeadline}
+                        />
+                        {formik.touched.appDeadline &&
+                        formik.errors.appDeadline ? (
+                          <p className="text-error">
+                            {formik.errors.appDeadline}
+                          </p>
+                        ) : null}
+                      </Form.Group>
+                      </Col>
+                      </Row>
                   {/* <Row className="mx-auto p-3">
                     <Col className="mx-5">
                       <Form.Group className="mb-3" controlId="desiredIndustry">
@@ -178,6 +290,7 @@ function CreateRoleListing() {
                       <hr />
                       <Button
                         className="bg-button"
+                        type="button"
                         style={{
                           float: "right",
                           color: "black",
@@ -198,6 +311,8 @@ function CreateRoleListing() {
         </Container>
       )}
     <Footer type="bg-secondary" />
+    <IsbrpSnackbar open={open} setOpen={setOpen} severity={severity} message={message}
+      />
     </>
   );
 }

@@ -14,7 +14,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
 import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackbar";
-import rolesFilterList from "../../../utils/constants"
+import { rolesFilterList } from "../../../utils/constants"
 import Dropdown from 'react-bootstrap/Dropdown'
 import { FiFilter } from 'react-icons/fi'
 import { hrReadRoleListings } from "../../../services/api";
@@ -23,11 +23,12 @@ import { TablePagination, tablePaginationClasses as classes } from "@mui/base/Ta
 import { FaPlus } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
-import roleListings from "../../../utils/DummyData/dummyRoleData.json";
+// import roleListings from "../../../utils/DummyData/dummyRoleData.json";
 
 function RolesManagement() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [roleListings, setRoleListings] = useState([]);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -154,33 +155,6 @@ function RolesManagement() {
     }
   };
 
-//   const sortByStatus = (status) => {
-//     setLoading(true)
-//     .then(function(response) {
-//         if (response.data.length > 0) {
-//             let data = []
-//             for (let i=0; i<response.data.length; i++) {
-//                 data.push(response.data[i])
-//             }
-//             let result = []
-//             for (let i=0; i<data.length; i++) {
-//                 if (data[i].Dept === status) {
-//                     result.push(data[i])
-//                 }
-//             }
-//             setRoleListings(result)
-//         } else {
-//             setRoleListings([])
-//         }
-//         setSearch('')
-//         setLoading(false)
-//     })
-//     .catch(function(error) {
-//         console.log(error)
-//         openSnackbar('sortError')
-//     })
-// }
-
   const sortByStatus = (status) => {
     setLoading(true)
     .then(function(response) {
@@ -195,9 +169,9 @@ function RolesManagement() {
                     result.push(data[i])
                 }
             }
-            setRoleListings(result)
+            // setRoleListings(result)
         } else {
-            setRoleListings([])
+            // setRoleListings([])
         }
         setSearch('')
         setLoading(false)
@@ -212,10 +186,27 @@ function RolesManagement() {
     navigate("/create-role-listing", { state: { id: location.state.id } });
   };
 
-  useEffect(() => {
-    document.title = "Roles Management";
-    window.scrollTo(0, 0);
-
+  useEffect(() => { 
+    document.title = "Roles Management"; 
+    window.scrollTo(0, 0); 
+ 
+    hrReadRoleListings()  
+      .then(function(response) { 
+        if (response.data.length > 0) { 
+            let data = [] 
+            for (let i=0; i<response.data.length; i++) { 
+                data.push(response.data[i]) 
+            } 
+            setRoleListings(data) 
+            console.log(data) 
+        } 
+        setLoading(false) 
+    }) 
+    .catch(function(error) { 
+        console.log(error) 
+        openSnackbar('getAllError') 
+    }) 
+     
   }, []);
 
   return (
@@ -283,11 +274,11 @@ function RolesManagement() {
                 <tbody>
                   {roleListings ? console.log(roleListings) : null}
                   {(rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
-                    <tr className="border-details" key={roles.Role.id}>
-                      <td className="bg-grey ps-3">{roles.Role.Role_Name}</td>
-                      <td className="bg-grey">{roles.Role.Role_Desc}</td>
+                    <tr className="border-details" key={roles.Role_ID}>
+                      <td className="bg-grey ps-3">{roles.Role_Name}</td>
+                      <td className="bg-grey">{roles.Role_Desc}</td>
                       <td className="bg-grey">
-                        <RolesDetailsModal className="bg-grey" role={roles.Role} />
+                        <RolesDetailsModal className="bg-grey" role={roles} />
                       </td>
                     </tr>
                   ))}
