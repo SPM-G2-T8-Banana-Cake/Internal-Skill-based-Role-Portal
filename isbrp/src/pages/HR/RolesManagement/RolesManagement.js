@@ -13,7 +13,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
-import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackbar";
+import IsbrpSnackbar from "../../../components/Standard/isbrpSnackBar";
 import { departments } from "../../../utils/constants";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FiFilter } from "react-icons/fi";
@@ -304,7 +304,7 @@ function RolesManagement() {
                       <td className="bg-grey ps-3">{roles.Role_Name}</td>
                       <td className="bg-grey">{roles.Role_Desc}</td>
                       <td className="bg-grey">
-                        <RolesDetailsModal className="bg-grey" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar}/>
+                        <RolesDetailsModal className="bg-grey" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
                       </td>
                     </tr>
                   ))}
