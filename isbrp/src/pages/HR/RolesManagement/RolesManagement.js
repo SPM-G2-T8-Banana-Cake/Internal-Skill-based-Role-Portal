@@ -14,9 +14,9 @@ import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
 import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackbar";
-import { rolesFilterList } from "../../../utils/constants"
-import Dropdown from 'react-bootstrap/Dropdown'
-import { FiFilter } from 'react-icons/fi'
+import { departments } from "../../../utils/constants";
+import Dropdown from "react-bootstrap/Dropdown";
+import { FiFilter } from "react-icons/fi";
 import { hrReadRoleListings } from "../../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
@@ -24,11 +24,11 @@ import { FaPlus } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
 // import roleListings from "../../../utils/DummyData/dummyRoleData.json";
+import Loader from "../../../components/Standard/loader";
 
 function RolesManagement() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [roleListings, setRoleListings] = useState([]);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -39,28 +39,29 @@ function RolesManagement() {
   const [roleListings, setRoleListings] = useState([]);
 
   const openSnackbar = (value) => {
-      if (value === 'modifyRoleSuccess') {
-        setSeverity('success')
-        setMessage('Role modified successfully.')
-        setOpen(true)
-    } else if (value === 'modifyRoleError') {
-        setSeverity('error')
-        setMessage('Something went wrong while modifying role. Please try again.')
-        setOpen(true)
-    } else if (value === 'getAllError') {
-        setSeverity('error')
-        setMessage('Something went wrong while getting all roles. Please try again.')
-        setOpen(true)   
-    } else if (value === 'searchError') {
-        setSeverity('error')
-        setMessage('Something went wrong while searching for the role. Please try again.')
-        setOpen(true)   
-  }   else if (value === 'sortError'){
-        setSeverity('error')
-        setMessage('Something went wrong while sorting. Please try again.')
-        setOpen(true)  
-  }
-  }
+    if (value === "modifyRoleSuccess") {
+      setSeverity("success");
+      setMessage("Role modified successfully.");
+      setOpen(true);
+    } else if (value === "modifyRoleError") {
+      setSeverity("error");
+      setMessage("Something went wrong while modifying role. Please try again.");
+      setOpen(true);
+    } else if (value === "getAllError") {
+      setSeverity("error");
+      setMessage("Something went wrong while getting all roles. Please try again.");
+      setOpen(true);
+    } else if (value === "searchError") {
+      setSeverity("error");
+      setMessage("Something went wrong while searching for the role listing. Please try again.");
+      setOpen(true);
+    } else if (value === "filterError") {
+      setSeverity("error");
+      setMessage("Something went wrong while filtering the role listings. Please try again.");
+      setOpen(true);
+    }
+  };
+
   const CustomTablePagination = styled(TablePagination)`
     & .${classes.toolbar} {
       display: flex;
@@ -128,25 +129,27 @@ function RolesManagement() {
   const handleSearch = (value) => {
     if (value !== "") {
       setLoading(true);
-      let input = value;
-      if (input.includes(" ")) {
-        input = input.replace(/\s+/g, "-");
-      }
-      // searchProfile(input)
-      // .then(function(response) {
-      //     console.log(response.data)
-      //     if (response.data.length > 0) {
-      //         setJSInfo(response.data)
-      //     } else {
-      //         setJSInfo([])
-      //     }
-      //     setLoading(false)
-      // })
-      // .catch(function(error) {
-      //     console.log(error)
-      //     openSnackbar('searchError')
-      //     setLoading(false)
-      // })
+      hrReadRoleListings()
+        .then(function (response) {
+          console.log("Read Role Listings Endpoint Called");
+          if (response.data.length > 0) {
+            let filteredData = [];
+            for (let i = 0; i < response.data.length; i++) {
+              if (response.data[i].Role_Name.toLowerCase().includes(value)) {
+                filteredData.push(response.data[i]);
+              }
+            }
+
+            setRoleListings(filteredData);
+          } else {
+            setRoleListings([]);
+          }
+          setLoading(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+          openSnackbar("searchError");
+        });
     }
   };
 
@@ -156,32 +159,51 @@ function RolesManagement() {
     }
   };
 
-  const sortByStatus = (status) => {
-    setLoading(true)
-    .then(function(response) {
+  const reloadRoleListings = () => {
+    setLoading(true);
+    hrReadRoleListings()
+      .then(function (response) {
+        console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
-            let data = []
-            for (let i=0; i<response.data.length; i++) {
-                data.push(response.data[i])
-            }
-            let result = []
-            for (let i=0; i<data.length; i++) {
-                if (data[i].Dept === status) {
-                    result.push(data[i])
-                }
-            }
-            // setRoleListings(result)
-        } else {
-            // setRoleListings([])
+          let data = [];
+          for (let i = 0; i < response.data.length; i++) {
+            data.push(response.data[i]);
+          }
+          setRoleListings(data);
+          console.log(data);
         }
-        setSearch('')
-        setLoading(false)
-    })
-    .catch(function(error) {
-        console.log(error)
-        openSnackbar('sortError')
-    })
-}
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("getAllError");
+      });
+  };
+
+  const sortByDepartment = (department) => {
+    setLoading(true);
+    hrReadRoleListings()
+      .then(function (response) {
+        console.log("Read Role Listings Endpoint Called");
+        if (response.data.length > 0) {
+          let filteredData = [];
+          for (let i = 0; i < response.data.length; i++) {
+            if (response.data[i].Dept === department) {
+              filteredData.push(response.data[i]);
+            }
+          }
+
+          setRoleListings(filteredData);
+        } else {
+          setRoleListings([]);
+        }
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("filterError");
+      });
+  };
 
   const toCreateRoles = () => {
     navigate("/create-role-listing", { state: { id: location.state.id } });
@@ -190,31 +212,30 @@ function RolesManagement() {
   useEffect(() => {
     document.title = "Roles Management";
     window.scrollTo(0, 0);
-
-    hrReadRoleListings() 
-      .then(function(response) {
+    setLoading(true);
+    hrReadRoleListings()
+      .then(function (response) {
+        console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
-            let data = []
-            for (let i=0; i<response.data.length; i++) {
-                data.push(response.data[i])
-            }
-            setRoleListings(data)
-            console.log(data)
+          let data = [];
+          for (let i = 0; i < response.data.length; i++) {
+            data.push(response.data[i]);
+          }
+          setRoleListings(data);
         }
-        setLoading(false)
-    })
-    .catch(function(error) {
-        console.log(error)
-        openSnackbar('getAllError')
-    })
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("getAllError");
+      });
   }, []);
 
   return (
     <div>
       <HrHeader />
       {loading ? (
-        // <Loader />
-        <h1>Loading...</h1>
+        <Loader />
       ) : (
         <>
           <Container fluid className="contentBox pt-4">
@@ -234,15 +255,19 @@ function RolesManagement() {
                   </OverlayTrigger>
                   <Dropdown>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
-                        <Dropdown.Toggle variant='secondary' size="sm"><FiFilter /></Dropdown.Toggle>
+                      <Dropdown.Toggle variant="secondary" size="sm">
+                        <FiFilter />
+                      </Dropdown.Toggle>
                     </OverlayTrigger>
                     <Dropdown.Menu>
-                        <Dropdown.Header>Department</Dropdown.Header>
-                        {rolesFilterList.map((status) => (
-                            <Dropdown.Item key={status} onClick={() => sortByStatus(status)}>{status}</Dropdown.Item>
-                        ))}
+                      <Dropdown.Header>Department</Dropdown.Header>
+                      {departments.map((department) => (
+                        <Dropdown.Item key={department} onClick={() => sortByDepartment(department)}>
+                          {department}
+                        </Dropdown.Item>
+                      ))}
                     </Dropdown.Menu>
-                </Dropdown>
+                  </Dropdown>
                 </InputGroup>
               </Col>
               <Col xs={3} md={2} lg={2}>
@@ -254,7 +279,7 @@ function RolesManagement() {
                     </Button>
                   </OverlayTrigger>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Reload</Tooltip>}>
-                    <Button variant="light" className="rounded-circle">
+                    <Button variant="light" className="rounded-circle" onClick={reloadRoleListings}>
                       <TbReload />
                     </Button>
                   </OverlayTrigger>
@@ -266,19 +291,20 @@ function RolesManagement() {
               <Table responsive hover className="rounded-3 overflow-hidden align-middle" size="sm">
                 <thead>
                   <tr>
-                    <th className="bg-details text-dark ps-3">Role Name</th>
-                    <th className="bg-details text-dark">Role Description</th>
+                    <th className="bg-details text-dark ps-3">ID</th>
+                    <th className="bg-details text-dark">Name</th>
+                    <th className="bg-details text-dark">Description</th>
                     <th className="bg-details text-dark"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {roleListings ? console.log(roleListings) : null}
                   {(rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
                     <tr className="border-details" key={roles.Role_ID}>
+                      <td className="bg-grey ps-3">{roles.Role_ID}</td>
                       <td className="bg-grey ps-3">{roles.Role_Name}</td>
                       <td className="bg-grey">{roles.Role_Desc}</td>
                       <td className="bg-grey">
-                        <RolesDetailsModal className="bg-grey" role={roles} />
+                        <RolesDetailsModal className="bg-grey" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar}/>
                       </td>
                     </tr>
                   ))}
@@ -313,6 +339,5 @@ function RolesManagement() {
     </div>
   );
 }
-
 
 export default RolesManagement;
