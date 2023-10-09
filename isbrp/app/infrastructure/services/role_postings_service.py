@@ -114,8 +114,9 @@ class RolePostingsService(RolePostingsRepository):
                         Role_Listing_App_ID = d['Role_Listing_App_ID']
                         Role_Listing_ID = d['Role_Listing_ID']
                         Applicant_ID = d['Applicant_ID']
-                        create_role_listing_application_table_sql = "INSERT INTO spm.Role_Listing_Application_Table (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID) VALUES (%s, %s, %s)"
-                        val = (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID)
+                        Application_Status = d['Application_Status']
+                        create_role_listing_application_table_sql = "INSERT INTO spm.Role_Listing_Application_Table (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Status) VALUES (%s, %s, %s)"
+                        val = (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Status)
                         self.repository.create(create_role_listing_application_table_sql, val)
             return "Success"
 

@@ -2,52 +2,62 @@
         {
             "Role_Listing_App_ID":"rla1",
             "Role_Listing_ID":"rl1",
-            "Applicant_ID": "st1"
+            "Applicant_ID": "st1",
+            "Application_Status": "Pending"
         },
         {
             "Role_Listing_App_ID":"rla2",
             "Role_Listing_ID":"rl2",
-            "Applicant_ID": "st2"
+            "Applicant_ID": "st2",
+            "Application_Status": "Pending"
         },
         {
             "Role_Listing_App_ID":"rla3",
             "Role_Listing_ID":"rl3",
-            "Applicant_ID": "st3"
+            "Applicant_ID": "st3",
+            "Application_Status": "Pending"
         },
         {
             "Role_Listing_App_ID":"rla4",
             "Role_Listing_ID":"rl4",
-            "Applicant_ID": "st4"
+            "Applicant_ID": "st4",
+            "Application_Status": "Pending"
         },
         {
             "Role_Listing_App_ID":"rla5",
             "Role_Listing_ID":"rl5",
-            "Applicant_ID": "st5"
+            "Applicant_ID": "st5",
+            "Application_Status": "Pending"
         },
         {
             "Role_Listing_App_ID":"rla6",
             "Role_Listing_ID":"rl6",
-            "Applicant_ID": "st6"
+            "Applicant_ID": "st6",
+            "Application_Status": "Pending"
         },
         {
             "Role_Listing_App_ID":"rla7",
             "Role_Listing_ID":"rl7",
-            "Applicant_ID": "st7"
+            "Applicant_ID": "st7",
+            "Application_Status": "Pending"
         },
         {
             "Role_Listing_App_ID":"rla8",
             "Role_Listing_ID":"rl8",
-            "Applicant_ID": "st8"
+            "Applicant_ID": "st8",
+            "Application_Status": "Pending"
         },
         {
             "Role_Listing_App_ID":"rla9",
             "Role_Listing_ID":"rl9",
-            "Applicant_ID": "st9"
+            "Applicant_ID": "st9",
+            "Application_Status": "Pending"
         },
         {
             "Role_Listing_App_ID":"rla10",
             "Role_Listing_ID":"rl10",
-            "Applicant_ID": "st10"
+            "Applicant_ID": "st10",
+            "Application_Status": "Pending"
         }
     ]
     

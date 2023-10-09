@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import HrHeader from "../../../components/Header/HrHeader";
 import Footer from "../../../components/Footer/Footer";
@@ -23,6 +24,8 @@ import { create } from "@mui/material/styles/createTransitions";
 
 function CreateRoleListing() {
   const navigate = useNavigate();
+  const data = useLocation();
+  console.log(data)
   const [animation, setAnimation] = useState(false);
   const [timer, setTimer] = useState(5);
   const [open, setOpen] = useState(false);
@@ -85,7 +88,7 @@ function CreateRoleListing() {
         }, 1000);
 
         setTimeout(() => {
-          navigate("/roles-management");
+          navigate("/roles-management", {state: {id: data.id}});
           setTimer(0);
         }, 5000);
       })

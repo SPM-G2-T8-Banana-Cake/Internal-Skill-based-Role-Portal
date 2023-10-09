@@ -44,6 +44,7 @@ class RoleApplicationTable:
     Role_Listing_App_ID: str
     Role_Listing_ID: str
     Applicant_ID: str
+    Application_Status: str
 
 
 @dataclass
