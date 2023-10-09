@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HrHeader from "../../../components/Header/HrHeader";
 import Footer from "../../../components/Footer/Footer";
 import Container from "react-bootstrap/esm/Container.js";

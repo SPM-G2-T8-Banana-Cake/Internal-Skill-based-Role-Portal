@@ -36,6 +36,7 @@ function RolesManagement() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [roleListings, setRoleListings] = useState([]);
 
   const openSnackbar = (value) => {
       if (value === 'modifyRoleSuccess') {
@@ -186,27 +187,26 @@ function RolesManagement() {
     navigate("/create-role-listing", { state: { id: location.state.id } });
   };
 
-  useEffect(() => { 
-    document.title = "Roles Management"; 
-    window.scrollTo(0, 0); 
- 
-    hrReadRoleListings()  
-      .then(function(response) { 
-        if (response.data.length > 0) { 
-            let data = [] 
-            for (let i=0; i<response.data.length; i++) { 
-                data.push(response.data[i]) 
-            } 
-            setRoleListings(data) 
-            console.log(data) 
-        } 
-        setLoading(false) 
-    }) 
-    .catch(function(error) { 
-        console.log(error) 
-        openSnackbar('getAllError') 
-    }) 
-     
+  useEffect(() => {
+    document.title = "Roles Management";
+    window.scrollTo(0, 0);
+
+    hrReadRoleListings() 
+      .then(function(response) {
+        if (response.data.length > 0) {
+            let data = []
+            for (let i=0; i<response.data.length; i++) {
+                data.push(response.data[i])
+            }
+            setRoleListings(data)
+            console.log(data)
+        }
+        setLoading(false)
+    })
+    .catch(function(error) {
+        console.log(error)
+        openSnackbar('getAllError')
+    })
   }, []);
 
   return (
