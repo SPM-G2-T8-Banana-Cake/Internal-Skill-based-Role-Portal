@@ -113,8 +113,9 @@ class RolePostingsService(RolePostingsRepository):
                         Role_Listing_App_ID = d['Role_Listing_App_ID']
                         Role_Listing_ID = d['Role_Listing_ID']
                         Applicant_ID = d['Applicant_ID']
-                        create_role_listing_application_table_sql = "INSERT INTO spm.Role_Listing_Application_Table (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID) VALUES (%s, %s, %s)"
-                        val = (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID)
+                        Application_Status = d['Application_Status']
+                        create_role_listing_application_table_sql = "INSERT INTO spm.Role_Listing_Application_Table (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Status) VALUES (%s, %s, %s, %s)"
+                        val = (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Status)
                         self.repository.create(create_role_listing_application_table_sql, val)
             return "Success"
 
@@ -200,16 +201,47 @@ class RolePostingsService(RolePostingsRepository):
             Role_Desc = role_listings_json.get('Role_Desc')
             Application_Deadline = role_listings_json.get('Application_Deadline')
             Dept = role_listings_json.get('Dept')
+            Application_Status = role_listings_json.get('Application_Status')
 
-            # Update spm.Role_Listing by passing in updated
-            # Skill_Name, Role_Desc and Application_Deadline where Role_Name = Specified Role_Name
-            update_role_posting_sql = '''
-                UPDATE spm.Role_Listing
-                SET Skill_Name = %s, Role_Desc = %s, Application_Deadline = %s
-                WHERE Role_Name = %s;
-            '''
-            params = (Skill_Name, Role_Desc, Application_Deadline, Role_Name)
-            self.repository.update(update_role_posting_sql, params)
+            update_sql = """
+            BEGIN TRANSACTION;
+
+            UPDATE spm.Role_Table 
+            SET Role_Name = %(Role_Name)s, Role_Desc = %(Role_Desc)s 
+            WHERE Role_ID = %(Role_ID)s;
+
+            UPDATE spm.Role_Skill_Table 
+            SET Role_ID = %(Role_ID)s, Skill_Name = %(Skill_Name)s 
+            WHERE Role_Skill_ID = %(Role_Skill_ID)s;
+
+            UPDATE spm.Role_Listing_Table 
+            SET Dept = %(Dept)s, Application_Deadline = %(Application_Deadline)s, Application_Status = %(Application_Status)s 
+            WHERE Role_ID = %(Role_ID)s AND Role_Listing_ID = %(Role_Listing_ID)s;
+
+            COMMIT TRANSACTION;
+            """
+            params = {
+                'Role_Name': Role_Name,
+                'Role_Desc': Role_Desc,
+                'Role_ID': Role_ID,
+                'Skill_Name': Skill_Name,
+                'Role_Skill_ID': Role_Skill_ID,
+                'Dept': Dept,
+                'Application_Deadline': Application_Deadline,
+                'Role_Listing_ID': Role_Listing_ID,
+                'Application_Status': Application_Status
+            }
+            self.repository.update(update_sql, params)
+
+            # # Update spm.Role_Listing by passing in updated
+            # # Skill_Name, Role_Desc and Application_Deadline where Role_Name = Specified Role_Name
+            # update_role_posting_sql = '''
+            #     UPDATE spm.Role_Listing
+            #     SET Skill_Name = %s, Role_Desc = %s, Application_Deadline = %s
+            #     WHERE Role_Name = %s;
+            # '''
+            # params = (Skill_Name, Role_Desc, Application_Deadline, Role_Name)
+            # self.repository.update(update_role_posting_sql, params)
 
         except (TypeError, AttributeError) as e:
             print(f"Error updating instance: {e}")
@@ -242,7 +274,7 @@ class RolePostingsService(RolePostingsRepository):
             '''
 
             params = (StaffID)
-            res = self.repository.get(get_applicant_skills_sql, params)
+            res = self.repository.getSkills(get_applicant_skills_sql, params)
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in get_applicant_skills_sql: {e}")
             return {}

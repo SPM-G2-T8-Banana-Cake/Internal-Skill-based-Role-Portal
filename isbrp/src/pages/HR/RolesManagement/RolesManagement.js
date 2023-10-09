@@ -13,7 +13,11 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
-import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackBar";
+import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackbar";
+import rolesFilterList from "../../../utils/constants"
+import Dropdown from 'react-bootstrap/Dropdown'
+import { FiFilter } from 'react-icons/fi'
+import { hrReadRoleListings } from "../../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FaPlus } from "react-icons/fa";
@@ -49,6 +53,10 @@ function RolesManagement() {
         setSeverity('error')
         setMessage('Something went wrong while searching for the role. Please try again.')
         setOpen(true)   
+  }   else if (value === 'sortError'){
+        setSeverity('error')
+        setMessage('Something went wrong while sorting. Please try again.')
+        setOpen(true)  
   }
   }
   const CustomTablePagination = styled(TablePagination)`
@@ -146,6 +154,60 @@ function RolesManagement() {
     }
   };
 
+//   const sortByStatus = (status) => {
+//     setLoading(true)
+//     .then(function(response) {
+//         if (response.data.length > 0) {
+//             let data = []
+//             for (let i=0; i<response.data.length; i++) {
+//                 data.push(response.data[i])
+//             }
+//             let result = []
+//             for (let i=0; i<data.length; i++) {
+//                 if (data[i].Dept === status) {
+//                     result.push(data[i])
+//                 }
+//             }
+//             setRoleListings(result)
+//         } else {
+//             setRoleListings([])
+//         }
+//         setSearch('')
+//         setLoading(false)
+//     })
+//     .catch(function(error) {
+//         console.log(error)
+//         openSnackbar('sortError')
+//     })
+// }
+
+  const sortByStatus = (status) => {
+    setLoading(true)
+    .then(function(response) {
+        if (response.data.length > 0) {
+            let data = []
+            for (let i=0; i<response.data.length; i++) {
+                data.push(response.data[i])
+            }
+            let result = []
+            for (let i=0; i<data.length; i++) {
+                if (data[i].Dept === status) {
+                    result.push(data[i])
+                }
+            }
+            setRoleListings(result)
+        } else {
+            setRoleListings([])
+        }
+        setSearch('')
+        setLoading(false)
+    })
+    .catch(function(error) {
+        console.log(error)
+        openSnackbar('sortError')
+    })
+}
+
   const toCreateRoles = () => {
     navigate("/create-role-listing", { state: { id: location.state.id } });
   };
@@ -154,9 +216,6 @@ function RolesManagement() {
     document.title = "Roles Management";
     window.scrollTo(0, 0);
 
-    if(roleListings.length > 0) {
-      openSnackbar("getAllError")
-    }
   }, []);
 
   return (
@@ -182,6 +241,17 @@ function RolesManagement() {
                       <FiSearch />
                     </Button>
                   </OverlayTrigger>
+                  <Dropdown>
+                    <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
+                        <Dropdown.Toggle variant='secondary' size="sm"><FiFilter /></Dropdown.Toggle>
+                    </OverlayTrigger>
+                    <Dropdown.Menu>
+                        <Dropdown.Header>Department</Dropdown.Header>
+                        {rolesFilterList.map((status) => (
+                            <Dropdown.Item key={status} onClick={() => sortByStatus(status)}>{status}</Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
                 </InputGroup>
               </Col>
               <Col xs={3} md={2} lg={2}>
