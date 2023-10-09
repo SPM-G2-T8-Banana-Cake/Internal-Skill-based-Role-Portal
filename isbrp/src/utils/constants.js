@@ -1,14 +1,16 @@
-export const staffFilterRoleByStatus = [
-    'Open',
-    'Applied',
-]
+// FUNCTIONS
+export const convertDateTime = (date, tzString) => {
+    return new Date(
+      (typeof date === "string" ? new Date(date) : date).toLocaleString(
+        "en-US",
+        { timeZone: tzString }
+      )
+    );
+  };
 
-export const staffFilterRoleByDepartment = [
-    'Dept 1',
-    'Dept 2',
-]
 
-export const rolesFilterList = [
+// CONSTANTS
+export const departments = [
     'Finance',
     'IT',
     'Marketing',
