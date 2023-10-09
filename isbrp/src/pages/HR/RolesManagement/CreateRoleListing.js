@@ -63,7 +63,7 @@ function CreateRoleListing() {
       rolePosting["Role_Name"] = formik.values.roleName;
       rolePosting["Role_Desc"] = formik.values.roleDesc;
       rolePosting["Dept"] = formik.values.dept;
-      rolePosting["Application_deadline"] = formik.values.appDeadline;
+      rolePosting["Application_Deadline"] = formik.values.appDeadline;
       rolePosting["Skill_Name"] = formik.values.skillsRequired;
       console.log(rolePosting)
 

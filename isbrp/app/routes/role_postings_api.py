@@ -16,6 +16,7 @@ role_postings_service = RolePostingsService(role_postings_repo = role_postings_r
 @role_postings_api.route('/create_role_listing', methods=['POST'])
 def create_role_listing():
     role_postings_json = request.json
+    print(request.json)
     res = role_postings_service.create_role_listing(role_postings_json)
     return res
 

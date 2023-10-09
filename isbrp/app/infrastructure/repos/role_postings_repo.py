@@ -147,3 +147,20 @@ class RolePostingsRepository(IRolePostingsRepository):
         else:
             print("No Role_Listing_App_ID_Counter exists")
 
+    def getRoleListings(self, sql_query):
+        res = self.cursor.execute(sql_query)
+        results = self.cursor.fetchall()
+        result_array = []
+        if results:
+            for res in results:
+                result_obj = {}
+                result_obj['Role_ID'] = res[0]
+                result_obj['Role_Name'] = res[1]
+                result_obj['Role_Desc'] = res[2]
+                result_obj['Skill_Name'] = res[3]
+                result_obj['Role_Skill_ID'] = res[4]
+                result_obj['Dept'] = res[5]
+                result_obj['Role_Listing_ID'] = res[6]
+                result_obj['Application_Deadline'] = res[7]
+                result_array.append(result_obj)
+        return result_array

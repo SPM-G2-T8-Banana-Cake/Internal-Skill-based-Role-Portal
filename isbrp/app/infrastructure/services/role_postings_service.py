@@ -154,43 +154,36 @@ class RolePostingsService(RolePostingsRepository):
         start_time = time.time()
         try:
             Role_Name = role_listings_json.get('Role_Name')
+            # print("Role_Name = " + Role_Name)
             Role_Desc = role_listings_json.get('Role_Desc')
+            # print("Role_Desc = " + Role_Desc)
             Dept = role_listings_json.get('Dept')
+            # print("Dept = " + Dept)
             Application_Deadline = role_listings_json.get('Application_Deadline')
+            # print("Application_Deadline = " + Application_Deadline)
             Skill_Name = role_listings_json.get('Skill_Name')
+            # print("Skill_Name = " + Skill_Name)
 
             create_role_sql = '''
             INSERT INTO spm.Role_Table(Role_ID, Role_Name, Role_Desc) VALUES (%s, %s, %s)
             '''
-            Role_ID = ROLE_PREFIX +str(self.repository.get_Role_ID_Counter)
+            Role_ID = ROLE_PREFIX +str(self.repository.get_Role_ID_Counter())
+            print("Role_ID = " + Role_ID)
             params = (Role_ID, Role_Name, Role_Desc)
             self.repository.create(create_role_sql, params)
 
             create_role_skill_sql = '''
             INSERT INTO spm.Role_Skill_Table (Role_Skill_ID, Role_ID, Skill_Name) VALUES (%s, %s, %s)
             '''
-            Role_Skill_ID = ROLE_SKILL_PREFIX + str(self.repository.get_Role_Skill_ID_Counter)
+            Role_Skill_ID = ROLE_SKILL_PREFIX + str(self.repository.get_Role_Skill_ID_Counter())
             params = (Role_Skill_ID, Role_ID, Skill_Name)
             self.repository.create(create_role_skill_sql, params)
             create_role_listing_sql = '''
             INSERT INTO spm.Role_Listing_Table (Role_Listing_ID, Role_ID, Dept, Application_Deadline) VALUES (%s ,%s, %s, %s)
             '''
-            Role_Listing_ID = ROLE_LISTING_PREFIX + str(self.repository.get_Role_Listing_ID_Counter)
+            Role_Listing_ID = ROLE_LISTING_PREFIX + str(self.repository.get_Role_Listing_ID_Counter())
             params = (Role_Listing_ID, Role_ID, Dept, Application_Deadline)
             self.repository.create(create_role_listing_sql, params)
-
-            # Insert Role_Name, Skill_Name, Application_Deadline and Role_Desc 
-            # by joining Role_Skill and Role tables then passing in Application_Deadline
-
-            # create_role_sql = '''
-            #     INSERT INTO spm.Role_Listing (Role_Name, Skill_Name, Role_Desc, Application_Deadline) 
-            #     SELECT rs.Role_Name, rs.Skill_Name, r.Role_Desc, %s
-            #     FROM spm.Role_Skill rs
-            #     INNER JOIN spm.Role r ON rs.Role_Name = r.Role_Name
-            #     WHERE rs.Role_Name = %s
-            # '''
-            # params = (Application_Deadline, Role_Name)
-            # self.repository.create(create_role_sql, params)
 
         except (TypeError, AttributeError) as e:
             print(f"Error creating instance: {e}")
@@ -240,6 +233,7 @@ class RolePostingsService(RolePostingsRepository):
                 'Application_Deadline': Application_Deadline,
                 'Role_Listing_ID': Role_Listing_ID
             }
+            self.repository.update(update_sql, params)
 
             # # Update spm.Role_Listing by passing in updated
             # # Skill_Name, Role_Desc and Application_Deadline where Role_Name = Specified Role_Name
@@ -269,7 +263,7 @@ class RolePostingsService(RolePostingsRepository):
                 JOIN spm.Role_Skill_Table RST ON RT.Role_ID = RST.Role_ID
                 JOIN spm.Role_Listing_Table RLT ON RT.Role_ID = RLT.Role_ID;
                 '''
-            res = self.repository.get(read_role_sql)
+            res = self.repository.getRoleListings(read_role_sql)
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in view_role_listings: {e}")
             return {}
