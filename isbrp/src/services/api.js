@@ -25,21 +25,22 @@ axiosClient.interceptors.response.use(
     }
   );
 
+
 // HR ROLE MANAGEMENT
-export function hrCreateRolePosting(data) {
-    return axiosClient.post("/create_role_posting", JSON.stringify(data));
+export function hrCreateRoleListing(data) {
+    return axiosClient.post("/create_role_listing", JSON.stringify(data));
   }
 
-export function hrReadRolePosting(data) {
-    return axiosClient.get("/hr_read_role_posting", JSON.stringify(data));
+export function hrReadRoleListings() {
+    return axiosClient.get("/view_role_listings");
   }
 
 export function hrReadRoleApplicants(data) {
-    return axiosClient.get("/hr_read_role_applicant", JSON.stringify(data));
+    return axiosClient.get("/view_applicant_skills", JSON.stringify(data));
   }
 
-export function updateRolePosting(data) {
-    return axiosClient.delete("/update_role_posting", JSON.stringify(data));
+export function hrUpdateRoleListing(data) {
+    return axiosClient.delete("/update_role_listing", JSON.stringify(data));
   }
 
 // STAFF

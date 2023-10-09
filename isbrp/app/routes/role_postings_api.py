@@ -13,10 +13,11 @@ role_postings_service = RolePostingsService(role_postings_repo = role_postings_r
 # def test_endpoint():
 #     return 'Default JS particulars endpoint returned.'
 
-@role_postings_api.route('/create_role_posting', methods=['POST'])
-def create_role_posting():
+@role_postings_api.route('/create_role_listing', methods=['POST'])
+def create_role_listing():
     role_postings_json = request.json
-    res = role_postings_service.create_role_posting(role_postings_json)
+    print(request.json)
+    res = role_postings_service.create_role_listing(role_postings_json)
     return res
 
 @role_postings_api.route('/view_role_listings', methods=['GET'])
@@ -27,13 +28,17 @@ def view_role_listings():
 def view_applicant_skills():
     return role_postings_service.view_applicant_skills()
 
-
 @role_postings_api.route('/delete_role_listing/<role_listing_id>', methods=['DELETE'])
 def delete_role_listing(role_listing_id):
     return role_postings_service.delete_role_listing(role_listing_id)
 
-#Run the 4 tests in sequential order else error
+@role_postings_api.route('/view_applicant_skills', methods=['GET'])
+def view_applicatn_skills():
+    staffID = request.json
+    res = role_postings_service.view_applicant_skills(staffID)
+    return res
 
+#Run the 4 tests in sequential order else error
 @role_postings_api.route('/test')
 def ingest_staff_table_dummydata():
     return role_postings_service.ingest_staff_table("dummyStaffTable.json")

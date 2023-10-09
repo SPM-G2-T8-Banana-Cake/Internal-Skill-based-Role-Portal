@@ -13,7 +13,8 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
-import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackBar";
+import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackbar";
+import { hrReadRoleListings } from "../../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FaPlus } from "react-icons/fa";
@@ -31,6 +32,7 @@ function RolesManagement() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [roleListings, setRoleListings] = useState([]);
 
   const openSnackbar = (value) => {
       if (value === 'modifyRoleSuccess') {
@@ -154,9 +156,23 @@ function RolesManagement() {
     document.title = "Roles Management";
     window.scrollTo(0, 0);
 
-    if(roleListings.length > 0) {
-      openSnackbar("getAllError")
-    }
+    hrReadRoleListings() 
+      .then(function(response) {
+        if (response.data.length > 0) {
+            let data = []
+            for (let i=0; i<response.data.length; i++) {
+                data.push(response.data[i])
+            }
+            setRoleListings(data)
+            console.log(data)
+        }
+        setLoading(false)
+    })
+    .catch(function(error) {
+        console.log(error)
+        openSnackbar('getAllError')
+    })
+    
   }, []);
 
   return (
@@ -213,11 +229,11 @@ function RolesManagement() {
                 <tbody>
                   {roleListings ? console.log(roleListings) : null}
                   {(rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
-                    <tr className="border-details" key={roles.Role.id}>
-                      <td className="bg-grey ps-3">{roles.Role.Role_Name}</td>
-                      <td className="bg-grey">{roles.Role.Role_Desc}</td>
+                    <tr className="border-details" key={roles.Role_ID}>
+                      <td className="bg-grey ps-3">{roles.Role_Name}</td>
+                      <td className="bg-grey">{roles.Role_Desc}</td>
                       <td className="bg-grey">
-                        <RolesDetailsModal className="bg-grey" role={roles.Role} />
+                        <RolesDetailsModal className="bg-grey" role={roles} />
                       </td>
                     </tr>
                   ))}
