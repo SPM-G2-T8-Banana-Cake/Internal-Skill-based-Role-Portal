@@ -6,17 +6,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-// import ModifyRoleModal from "./ModifyRoleModal";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { FiMoreVertical } from "react-icons/fi";
-import roleSkillData from "../../utils/DummyData/dummyRoleSkillData.json";
-import Chip from '@mui/material/Chip';
+import Chip from "@mui/material/Chip";
 
 function ViewRoleDetailsModal(props) {
   const [show, setShow] = useState(false);
-  const roleName = props.role.Role_Name;
   const currentModal = "details";
-  const [skillsRequired, setSkillsRequired] = useState("");
   const [appStatus, setAppStatus] = useState("");
 
   const handleClose = () => setShow(false);
@@ -48,13 +44,7 @@ function ViewRoleDetailsModal(props) {
     return `${(percent * 100).toFixed(0)}%`;
   };
 
-  useEffect(() => {
-    for (let i = 0; i < roleSkillData.length; i++) {
-      if (roleName === roleSkillData[i].Role_Skill.Role_Name) {
-        setSkillsRequired(roleSkillData[i].Role_Skill.Skill_Name);
-      }
-    }
-  }, [roleName]);
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -68,11 +58,7 @@ function ViewRoleDetailsModal(props) {
         <Modal show={show} fullscreen={"lg-down"} size="lg" onHide={handleClose}>
           <Modal.Header className="bg-details text-dark p-2 px-4">
             <Modal.Title>Role: {props.role.Role_Name}</Modal.Title>
-            {appStatus === "success" ? (
-            <Chip className="bg-success text-dark ms-2 p-1 float-end" label="Applied" color="primary" variant="outlined" />
-            ):(
-                null
-            )}
+            {appStatus === "success" ? <Chip className="bg-success text-dark ms-2 p-1 float-end" label="Applied" color="primary" variant="outlined" /> : null}
 
             <CloseButton variant="white" onClick={handleClose} />
           </Modal.Header>
@@ -93,11 +79,25 @@ function ViewRoleDetailsModal(props) {
                 <span>{props.role.Role_Desc}</span>
               </Col>
             </Row>
-            <Row className="mb-5">
+            <Row className="mb-4">
+              <Col>
+                <span className="fw-bold">Department</span>
+                <br />
+                <span>{props.role.Dept}</span>
+              </Col>
+            </Row>
+            <Row className="mb-4">
               <Col>
                 <span className="fw-bold">Skills Required</span>
                 <br />
-                <span>{skillsRequired}</span>
+                <span>{props.role.Skill_Name}</span>
+              </Col>
+            </Row>
+            <Row className="mb-5">
+              <Col>
+                <span className="fw-bold">Application Deadline</span>
+                <br />
+                <span>{props.role.Application_Deadline.split(",").slice(0, 2).join(" ").split(" ").slice(0, 5).join(" ")}</span>
               </Col>
             </Row>
             <h3>Role Skill Match</h3>
