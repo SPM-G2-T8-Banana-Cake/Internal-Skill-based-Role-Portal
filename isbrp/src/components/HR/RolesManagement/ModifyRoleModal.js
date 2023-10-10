@@ -139,14 +139,14 @@ function ModifyRoleModal(props) {
               <span className="fw-bold">Application Deadline</span>
               <br />
               <Form.Group>
-                <Form.Control type="date" defaultValue={structuredDate} className="bg-inputFields" onChange={(e) => setAppDeadline(e.target.value)} required />
+                <Form.Control type="date" defaultValue={structuredDate} className="bg-inputFields" min={new Date().toJSON().slice(0, 10)} onChange={(e) => setAppDeadline(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
           <Row>{error ? <Alert variant="danger">Please clear the above errors.</Alert> : null}</Row>
         </Modal.Body>
-        <Modal.Footer className="bg-grey">
+        <Modal.Footer className="bg-details">
           <Button variant="secondary" type="button" onClick={handleCancel} className="rounded-pill me-1" size="sm">
             Cancel
           </Button>
