@@ -9,6 +9,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { FiMoreVertical } from "react-icons/fi";
 import Chip from "@mui/material/Chip";
+import bgIcon from "../../assets/viewingIcon.png";
 
 function ViewRoleDetailsModal(props) {
   const [show, setShow] = useState(false);
@@ -62,7 +63,7 @@ function ViewRoleDetailsModal(props) {
 
             <CloseButton variant="white" onClick={handleClose} />
           </Modal.Header>
-          <Modal.Body className="p-4 bg-light">
+          <Modal.Body className="p-4 bg-light" style={{backgroundImage: `url(${bgIcon})`}}>
             <h3 className="">Role Details</h3>
             <hr />
             <Row className="mb-4">
