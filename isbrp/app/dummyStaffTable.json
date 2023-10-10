@@ -7,7 +7,8 @@
             "Dept": "Human Resources",
             "Country": "United States",
             "Email": "john.doe@example.com",
-            "Access_Rights": 3
+            "Access_Rights": 3,
+            "Skills": "Java"
 
     },
     {
@@ -18,8 +19,8 @@
             "Dept": "Finance",
             "Country": "Canada",
             "Email": "jane.smith@example.com",
-            "Access_Rights": 2
-
+            "Access_Rights": 2,
+            "Skills": "SQL"
     },
     {
 
@@ -29,8 +30,8 @@
             "Dept": "IT",
             "Country": "United Kingdom",
             "Email": "david.brown@example.com",
-            "Access_Rights": 1
-
+            "Access_Rights": 1,
+            "Skills": "Python"
     },
     {
 
@@ -40,7 +41,8 @@
             "Dept": "Marketing",
             "Country": "Australia",
             "Email": "sarah.green@example.com",
-            "Access_Rights": 2
+            "Access_Rights": 2,
+            "Skills": "Digital Marketing"
 
     },
     {
@@ -51,7 +53,8 @@
             "Dept": "Sales",
             "Country": "Germany",
             "Email": "chris.taylor@example.com",
-            "Access_Rights": 3
+            "Access_Rights": 3,
+            "Skills": "Negotiation"
 
     },
     {
@@ -62,7 +65,8 @@
             "Dept": "Research",
             "Country": "France",
             "Email": "robert.johnson@example.com",
-            "Access_Rights": 1
+            "Access_Rights": 1,
+            "Skills": "HTML/CSS"
 
     },
     {
@@ -73,7 +77,8 @@
             "Dept": "Customer Support",
             "Country": "Spain",
             "Email": "liam.smith@example.com",
-            "Access_Rights": 2
+            "Access_Rights": 2,
+            "Skills": "Adobe Illustrator"
 
     },
     {
@@ -84,7 +89,8 @@
             "Dept": "Design",
             "Country": "Italy",
             "Email": "emma.davis@example.com",
-            "Access_Rights": 3
+            "Access_Rights": 3,
+            "Skills": "Product Lifecycle Management"
 
     },
     {
@@ -95,7 +101,8 @@
             "Dept": "Operations",
             "Country": "Brazil",
             "Email": "michael.wilson@example.com",
-            "Access_Rights": 2
+            "Access_Rights": 2,
+            "Skills": "Copywriting"
 
     },
     {
@@ -106,7 +113,8 @@
             "Dept": "Content",
             "Country": "India",
             "Email": "ava.johnson@example.com",
-            "Access_Rights": 1
+            "Access_Rights": 1,
+            "Skills": "User Research"
 
     }
 ]

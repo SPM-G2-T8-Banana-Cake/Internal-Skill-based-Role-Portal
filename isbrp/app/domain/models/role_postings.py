@@ -1,10 +1,4 @@
 from dataclasses import dataclass
-
-@dataclass
-class RoleSkillTable:
-    Role_Skill_ID: str
-    Role_ID: str
-    Skill_Name: str
     
 @dataclass
 class RoleTable:
@@ -22,14 +16,7 @@ class StaffTable:
     Country: str
     Email: str
     Access_Rights: int
-
-
-@dataclass
-class StaffSkillTable:
-    Staff_Skill_ID: str
-    Staff_ID: str
-    Skill_Name: str
-
+    Skills: str
 
 @dataclass
 class RoleListingTable:
@@ -37,6 +24,7 @@ class RoleListingTable:
     Role_ID: str
     Dept: str
     Application_Deadline: str
+    Skills: str
 
 
 @dataclass
@@ -54,5 +42,4 @@ class CounterTable:
     Role_ID_Counter: int
     Role_Listing_ID_Counter: int
     Staff_Skill_ID_Counter: int
-    Role_Skill_ID_Counter: int
     Role_Listing_App_ID_Counter: int
