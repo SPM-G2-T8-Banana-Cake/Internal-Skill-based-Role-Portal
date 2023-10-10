@@ -152,13 +152,13 @@ class RolePostingsService(RolePostingsRepository):
             print(response_message)
             return response_message
 
-    def update_role_posting(self, role_listings_json: RoleListingTable):
+    def update_role_listing(self, role_listings_json: RoleListingTable):
         start_time = time.time()
         try:
             Role_ID = role_listings_json.get('Role_ID')
             Role_Listing_ID = role_listings_json.get('Role_Listing_ID')
             Role_Name = role_listings_json.get('Role_Name')
-            Skills = role_listings_json.get('Skill_Name')
+            Skills = role_listings_json.get('Skills')
             Role_Desc = role_listings_json.get('Role_Desc')
             Application_Deadline = role_listings_json.get('Application_Deadline')
             Dept = role_listings_json.get('Dept')
