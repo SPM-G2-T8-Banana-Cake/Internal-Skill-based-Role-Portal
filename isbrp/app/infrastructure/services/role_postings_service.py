@@ -163,7 +163,7 @@ class RolePostingsService(RolePostingsRepository):
             Application_Deadline = role_listings_json.get('Application_Deadline')
             Dept = role_listings_json.get('Dept')
 
-            update_sql = '''
+            update_sql = """
             BEGIN TRANSACTION;
 
             UPDATE spm.Role_Table 
@@ -175,7 +175,7 @@ class RolePostingsService(RolePostingsRepository):
             WHERE Role_ID = %(Role_ID)s AND Role_Listing_ID = %(Role_Listing_ID)s;
 
             COMMIT TRANSACTION;
-            '''
+            """
             params = {
                 'Role_Name': Role_Name,
                 'Role_Desc': Role_Desc,
