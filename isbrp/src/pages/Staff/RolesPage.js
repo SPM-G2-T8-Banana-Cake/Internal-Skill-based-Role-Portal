@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container.js";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
-import Dropdown from 'react-bootstrap/Dropdown'
 import InputGroup from "react-bootstrap/InputGroup";
 import StaffHeader from "../../components/Header/StaffHeader";
 import Footer from "../../components/Footer/Footer";
@@ -12,17 +11,19 @@ import Table from "react-bootstrap/Table";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
-import IsbrpSnackbar from "../../components/Standard/IsbrpSnackbar";
+import IsbrpSnackbar from "../../components/Standard/isbrpSnackBar";
+import { departments } from "../../utils/constants";
+import Dropdown from "react-bootstrap/Dropdown";
+import { FiFilter } from "react-icons/fi";
+import { hrReadRoleListings } from "../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
-import { FiSearch, FiFilter } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
-import roleListings from "../../utils/DummyData/dummyRoleData.json";
-import { staffFilterRoleByStatus } from "../../utils/constants";
-import { staffFilterRoleByDepartment } from "../../utils/constants";
+import Loader from "../../components/Standard/loader";
+import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
 
-function ViewRoleListings() {
+function ViewRoleListing() {
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -30,26 +31,31 @@ function ViewRoleListings() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [roleListings, setRoleListings] = useState([]);
 
   const openSnackbar = (value) => {
-      if (value === 'applyRoleSuccess') {
-        setSeverity('success')
-        setMessage('Successfully applied for role.')
-        setOpen(true)
-    } else if (value === 'modifyRoleError') {
-        setSeverity('error')
-        setMessage('Something went wrong while modifying role. Please try again.')
-        setOpen(true)
-    } else if (value === 'getAllError') {
-        setSeverity('error')
-        setMessage('Something went wrong while getting all roles. Please try again.')
-        setOpen(true)   
-    } else if (value === 'searchError') {
-        setSeverity('error')
-        setMessage('Something went wrong while searching for the role. Please try again.')
-        setOpen(true)   
-  }
-  }
+    if (value === "modifyRoleSuccess") {
+      setSeverity("success");
+      setMessage("Role modified successfully.");
+      setOpen(true);
+    } else if (value === "modifyRoleError") {
+      setSeverity("error");
+      setMessage("Something went wrong while modifying role. Please try again.");
+      setOpen(true);
+    } else if (value === "getAllError") {
+      setSeverity("error");
+      setMessage("Something went wrong while getting all roles. Please try again.");
+      setOpen(true);
+    } else if (value === "searchError") {
+      setSeverity("error");
+      setMessage("Something went wrong while searching for the role listing. Please try again.");
+      setOpen(true);
+    } else if (value === "filterError") {
+      setSeverity("error");
+      setMessage("Something went wrong while filtering the role listings. Please try again.");
+      setOpen(true);
+    }
+  };
 
   const CustomTablePagination = styled(TablePagination)`
     & .${classes.toolbar} {
@@ -106,63 +112,6 @@ function ViewRoleListings() {
     }
   `;
 
-  const sortByStatus = (status) => {
-    setLoading(true)
-    // getAllProfiles()
-    // .then(function(response) {
-    //     if (response.data.length > 0) {
-    //         let data = []
-    //         for (let i=0; i<response.data.length; i++) {
-    //             data.push(response.data[i])
-    //         }
-    //         let result = []
-    //         for (let i=0; i<data.length; i++) {
-    //             if (data[i].particulars.caseStatus === status) {
-    //                 result.push(data[i])
-    //             }
-    //         }
-    //         setJSInfo(result)
-    //     } else {
-    //         setJSInfo([])
-    //     }
-    //     setSearch('')
-    //     setLoading(false)
-    // })
-    // .catch(function(error) {
-    //     console.log(error)
-    //     openSnackbar('sortError')
-    // })
-  }
-
-const sortByDepartment = (department) => {
-  setLoading(true)
-  // getAllProfiles()
-  // .then(function(response) {
-  //     if (response.data.length > 0) {
-  //         let data = []
-  //         for (let i=0; i<response.data.length; i++) {
-  //             data.push(response.data[i])
-  //         }
-  //         let result = []
-  //         for (let i=0; i<data.length; i++) {
-  //             if (data[i].particulars.caseStatus === status) {
-  //                 result.push(data[i])
-  //             }
-  //         }
-  //         setJSInfo(result)
-  //     } else {
-  //         setJSInfo([])
-  //     }
-  //     setSearch('')
-  //     setLoading(false)
-  // })
-  // .catch(function(error) {
-  //     console.log(error)
-  //     openSnackbar('sortError')
-  // })
-}
-
-
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
   };
@@ -175,25 +124,27 @@ const sortByDepartment = (department) => {
   const handleSearch = (value) => {
     if (value !== "") {
       setLoading(true);
-      let input = value;
-      if (input.includes(" ")) {
-        input = input.replace(/\s+/g, "-");
-      }
-      // searchProfile(input)
-      // .then(function(response) {
-      //     console.log(response.data)
-      //     if (response.data.length > 0) {
-      //         setJSInfo(response.data)
-      //     } else {
-      //         setJSInfo([])
-      //     }
-      //     setLoading(false)
-      // })
-      // .catch(function(error) {
-      //     console.log(error)
-      //     openSnackbar('searchError')
-      //     setLoading(false)
-      // })
+      hrReadRoleListings()
+        .then(function (response) {
+          console.log("Read Role Listings Endpoint Called");
+          if (response.data.length > 0) {
+            let filteredData = [];
+            for (let i = 0; i < response.data.length; i++) {
+              if (response.data[i].Role_Name.toLowerCase().includes(value)) {
+                filteredData.push(response.data[i]);
+              }
+            }
+
+            setRoleListings(filteredData);
+          } else {
+            setRoleListings([]);
+          }
+          setLoading(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+          openSnackbar("searchError");
+        });
     }
   };
 
@@ -203,17 +154,79 @@ const sortByDepartment = (department) => {
     }
   };
 
+  const reloadRoleListings = () => {
+    setLoading(true);
+    hrReadRoleListings()
+      .then(function (response) {
+        console.log("Read Role Listings Endpoint Called");
+        if (response.data.length > 0) {
+          let data = [];
+          for (let i = 0; i < response.data.length; i++) {
+            data.push(response.data[i]);
+          }
+          setRoleListings(data);
+          console.log(data);
+        }
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("getAllError");
+      });
+  };
+
+  const sortByDepartment = (department) => {
+    setLoading(true);
+    hrReadRoleListings()
+      .then(function (response) {
+        console.log("Read Role Listings Endpoint Called");
+        if (response.data.length > 0) {
+          let filteredData = [];
+          for (let i = 0; i < response.data.length; i++) {
+            if (response.data[i].Dept === department) {
+              filteredData.push(response.data[i]);
+            }
+          }
+
+          setRoleListings(filteredData);
+        } else {
+          setRoleListings([]);
+        }
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("filterError");
+      });
+  };
+
   useEffect(() => {
     document.title = "Available Roles";
     window.scrollTo(0, 0);
+    setLoading(true);
+    hrReadRoleListings()
+      .then(function (response) {
+        console.log("Read Role Listings Endpoint Called");
+        if (response.data.length > 0) {
+          let data = [];
+          for (let i = 0; i < response.data.length; i++) {
+            data.push(response.data[i]);
+          }
+          setRoleListings(data);
+        }
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("getAllError");
+      });
   }, []);
 
   return (
     <div>
       <StaffHeader />
       {loading ? (
-        // <Loader />
-        <h1>Loading...</h1>
+        <Loader />
       ) : (
         <>
           <Container fluid className="contentBox pt-4">
@@ -233,26 +246,25 @@ const sortByDepartment = (department) => {
                   </OverlayTrigger>
                   <Dropdown>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
-                        <Dropdown.Toggle variant='secondary' size="sm"><FiFilter /></Dropdown.Toggle>
+                      <Dropdown.Toggle variant="secondary" size="sm">
+                        <FiFilter />
+                      </Dropdown.Toggle>
                     </OverlayTrigger>
                     <Dropdown.Menu>
-                        <Dropdown.Header>Status</Dropdown.Header>
-                        {staffFilterRoleByStatus.map((status) => (
-                            <Dropdown.Item key={status} onClick={() => sortByStatus(status)}>{status}</Dropdown.Item>
-                        ))}
-                        <br />
-                        <Dropdown.Header>Department</Dropdown.Header>
-                        {staffFilterRoleByDepartment.map((department) => (
-                            <Dropdown.Item key={department} onClick={() => sortByDepartment(department)}>{department}</Dropdown.Item>
-                        ))}
+                      <Dropdown.Header>Department</Dropdown.Header>
+                      {departments.map((department) => (
+                        <Dropdown.Item key={department} onClick={() => sortByDepartment(department)}>
+                          {department}
+                        </Dropdown.Item>
+                      ))}
                     </Dropdown.Menu>
-                </Dropdown>
+                  </Dropdown>
                 </InputGroup>
               </Col>
               <Col xs={3} md={2} lg={2}>
                 <ButtonGroup>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Reload</Tooltip>}>
-                    <Button variant="light" className="rounded-circle">
+                    <Button variant="light" className="rounded-circle" onClick={reloadRoleListings}>
                       <TbReload />
                     </Button>
                   </OverlayTrigger>
@@ -264,19 +276,20 @@ const sortByDepartment = (department) => {
               <Table responsive hover className="rounded-3 overflow-hidden align-middle" size="sm">
                 <thead>
                   <tr>
-                    <th className="bg-details text-dark ps-3">Role Name</th>
+                    <th className="bg-details text-dark ps-3">Department</th>
+                    <th className="bg-details text-dark">Role Name</th>
                     <th className="bg-details text-dark">Role Description</th>
                     <th className="bg-details text-dark"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {roleListings ? console.log(roleListings) : null}
                   {(rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
-                    <tr className="border-details" key={roles.Role.id}>
-                      <td className="bg-grey ps-3">{roles.Role.Role_Name}</td>
-                      <td className="bg-grey">{roles.Role.Role_Desc}</td>
+                    <tr className="border-details" key={roles.Role_ID}>
+                      <td className="bg-grey ps-3">{roles.Dept}</td>
+                      <td className="bg-grey ps-3">{roles.Role_Name}</td>
+                      <td className="bg-grey">{roles.Role_Desc}</td>
                       <td className="bg-grey">
-                        <ViewRoleDetailsModal className="bg-grey" role={roles.Role} openSnackbar={openSnackbar}/>
+                        <ViewRoleDetailsModal className="bg-grey" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
                       </td>
                     </tr>
                   ))}
@@ -312,5 +325,4 @@ const sortByDepartment = (department) => {
   );
 }
 
-
-export default ViewRoleListings;
+export default ViewRoleListing;

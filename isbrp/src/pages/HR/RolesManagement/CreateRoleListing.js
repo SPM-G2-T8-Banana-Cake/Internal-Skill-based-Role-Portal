@@ -11,7 +11,7 @@ import Button from "react-bootstrap/Button";
 import { motion } from "framer-motion";
 import bgHero from "../../../assets/heroImage.png";
 import successBg from "../../../assets/createSuccessIcon.png";
-import IsbrpSnackbar from "../../../components/Standard/IsbrpSnackbar";
+import IsbrpSnackbar from "../../../components/Standard/isbrpSnackBar";
 import { hrCreateRoleListing } from "../../../services/api";
 import { departments } from "../../../utils/constants";
 
@@ -53,15 +53,12 @@ function CreateRoleListing() {
     onSubmit: (values, errors) => {},
   });
 
-
   const handleSubmit = () => {
     formik.handleSubmit();
 
     if (Object.keys(formik.errors).length > 0 || formik.values.roleName === "" || formik.values.roleDesc === "" || formik.values.dept === "" || formik.values.appDeadline === "" || formik.values.skillsRequired === "") {
       openSnackbar("pageError");
-    } 
-
-    else {
+    } else {
       let rolePosting = {};
       rolePosting["Role_Name"] = formik.values.roleName;
       rolePosting["Role_Desc"] = formik.values.roleDesc;
