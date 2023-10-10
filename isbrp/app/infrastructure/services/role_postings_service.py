@@ -180,7 +180,7 @@ class RolePostingsService(RolePostingsRepository):
                 'Role_Name': Role_Name,
                 'Role_Desc': Role_Desc,
                 'Role_ID': Role_ID,
-                'Skill_Name': Skills,
+                'Skills': Skills,
                 'Dept': Dept,
                 'Application_Deadline': Application_Deadline,
                 'Role_Listing_ID': Role_Listing_ID

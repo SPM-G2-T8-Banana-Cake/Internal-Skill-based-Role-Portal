@@ -255,14 +255,14 @@ function RolesManagement() {
                   </OverlayTrigger>
                   <Dropdown>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
-                      <Dropdown.Toggle variant="secondary" size="sm">
+                      <Dropdown.Toggle variant="grey" size="sm">
                         <FiFilter />
                       </Dropdown.Toggle>
                     </OverlayTrigger>
                     <Dropdown.Menu>
                       <Dropdown.Header>Department</Dropdown.Header>
                       {departments.map((department) => (
-                        <Dropdown.Item key={department} onClick={() => sortByDepartment(department)}>
+                        <Dropdown.Item key={department} onClick={() => sortByDepartment(department)} className="fs-6">
                           {department}
                         </Dropdown.Item>
                       ))}
@@ -286,7 +286,6 @@ function RolesManagement() {
                 </ButtonGroup>
               </Col>
             </Row>
-            <hr />
             <Container fluid>
               <Table responsive hover className="rounded-3 overflow-hidden align-middle" size="sm">
                 <thead>

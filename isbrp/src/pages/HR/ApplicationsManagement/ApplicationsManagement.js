@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/esm/Container.js";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
@@ -12,7 +11,7 @@ import Table from "react-bootstrap/Table";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import RolesDetailsModal from "../../../components/HR/RolesManagement/RoleDetailsModal";
+import Loader from "../../../components/Standard/loader";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FiSearch } from "react-icons/fi";
@@ -23,8 +22,6 @@ import roleListings  from "../../../utils/DummyData/dummyRoleData.json";
 import ApplicantDetailsModal from "../../../components/HR/ApplicationsManagement/ApplicantDetailsModal";
 
 function ApplicationsManagement() {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -135,8 +132,7 @@ function ApplicationsManagement() {
     <div>
       <HrHeader />
       {loading ? (
-        // <Loader />
-        <h1>Loading...</h1>
+        <Loader />
       ) : (
         <>
           <Container fluid className="contentBox pt-4">
@@ -166,7 +162,6 @@ function ApplicationsManagement() {
                 </ButtonGroup>
               </Col>
             </Row>
-            <hr />
             <Container fluid>
               <Table responsive hover className="rounded-3 overflow-hidden align-middle" size="sm">
                 <thead>

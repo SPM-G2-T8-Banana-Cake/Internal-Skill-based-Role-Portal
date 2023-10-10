@@ -9,15 +9,16 @@ import { departments } from "../../../utils/constants";
 import { hrUpdateRoleListing } from "../../../services/api";
 
 function ModifyRoleModal(props) {
+  const roleID = props.role.Role_ID;
+  const roleListingID = props.role.Role_Listing_ID;
   const [roleName, setRoleName] = useState(props.role.Role_Name);
   const [roleDesc, setRoleDesc] = useState(props.role.Role_Desc);
-  const [skillsRequired, setSkillsRequired] = useState(props.role.Skill_Name);
+  const [skillsRequired, setSkillsRequired] = useState(props.role.Skills);
   const [appDeadline, setAppDeadline] = useState(props.role.Application_Deadline);
   const [department, setDepartment] = useState(props.role.Dept);
 
   const month = { Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06", Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12" };
   const structuredDate = (props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[2] + "-" + month[props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[1]] + "-" + props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[0]);
- 
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState(false);
 
@@ -35,14 +36,24 @@ function ModifyRoleModal(props) {
     } else {
         setError(false)
 
+    if (appDeadline.includes(",")){
+       var localAppDeadline = appDeadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[2] + "-" + month[appDeadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[1]] + "-" + appDeadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[0];
+    }
+
+    else {
+      localAppDeadline = appDeadline;
+    }
+
     let modifiedData = {
+      Role_ID: roleID,
+      Role_Listing_ID: roleListingID,
       Role_Name: roleName,
       Role_Desc: roleDesc,
-      Skill_Name: skillsRequired,
-      Application_Deadline: appDeadline,
+      Skills: skillsRequired,
+      Application_Deadline: localAppDeadline,
       Dept: department,
     };
-
+    console.log(modifiedData)
     hrUpdateRoleListing(modifiedData)
       .then(function (response) {
         props.reloadRoleListings();
