@@ -20,6 +20,13 @@ def create_role_listing():
     res = role_postings_service.create_role_listing(role_postings_json)
     return res
 
+@role_postings_api.route('/update_role_listings', methods = ['PUT'])
+def update_role_listing():
+    role_listings_json = request.json
+    res = role_postings_service.update_role_listing(role_listings_json)
+    return res
+
+
 @role_postings_api.route('/view_role_listings', methods=['GET'])
 def view_role_listings():
     return role_postings_service.view_role_listings()
