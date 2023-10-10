@@ -86,46 +86,6 @@ class RolePostingsRepository(IRolePostingsRepository):
             print("No Role_Listing_ID_Counter exists")
 
 
-    def get_Staff_Skill_ID_Counter(self):
-        sql_statement = '''
-        SELECT Staff_Skill_ID_Counter from spm.Counter_Table where CT = 1
-        '''
-        self.cursor.execute(sql_statement)
-        Staff_Skill_ID_Counters = self.cursor.fetchall()
-
-        if Staff_Skill_ID_Counters:
-            for Staff_Skill_ID_Counter in Staff_Skill_ID_Counters:
-                old_counter = Staff_Skill_ID_Counter[0]
-                new_counter = int(old_counter) + 1
-                update_statement = '''
-                UPDATE spm.Counter_Table set Staff_Skill_ID_Counter = (%s) where CT = 1
-                '''
-                val = (new_counter)
-                self.update(update_statement, val)
-                return old_counter
-        else:
-            print("No Staff_Skill_ID_Counter exists")
-
-
-    def get_Role_Skill_ID_Counter(self):
-        sql_statement = '''
-        SELECT Role_Skill_ID_Counter from spm.Counter_Table where CT = 1
-        '''
-        self.cursor.execute(sql_statement)
-        Role_Skill_ID_Counters = self.cursor.fetchall()
-
-        if Role_Skill_ID_Counters:
-            for Role_Skill_ID_Counter in Role_Skill_ID_Counters:
-                old_counter = Role_Skill_ID_Counter[0]
-                new_counter = int(old_counter) + 1
-                update_statement = '''
-                UPDATE spm.Counter_Table set Role_Skill_ID_Counter = (%s) where CT = 1
-                '''
-                val = (new_counter)
-                self.update(update_statement, val)
-                return old_counter
-        else:
-            print("No Role_Skill_ID_Counter exists")
 
     def get_Role_Listing_App_ID_Counter(self):
         sql_statement = '''
@@ -157,10 +117,9 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Role_ID'] = res[0]
                 result_obj['Role_Name'] = res[1]
                 result_obj['Role_Desc'] = res[2]
-                result_obj['Skill_Name'] = res[3]
-                result_obj['Role_Skill_ID'] = res[4]
-                result_obj['Dept'] = res[5]
-                result_obj['Role_Listing_ID'] = res[6]
-                result_obj['Application_Deadline'] = res[7]
+                result_obj['Skills'] = res[3]
+                result_obj['Dept'] = res[4]
+                result_obj['Role_Listing_ID'] = res[5]
+                result_obj['Application_Deadline'] = res[6]
                 result_array.append(result_obj)
         return result_array

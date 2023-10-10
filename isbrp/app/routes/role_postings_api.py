@@ -44,26 +44,18 @@ def ingest_staff_table_dummydata():
     return role_postings_service.ingest_staff_table("dummyStaffTable.json")
 
 @role_postings_api.route('/test2')
-def ingest_staff_skills_table_dummy_data():
-    return role_postings_service.ingest_staff_skills_table("dummyStaffSkillsTable.json")
-
-@role_postings_api.route('/test3')
 def ingest_role_table_dummy_data():
     return role_postings_service.ingest_role_table("dummyRoleTable.json")
 
-@role_postings_api.route('/test4')
-def ingest_role_skill_table_dummy_data():
-    return role_postings_service.ingest_role_skill_table("dummyRoleSkillTable.json")
-
-@role_postings_api.route('/test5')
+@role_postings_api.route('/test3')
 def ingest_role_listing_table_dummy_data():
     return role_postings_service.ingest_role_listing_table("dummyRoleListingTable.json")
 
-@role_postings_api.route('/test6')
+@role_postings_api.route('/test4')
 def ingest_role_listing_application_table_dummy_data():
     return role_postings_service.ingest_role_listing_application_table("dummyRoleListingApplicationTable.json")
 
-@role_postings_api.route('/test7')
+@role_postings_api.route('/test5')
 def ingest_counter_table_dummy_data():
     return role_postings_service.ingest_counter_table("dummyCounter.json")
 
