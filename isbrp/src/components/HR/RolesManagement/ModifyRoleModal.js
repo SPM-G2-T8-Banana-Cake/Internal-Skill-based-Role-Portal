@@ -18,7 +18,7 @@ function ModifyRoleModal(props) {
   const [department, setDepartment] = useState(props.role.Dept);
 
   const month = { Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06", Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12" };
-  const structuredDate = (props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[2] + "-" + month[props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[1]] + "-" + props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[0]);
+  const structuredDate = props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[2] + "-" + month[props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[1]] + "-" + props.role.Application_Deadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[0];
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState(false);
 
@@ -30,48 +30,44 @@ function ModifyRoleModal(props) {
   const handleSubmit = (e) => {
     const form = e.currentTarget;
     if (!form.checkValidity()) {
-        e.preventDefault();
-        e.stopPropagation();
-        setError(true)
+      e.preventDefault();
+      e.stopPropagation();
+      setError(true);
     } else {
-        setError(false)
+      setError(false);
 
-    if (appDeadline.includes(",")){
-       var localAppDeadline = appDeadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[2] + "-" + month[appDeadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[1]] + "-" + appDeadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[0];
+      if (appDeadline.includes(",")) {
+        var localAppDeadline = appDeadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[2] + "-" + month[appDeadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[1]] + "-" + appDeadline.split(",").slice(1, 2)[0].split(" ").slice(1, 4)[0];
+      } else {
+        localAppDeadline = appDeadline;
+      }
+
+      let modifiedData = {
+        Role_ID: roleID,
+        Role_Listing_ID: roleListingID,
+        Role_Name: roleName,
+        Role_Desc: roleDesc,
+        Skills: skillsRequired,
+        Application_Deadline: localAppDeadline,
+        Dept: department,
+      };
+      console.log(modifiedData);
+      hrUpdateRoleListing(modifiedData)
+        .then(function (response) {
+          console.log(response);
+          props.reloadRoleListings();
+          props.setCurrentModal("details");
+          props.openSnackbar("modifyRoleSuccess");
+        })
+        .catch(function (error) {
+          console.log(error);
+          props.openSnackbar("modifyRoleError");
+        });
     }
-
-    else {
-      localAppDeadline = appDeadline;
-    }
-
-    let modifiedData = {
-      Role_ID: roleID,
-      Role_Listing_ID: roleListingID,
-      Role_Name: roleName,
-      Role_Desc: roleDesc,
-      Skills: skillsRequired,
-      Application_Deadline: localAppDeadline,
-      Dept: department,
-    };
-    console.log(modifiedData)
-    hrUpdateRoleListing(modifiedData)
-      .then(function (response) {
-        props.reloadRoleListings();
-        props.setCurrentModal("details");
-        props.openSnackbar("modifyRoleSuccess");
-      })
-      .catch(function (error) {
-        console.log(error);
-        props.openSnackbar("modifyRoleError");
-      });
-
     setValidated(true);
-    }
   };
 
-  useEffect(() => {
-   
-  }, [])
+  useEffect(() => {}, []);
 
   return (
     <Modal show fullscreen={"lg-down"} size="lg" onHide={() => props.setCurrentModal("details")} backdrop="static" keyboard={false}>
@@ -93,9 +89,10 @@ function ModifyRoleModal(props) {
             <Col>
               <span className="fw-bold">Role Name</span>
               <br />
-              <Form.Group>
+              <Form.Group controlId="roleName">
                 <Form.Control type="text" defaultValue={roleName} className="bg-inputFields" onChange={(e) => setRoleName(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+                <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -104,9 +101,10 @@ function ModifyRoleModal(props) {
             <Col>
               <span className="fw-bold">Role Description</span>
               <br />
-              <Form.Group>
+              <Form.Group controlId="roleDesc">
                 <textarea className="form-control w-100 bg-inputFields" rows="3" defaultValue={roleDesc} onChange={(e) => setRoleDesc(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+                <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -114,13 +112,14 @@ function ModifyRoleModal(props) {
             <Col>
               <span className="fw-bold">Department</span>
               <br />
-              <Form.Group>
+              <Form.Group controlId="dept">
                 <Form.Select defaultValue={department} className="bg-inputFields" onChange={(e) => setDepartment(e.target.value)} required>
                   {departments.map((department) => {
                     return <option key={department}>{department}</option>;
                   })}
                 </Form.Select>
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+                <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -128,9 +127,10 @@ function ModifyRoleModal(props) {
             <Col>
               <span className="fw-bold">Skills Required</span>
               <br />
-              <Form.Group>
+              <Form.Group controlId="skillsRequired">
                 <Form.Control type="text" defaultValue={skillsRequired} className="bg-inputFields" onChange={(e) => setSkillsRequired(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+                <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -138,9 +138,10 @@ function ModifyRoleModal(props) {
             <Col>
               <span className="fw-bold">Application Deadline</span>
               <br />
-              <Form.Group>
-                <Form.Control type="date" defaultValue={structuredDate} className="bg-inputFields" onChange={(e) => setAppDeadline(e.target.value)} required />
+              <Form.Group controlId="appDeadline">
+                <Form.Control type="date" defaultValue={structuredDate} className="bg-inputFields" min={new Date().toJSON().slice(0, 10)} onChange={(e) => setAppDeadline(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+                <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
