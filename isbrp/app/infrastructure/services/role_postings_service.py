@@ -238,3 +238,28 @@ class RolePostingsService(RolePostingsRepository):
         else:
             print("delete_role_listing Time taken in seconds: " + str(time.time()-start_time))
             return self.repository.delete(delete_role_sql)
+        
+    def create_role_application(self, role_app_json: RoleApplicationTable):
+            start_time = time.time()
+            try:
+                Role_Listing_App_ID = ROLE_LISTING_APPLICATION_PREFIX +str(self.repository.get_Role_Listing_App_ID_Counter())
+                Role_Listing_ID = role_app_json.get('Role_Listing_ID')
+                Applicant_ID = role_app_json.get('Applicant_ID')
+                Application_Deadline = role_app_json.get('Application_Deadline')
+
+                create_app_sql = '''
+                INSERT INTO spm.Role_Listing_Application_Table 
+                (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Deadline) 
+                VALUES (%s, %s, %s, %s)
+                '''
+                params = (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Deadline)
+                self.repository.create(create_app_sql, params)
+
+            except (TypeError, AttributeError) as e:
+                print(f"Error creating instance: {e}")
+                return f"Error creating instance: {e}"
+            else:
+                time_taken = time.time() - start_time
+                response_message = f"create_app: Time taken in seconds: {time_taken}"
+                print(response_message)
+                return response_message
