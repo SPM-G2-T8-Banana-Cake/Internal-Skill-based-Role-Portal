@@ -246,7 +246,7 @@ function ViewRoleListing() {
                   </OverlayTrigger>
                   <Dropdown>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
-                      <Dropdown.Toggle variant="secondary" size="sm">
+                      <Dropdown.Toggle variant="grey" size="sm">
                         <FiFilter />
                       </Dropdown.Toggle>
                     </OverlayTrigger>
