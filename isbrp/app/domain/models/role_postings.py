@@ -41,5 +41,4 @@ class CounterTable:
     Staff_ID_Counter: int
     Role_ID_Counter: int
     Role_Listing_ID_Counter: int
-    Staff_Skill_ID_Counter: int
     Role_Listing_App_ID_Counter: int
