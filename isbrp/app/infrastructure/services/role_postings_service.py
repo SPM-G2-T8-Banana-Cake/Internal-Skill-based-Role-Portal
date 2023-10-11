@@ -223,7 +223,7 @@ class RolePostingsService(RolePostingsRepository):
                     st.Staff_FName,
                     st.Staff_LName,
                     st.Skills AS Staff_Skills,
-                    rlt.Skills AS Role_Skills,
+                    rlt.Skills AS Role_Skills
                 FROM
                     spm.Role_Table r
                 INNER JOIN
