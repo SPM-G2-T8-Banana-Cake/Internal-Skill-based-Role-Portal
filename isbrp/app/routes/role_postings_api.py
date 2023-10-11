@@ -39,12 +39,6 @@ def view_applicant_skills():
 def delete_role_listing(role_listing_id):
     return role_postings_service.delete_role_listing(role_listing_id)
 
-@role_postings_api.route('/view_applicant_skills', methods=['GET'])
-def view_applicatn_skills():
-    staffID = request.json
-    res = role_postings_service.view_applicant_skills(staffID)
-    return res
-
 #Run the 4 tests in sequential order else error
 @role_postings_api.route('/test')
 def ingest_staff_table_dummydata():
