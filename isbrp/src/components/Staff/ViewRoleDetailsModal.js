@@ -10,12 +10,13 @@ import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { FiMoreVertical, FiClock } from "react-icons/fi";
 import Chip from "@mui/material/Chip";
 import bgIcon from "../../assets/viewingIcon.png";
+import { staffCreateRoleApplication } from "../../services/api";
 
 function ViewRoleDetailsModal(props) {
   const [show, setShow] = useState(false);
   const currentModal = "details";
   const [appStatus, setAppStatus] = useState("");
-
+  console.log(props)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -36,8 +37,23 @@ function ViewRoleDetailsModal(props) {
   const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
 
   const handleApplication = () => {
-    props.openSnackbar("applyRoleSuccess");
-    setAppStatus("success");
+
+    let data = {};
+    data["Role_Listing_ID"] = props.role.Role_Listing_ID;
+    data["Applicant_ID"] = props.staff;
+
+    console.log(data)
+    staffCreateRoleApplication(data)
+    .then((response) => {
+      console.log(response);
+      setAppStatus("success");
+      props.openSnackbar("createApplicationSuccess");
+    })
+
+    .catch((error) => {
+      console.error(error);
+      props.openSnackbar("createApplicationError");
+    })
   };
 
   const getArcLabel = (params) => {
