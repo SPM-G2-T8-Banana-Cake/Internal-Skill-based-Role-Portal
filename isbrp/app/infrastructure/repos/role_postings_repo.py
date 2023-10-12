@@ -122,7 +122,6 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Role_Listing_ID'] = res[5]
                 result_obj['Application_Deadline'] = res[6]
                 
-                result_obj['Matched_Skills'] = self.getMatchedSkills()
                 result_array.append(result_obj)
         return result_array
     

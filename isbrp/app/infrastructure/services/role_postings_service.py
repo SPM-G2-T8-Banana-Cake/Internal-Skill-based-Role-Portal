@@ -249,7 +249,7 @@ class RolePostingsService(RolePostingsRepository):
             read_role_sql = '''
                 SELECT rlt.Skills
                 FROM spm.Role_Listing_Table rlt
-                WHERE rlt.Role_ID = %s; 
+                WHERE rlt.Role_Listing_ID = %s; 
                 ''' % (role_listing_id)
         
             read_staff_skills_sql = '''
@@ -267,7 +267,7 @@ class RolePostingsService(RolePostingsRepository):
             res2y = []
             for skill in res2x:
                 res2y.append(skill.strip())    
-            res3 = resy.intersection(res2y)
+            res3 = [element for element in resy if element in res2y]
 
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in view_role_listings: {e}")
