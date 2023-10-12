@@ -123,3 +123,18 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Application_Deadline'] = res[6]
                 result_array.append(result_obj)
         return result_array
+    
+    def getSkills(self, sql_query):
+        res = self.cursor.execute(sql_query)
+        results = self.cursor.fetchall()
+        result_array = []
+        if results:
+            for res in results:
+                result_obj = {}
+                result_obj['Role_Name'] = res[0]
+                result_obj['Role_Desc']=res[1]
+                result_obj['Staff_Name'] = res[2] + " " + res[3]
+                result_obj['Staff_Skills'] = res[4]
+                result_obj['Role_Skills'] = res[5]
+                result_array.append(result_obj)
+        return result_array

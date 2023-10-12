@@ -7,8 +7,9 @@ import Col from "react-bootstrap/Col";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
-import { FiMoreVertical } from "react-icons/fi";
+import { FiMoreVertical, FiClock } from "react-icons/fi";
 import Chip from "@mui/material/Chip";
+import bgIcon from "../../assets/viewingIcon.png";
 
 function ViewRoleDetailsModal(props) {
   const [show, setShow] = useState(false);
@@ -62,7 +63,7 @@ function ViewRoleDetailsModal(props) {
 
             <CloseButton variant="white" onClick={handleClose} />
           </Modal.Header>
-          <Modal.Body className="p-4 bg-light">
+          <Modal.Body className="p-4 bg-light" style={{backgroundImage: `url(${bgIcon})`}}>
             <h3 className="">Role Details</h3>
             <hr />
             <Row className="mb-4">
@@ -97,7 +98,7 @@ function ViewRoleDetailsModal(props) {
               <Col>
                 <span className="fw-bold">Application Deadline</span>
                 <br />
-                <span>{props.role.Application_Deadline.split(",").slice(0, 2).join(" ").split(" ").slice(0, 5).join(" ")}</span>
+                <span><FiClock /> {props.role.Application_Deadline.split(",").slice(0, 2).join(" ").split(" ").slice(0, 5).join(" ")}</span>
               </Col>
             </Row>
             <h3>Role Skill Match</h3>

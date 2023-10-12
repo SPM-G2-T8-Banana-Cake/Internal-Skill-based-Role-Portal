@@ -147,7 +147,7 @@ function ModifyRoleModal(props) {
           </Row>
           <Row>{error ? <Alert variant="danger">Please clear the above errors.</Alert> : null}</Row>
         </Modal.Body>
-        <Modal.Footer className="bg-grey">
+        <Modal.Footer className="bg-details">
           <Button variant="secondary" type="button" onClick={handleCancel} className="rounded-pill me-1" size="sm">
             Cancel
           </Button>
