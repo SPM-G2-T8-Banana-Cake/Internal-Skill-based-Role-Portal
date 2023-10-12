@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/esm/Container.js';
 import StaffHeader from "../../components/Header/StaffHeader";
 import Footer from "../../components/Footer/Footer";
+import { hrReadRoleApplicants } from '../../services/api';
+import { useScroll } from 'framer-motion';
 
 function StaffHome () {
+    const [applications, setApplications] = useState([]);
     useEffect(() => {
         document.title = 'Home'
         window.scrollTo(0,0);
