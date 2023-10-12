@@ -249,15 +249,22 @@ class RolePostingsService(RolePostingsRepository):
             read_role_sql = '''
                 SELECT rlt.Skills
                 FROM spm.Role_Listing_Table rlt
-                WHERE rlt.Role_Listing_ID = %s; 
-                ''' % (role_listing_id)
-        
+                WHERE rlt.Role_Listing_ID = %(Role_Listing)s; 
+                ''' 
+            params = {
+                'Role_Listing': role_listing_id,
+            }
+            res = self.repository.getListingSkills(read_role_sql)
+
             read_staff_skills_sql = '''
                 SELECT st.Skills
                 FROM spm.Staff_Table st
-                WHERE st.Staff_ID = %s;         
-                ''' % (StaffID)
-            res = self.repository.getListingSkills(read_role_sql)
+                WHERE st.Staff_ID = %(StaffID)s;         
+                '''
+            params = {
+                'StaffID': StaffID,
+            }
+            
             res2 = self.repository.getStaffSkills(read_staff_skills_sql)
             resx = res.split(",")
             resy = []
