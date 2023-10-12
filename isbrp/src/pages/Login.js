@@ -44,8 +44,8 @@ function Login() {
   };
 
   const handleStaffLogin = () => {
-    if (username === "staff10001" && password === "password") {
-      navigate("/staff-home", { state: { id: "staff10001" } });
+    if (username.includes("st") && password === "password") {
+      navigate("/staff-home", { state: { id: username } });
       setError(false);
     } else {
       setError(true);
