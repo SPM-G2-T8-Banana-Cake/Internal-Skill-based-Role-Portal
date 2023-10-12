@@ -277,11 +277,11 @@ class RolePostingsService(RolePostingsRepository):
             res3 = [element for element in resy if element in res2y]
 
         except (AttributeError, TypeError, KeyError, ValueError) as e:
-            print(f"An error occurred in view_role_listings: {e}")
+            print(f"An error occurred in view_skills_match: {e}")
             return {}
         
         else:
-            print("view_role_listings Time taken in seconds: " + str(time.time()-start_time))
+            print("view_skills_match Time taken in seconds: " + str(time.time()-start_time))
             return res3
 
     def delete_role_listing(self, role_listing_id):
