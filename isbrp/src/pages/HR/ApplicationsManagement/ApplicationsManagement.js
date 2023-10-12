@@ -23,7 +23,6 @@ import { useLocation } from "react-router-dom";
 
 function ApplicationsManagement() {
   const data = useLocation();
-  console.log(data);
   const [search, setSearch] = useState("");
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
@@ -161,7 +160,7 @@ function ApplicationsManagement() {
   useEffect(() => {
     document.title = "Applications Management";
     window.scrollTo(0, 0);
-
+    setLoading(true);
     hrReadRoleApplicants()
       .then(function (response) {
         console.log("Read Applicants Endpoint Called");
