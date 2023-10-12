@@ -121,6 +121,8 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Dept'] = res[4]
                 result_obj['Role_Listing_ID'] = res[5]
                 result_obj['Application_Deadline'] = res[6]
+                
+                result_obj['Matched_Skills'] = self.getMatchedSkills()
                 result_array.append(result_obj)
         return result_array
     
@@ -136,5 +138,27 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Staff_Name'] = res[2] + " " + res[3]
                 result_obj['Staff_Skills'] = res[4]
                 result_obj['Role_Skills'] = res[5]
+                result_array.append(result_obj)
+        return result_array
+    
+    def getStaffSkills(self, sql_query):
+        res = self.cursor.execute(sql_query)
+        results = self.cursor.fetchall()
+        result_array = []
+        if results:
+            for res in results:
+                result_obj = {}
+                result_obj['Staff_Skills'] = res[0]
+                result_array.append(result_obj)
+        return result_array
+    
+    def getListingSkills(self, sql_query):
+        res = self.cursor.execute(sql_query)
+        results = self.cursor.fetchall()
+        result_array = []
+        if results:
+            for res in results:
+                result_obj = {}
+                result_obj['Role_Skills'] = res[0]
                 result_array.append(result_obj)
         return result_array

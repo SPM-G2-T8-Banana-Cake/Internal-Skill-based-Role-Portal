@@ -243,6 +243,40 @@ class RolePostingsService(RolePostingsRepository):
             print("get_applicant_skills_sql Time taken in seconds: " + str(time.time()-start_time))
             return res
         
+    def view_skills_match(self, StaffID, role_listing_id):
+        start_time = time.time()
+        try:
+            read_role_sql = '''
+                SELECT rlt.Skills
+                FROM spm.Role_Listing_Table rlt
+                WHERE rlt.Role_ID = %s; 
+                ''' % (role_listing_id)
+        
+            read_staff_skills_sql = '''
+                SELECT st.Skills
+                FROM spm.Staff_Table st
+                WHERE st.Staff_ID = %s;         
+                ''' % (StaffID)
+            res = self.repository.getListingSkills(read_role_sql)
+            res2 = self.repository.getStaffSkills(read_staff_skills_sql)
+            resx = res.split(",")
+            resy = []
+            for skill in resx:
+                resy.append(skill.strip())
+            res2x = res2.split(",")
+            res2y = []
+            for skill in res2x:
+                res2y.append(skill.strip())    
+            res3 = resy.intersection(res2y)
+
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in view_role_listings: {e}")
+            return {}
+        
+        else:
+            print("view_role_listings Time taken in seconds: " + str(time.time()-start_time))
+            return res3
+
     def delete_role_listing(self, role_listing_id):
         start_time = time.time()
         try:
