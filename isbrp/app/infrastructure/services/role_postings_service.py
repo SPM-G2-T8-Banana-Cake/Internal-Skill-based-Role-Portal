@@ -245,14 +245,14 @@ class RolePostingsService(RolePostingsRepository):
                 Role_Listing_App_ID = ROLE_LISTING_APPLICATION_PREFIX +str(self.repository.get_Role_Listing_App_ID_Counter())
                 Role_Listing_ID = role_app_json.get('Role_Listing_ID')
                 Applicant_ID = role_app_json.get('Applicant_ID')
-                Application_Deadline = role_app_json.get('Application_Deadline')
+                Application_Status = "Pending"
 
                 create_app_sql = '''
                 INSERT INTO spm.Role_Listing_Application_Table 
-                (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Deadline) 
+                (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Status) 
                 VALUES (%s, %s, %s, %s)
                 '''
-                params = (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Deadline)
+                params = (Role_Listing_App_ID, Role_Listing_ID, Applicant_ID, Application_Status)
                 self.repository.create(create_app_sql, params)
 
             except (TypeError, AttributeError) as e:

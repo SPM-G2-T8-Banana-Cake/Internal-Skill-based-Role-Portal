@@ -45,6 +45,12 @@ def view_applicatn_skills():
     res = role_postings_service.view_applicant_skills(staffID)
     return res
 
+@role_postings_api.route('/create_role_application', methods=['PUT'])
+def create_role_application():
+    role_app_json = request.json
+    res = role_postings_service.create_role_application(role_app_json)
+    return res
+
 #Run the 4 tests in sequential order else error
 @role_postings_api.route('/test')
 def ingest_staff_table_dummydata():
