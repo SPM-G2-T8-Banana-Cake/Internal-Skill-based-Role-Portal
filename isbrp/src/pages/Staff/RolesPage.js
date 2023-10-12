@@ -16,14 +16,17 @@ import { departments } from "../../utils/constants";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FiFilter } from "react-icons/fi";
 import { hrReadRoleListings } from "../../services/api";
+import { hrReadRoleApplicants } from "../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
 import Loader from "../../components/Standard/loader";
 import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
+import { useLocation } from "react-router-dom";
 
 function ViewRoleListing() {
+  const data = useLocation();
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -32,15 +35,16 @@ function ViewRoleListing() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [roleListings, setRoleListings] = useState([]);
+  const [applicants, setApplicants] = useState([]);
 
   const openSnackbar = (value) => {
-    if (value === "modifyRoleSuccess") {
+    if (value === "createApplicationSuccess") {
       setSeverity("success");
-      setMessage("Role modified successfully.");
+      setMessage("Role application submitted successfully.");
       setOpen(true);
-    } else if (value === "modifyRoleError") {
+    } else if (value === "createApplicationError") {
       setSeverity("error");
-      setMessage("Something went wrong while modifying role. Please try again.");
+      setMessage("Something went wrong while submitting role application. Please try again.");
       setOpen(true);
     } else if (value === "getAllError") {
       setSeverity("error");
@@ -199,14 +203,28 @@ function ViewRoleListing() {
         openSnackbar("filterError");
       });
   };
+  
+  const getAllData = () => {
+    // hrReadRoleApplicants()
+    // .then(function (response) {
+    //   console.log("Read Applicants Endpoint Called", response);
+    //   if (response.data.length > 0) {
+    //     let data = [];
+    //     for (let i = 0; i < response.data.length; i++) {
+    //       data.push(response.data[i]);
+    //     }
+    //     setApplicants(data);
+    //   }
+    //   setLoading(false);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    //   setApplicants([]);
+    // });
 
-  useEffect(() => {
-    document.title = "Available Roles";
-    window.scrollTo(0, 0);
-    setLoading(true);
     hrReadRoleListings()
       .then(function (response) {
-        console.log("Read Role Listings Endpoint Called");
+        console.log("Read Role Listings Endpoint Called", response);
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {
@@ -220,8 +238,17 @@ function ViewRoleListing() {
         console.log(error);
         openSnackbar("getAllError");
       });
+  }
+
+  useEffect(() => {
+    document.title = "Available Roles";
+    window.scrollTo(0, 0);
+
+    setLoading(true);
+    getAllData();
   }, []);
 
+  console.log("Applicants", applicants);
   return (
     <div>
       <StaffHeader />
@@ -289,7 +316,7 @@ function ViewRoleListing() {
                       <td className="bg-grey ps-3">{roles.Role_Name}</td>
                       <td className="bg-grey">{roles.Role_Desc}</td>
                       <td className="bg-grey">
-                        <ViewRoleDetailsModal className="bg-grey" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
+                        <ViewRoleDetailsModal className="bg-grey" staff={data.state.id} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
                       </td>
                     </tr>
                   ))}
