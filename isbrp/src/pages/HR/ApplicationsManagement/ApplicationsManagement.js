@@ -12,21 +12,26 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Loader from "../../../components/Standard/loader";
+import IsbrpSnackbar from "../../../components/Standard/isbrpSnackBar";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
-import staffSkill from "../../../utils/DummyData/dummyStaffSkills.json";
-import staffData from "../../../utils/DummyData/dummyStaffData.json";
-import roleListings  from "../../../utils/DummyData/dummyRoleData.json";
 import ApplicantDetailsModal from "../../../components/HR/ApplicationsManagement/ApplicantDetailsModal";
+import { hrReadRoleApplicants } from "../../../services/api";
+import { useLocation } from "react-router-dom";
 
 function ApplicationsManagement() {
+  const data = useLocation();
+  console.log(data);
   const [search, setSearch] = useState("");
+  const [severity, setSeverity] = useState("");
+  const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
-
+  const [applicants, setApplicants] = useState([]);
   const CustomTablePagination = styled(TablePagination)`
     & .${classes.toolbar} {
       display: flex;
@@ -98,21 +103,6 @@ function ApplicationsManagement() {
       if (input.includes(" ")) {
         input = input.replace(/\s+/g, "-");
       }
-      // searchProfile(input)
-      // .then(function(response) {
-      //     console.log(response.data)
-      //     if (response.data.length > 0) {
-      //         setJSInfo(response.data)
-      //     } else {
-      //         setJSInfo([])
-      //     }
-      //     setLoading(false)
-      // })
-      // .catch(function(error) {
-      //     console.log(error)
-      //     openSnackbar('searchError')
-      //     setLoading(false)
-      // })
     }
   };
 
@@ -122,10 +112,74 @@ function ApplicationsManagement() {
     }
   };
 
+  const openSnackbar = (value) => {
+    if (value === "modifyRoleSuccess") {
+      setSeverity("success");
+      setMessage("Role modified successfully.");
+      setOpen(true);
+    } else if (value === "modifyRoleError") {
+      setSeverity("error");
+      setMessage("Something went wrong while modifying role. Please try again.");
+      setOpen(true);
+    } else if (value === "getAllError") {
+      setSeverity("error");
+      setMessage("Something went wrong while getting all roles. Please try again.");
+      setOpen(true);
+    } else if (value === "searchError") {
+      setSeverity("error");
+      setMessage("Something went wrong while searching for the role listing. Please try again.");
+      setOpen(true);
+    } else if (value === "filterError") {
+      setSeverity("error");
+      setMessage("Something went wrong while filtering the role listings. Please try again.");
+      setOpen(true);
+    }
+  };
+
+  const reloadApplications = () => {
+    setLoading(true);
+    hrReadRoleApplicants()
+      .then(function (response) {
+        console.log("Read Applicants Endpoint Called");
+        if (response.data.length > 0) {
+          let data = [];
+          for (let i = 0; i < response.data.length; i++) {
+            data.push(response.data[i]);
+          }
+          setApplicants(data);
+          console.log(data);
+        }
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("getAllError");
+        setApplicants([]);
+      });
+  };
 
   useEffect(() => {
     document.title = "Applications Management";
     window.scrollTo(0, 0);
+
+    hrReadRoleApplicants()
+      .then(function (response) {
+        console.log("Read Applicants Endpoint Called");
+        console.log(response);
+        if (response.data.length > 0) {
+          let data = [];
+          for (let i = 0; i < response.data.length; i++) {
+            data.push(response.data[i]);
+          }
+          setApplicants(data);
+        }
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("getAllError");
+        setApplicants([]);
+      });
   }, []);
 
   return (
@@ -155,7 +209,7 @@ function ApplicationsManagement() {
               <Col xs={3} md={2} lg={2}>
                 <ButtonGroup>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Reload</Tooltip>}>
-                    <Button variant="light" className="rounded-circle">
+                    <Button variant="light" className="rounded-circle" onClick={reloadApplications}>
                       <TbReload />
                     </Button>
                   </OverlayTrigger>
@@ -168,22 +222,18 @@ function ApplicationsManagement() {
                   <tr>
                     <th className="bg-details text-dark ps-3">Applicant Name</th>
                     <th className="bg-details text-dark">Applicant Skills</th>
+                    <th className="bg-details text-dark">Role Applied</th>
                     <th className="bg-details text-dark"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {(rowsPerPage > 0 ? staffData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : staffData).map((staff) => (
-                    <tr className="border-details" key={staff.Staff.ID}>
-                      <td className="bg-grey ps-3 w-25">{staff.Staff.Staff_FName + " " + staff.Staff.Staff_LName}</td>
-                
-                        {staffSkill.map((staffSkill) => (
-                            staffSkill.Staff_Skill.Staff_ID === staff.Staff.Staff_ID ? 
-                            <td className="bg-grey">{staffSkill.Staff_Skill.Skill_Name}</td>
-                            :   null
-                        ))}
-          
+                  {(rowsPerPage > 0 ? applicants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : applicants).map((applicant) => (
+                    <tr className="border-details" key={applicant.Staff_Name}>
+                      <td className="bg-grey ps-3">{applicant.Staff_Name}</td>
+                      <td className="bg-grey">{applicant.Staff_Skills}</td>
+                      <td className="bg-grey">{applicant.Role_Name}</td>
                       <td className="bg-grey">
-                        <ApplicantDetailsModal className="bg-grey" staffName={staff.Staff.Staff_FName + " " + staff.Staff.Staff_LName} />
+                        <ApplicantDetailsModal className="bg-grey" applicant={applicant} />
                       </td>
                     </tr>
                   ))}
@@ -193,7 +243,7 @@ function ApplicationsManagement() {
                     <CustomTablePagination
                       rowsPerPageOptions={[25, 50, 100]}
                       colSpan={7}
-                      count={roleListings.length}
+                      count={applicants.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       slotProps={{
@@ -214,7 +264,7 @@ function ApplicationsManagement() {
         </>
       )}
       <Footer type={"bg-secondary"} />
-      {/* <JARSSnackbar open={open} setOpen={setOpen} severity={severity} message={message} /> */}
+      <IsbrpSnackbar open={open} setOpen={setOpen} severity={severity} message={message} />
     </div>
   );
 }

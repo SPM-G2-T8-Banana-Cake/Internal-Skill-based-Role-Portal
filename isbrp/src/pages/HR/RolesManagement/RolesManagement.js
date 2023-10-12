@@ -23,7 +23,6 @@ import { TablePagination, tablePaginationClasses as classes } from "@mui/base/Ta
 import { FaPlus } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
-// import roleListings from "../../../utils/DummyData/dummyRoleData.json";
 import Loader from "../../../components/Standard/loader";
 
 function RolesManagement() {

@@ -133,7 +133,7 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj = {}
                 result_obj['Role_Name'] = res[0]
                 result_obj['Role_Desc']=res[1]
-                result_obj['Staff_Name'] = res[2] + res[3]
+                result_obj['Staff_Name'] = res[2] + " " + res[3]
                 result_obj['Staff_Skills'] = res[4]
                 result_obj['Role_Skills'] = res[5]
                 result_array.append(result_obj)
