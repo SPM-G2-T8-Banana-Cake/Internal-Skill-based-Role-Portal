@@ -213,7 +213,7 @@ class RolePostingsService(RolePostingsRepository):
             print("view_role_listings Time taken in seconds: " + str(time.time()-start_time))
             return res
 
-    def view_applicant_skills(self):
+    def view_applicants_skills(self):
         start_time = time.time()
         try:
             get_applicant_skills_sql = '''
@@ -243,6 +243,37 @@ class RolePostingsService(RolePostingsRepository):
             print("get_applicant_skills_sql Time taken in seconds: " + str(time.time()-start_time))
             return res
         
+    def view_applicant_skills(self, staffID):
+        start_time = time.time()
+        try:
+            get_applicant_skills_sql = f'''
+                SELECT
+                    r.Role_Name, 
+                    r.Role_Desc,
+                    st.Staff_FName,
+                    st.Staff_LName,
+                    st.Skills AS Staff_Skills,
+                    rlt.Skills AS Role_Skills
+                FROM
+                    spm.Role_Table r
+                INNER JOIN
+                    spm.Role_Listing_Table rlt ON r.Role_ID = rlt.Role_ID
+                INNER JOIN
+                    spm.Role_Listing_Application_Table rlat ON rlt.Role_Listing_ID = rlat.Role_Listing_ID
+                INNER JOIN
+                    spm.Staff_Table st ON rlat.Applicant_ID = st.Staff_ID
+                WHERE st.Staff_ID = '{staffID}'
+                ;
+
+            '''
+            res = self.repository.getSkills(get_applicant_skills_sql)
+
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in get_applicant_skills_sql: {e}")
+            return {}
+        else:
+            print("get_applicant_skills_sql Time taken in seconds: " + str(time.time()-start_time))
+            return res
     def view_skills_match(self, StaffID, role_listing_id):
         start_time = time.time()
         try:
@@ -251,7 +282,7 @@ class RolePostingsService(RolePostingsRepository):
                 FROM spm.Role_Listing_Table rlt
                 WHERE rlt.Role_Listing_ID = {role_listing_id}; 
                 ''' 
-
+    
             res = self.repository.getListingSkills(read_role_sql)
 
             read_staff_skills_sql = f'''
