@@ -246,11 +246,12 @@ function ViewRoleListing() {
 
     
     let data = {};
-    data["Staff_ID"] = 'st1'
-    data["Role_Listing_ID"] = 'rl1'
+    data["Staff_ID"] = 'st9'
+    data["Role_Listing_ID"] = 'rl10'
     console.log(data)
     staffReadRoleSkillMatch(data)
     .then(function (response) {
+      console.log(response)
       if (response.data.length > 0) {
         let data = [];
         for (let i = 0; i < response.data.length; i++) {

@@ -140,20 +140,11 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_array.append(result_obj)
         return result_array
     
-    def getStaffSkills(self, sql_query):
-        res = self.cursor.execute(sql_query)
-        results = self.cursor.fetchall()
-        result_array = []
-        if results:
-            for res in results:
-                result_obj = {}
-                result_obj['Staff_Skills'] = res[0]
-                result_array.append(result_obj)
-        return result_array
-    
     def getListingSkills(self, sql_query):
+        print("Get Listing Skills Endpoint")
         res = self.cursor.execute(sql_query)
         results = self.cursor.fetchall()
+        print(results)
         result_array = []
         if results:
             for res in results:
@@ -161,3 +152,18 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Role_Skills'] = res[0]
                 result_array.append(result_obj)
         return result_array
+
+    def getStaffSkills(self, sql_query):
+        print("Get Staff Skills Endpoint")
+        res = self.cursor.execute(sql_query)
+        results = self.cursor.fetchall()
+        print(results)
+        result_array = []
+        if results:
+            for res in results:
+                print(res)
+                result_obj = {}
+                result_obj['Staff_Skills'] = res[0]
+                result_array.append(result_obj)
+        return result_array
+    
