@@ -51,14 +51,15 @@ def create_role_application():
     res = role_postings_service.create_role_application(role_app_json)
     return res
 
-@role_postings_api.route('/get_matched_skills', methods=['GET'])
+@role_postings_api.route('/get_matched_skills', methods=['POST'])
 def get_matched_skills():
     matched_skills = request.json
-    return matched_skills
-    # staffID = matched_skills["Staff_ID"]
-    # listingSkills = matched_skills["Role_Listing_ID"]
-    # res = role_postings_service.view_skills_match(staffID,listingSkills)
-    # return res
+    print("matched skills", matched_skills)
+    staffID = matched_skills["Staff_ID"]
+    listingSkills = matched_skills["Role_Listing_ID"]
+    res = role_postings_service.view_skills_match(staffID,listingSkills)
+    print("res", res)
+    return res
 
 #Run the 4 tests in sequential order else error
 @role_postings_api.route('/test')
