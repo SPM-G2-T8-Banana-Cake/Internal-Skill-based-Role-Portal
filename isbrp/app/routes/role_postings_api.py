@@ -31,13 +31,19 @@ def update_role_listing():
 def view_role_listings():
     return role_postings_service.view_role_listings()
 
-@role_postings_api.route('/view_applicant_skills', methods=['GET'])
+@role_postings_api.route('/view_applicants_skills', methods=['GET'])
 def view_applicant_skills():
-    return role_postings_service.view_applicant_skills()
+    return role_postings_service.view_applicants_skills()
 
 @role_postings_api.route('/delete_role_listing/<role_listing_id>', methods=['DELETE'])
 def delete_role_listing(role_listing_id):
     return role_postings_service.delete_role_listing(role_listing_id)
+
+@role_postings_api.route('/view_applicant_skills', methods=['GET'])
+def view_applicatn_skills():
+    staffID = request.json
+    res = role_postings_service.view_applicant_skills(staffID)
+    return res
 
 @role_postings_api.route('/create_role_application', methods=['PUT'])
 def create_role_application():
@@ -45,18 +51,14 @@ def create_role_application():
     res = role_postings_service.create_role_application(role_app_json)
     return res
 
-@role_postings_api.route('/get_matched_skills', methods=['POST'])
+@role_postings_api.route('/get_matched_skills', methods=['GET'])
 def get_matched_skills():
-    try:
-        matched_skills = request.json
-        staffID = matched_skills["Staff_ID"]
-        roleListingID = matched_skills["Role_Listing_ID"]
-        res = role_postings_service.view_skills_match(staffID,roleListingID)
-        return "Success"
-    except (AttributeError, TypeError, KeyError, ValueError) as e:
-        return f"An error occurred in get_applicant_skills_sql: {e}"
-
-
+    matched_skills = request.json
+    return matched_skills
+    # staffID = matched_skills["Staff_ID"]
+    # listingSkills = matched_skills["Role_Listing_ID"]
+    # res = role_postings_service.view_skills_match(staffID,listingSkills)
+    # return res
 
 #Run the 4 tests in sequential order else error
 @role_postings_api.route('/test')
