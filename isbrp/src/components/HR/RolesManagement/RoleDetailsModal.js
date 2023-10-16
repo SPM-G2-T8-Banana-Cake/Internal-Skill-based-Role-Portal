@@ -31,7 +31,6 @@ function RoleDetailsModal(props) {
         <Modal show={show} fullscreen={"lg-down"} size="lg" onHide={handleClose}>
           <Modal.Header className="bg-details text-dark p-2 px-4">
             <Modal.Title>
-              Role{" "}
               <small>
                 {props.role.Role_ID}: {props.role.Role_Name}
               </small>
