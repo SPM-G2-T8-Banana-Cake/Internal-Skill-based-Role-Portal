@@ -246,26 +246,21 @@ class RolePostingsService(RolePostingsRepository):
     def view_skills_match(self, StaffID, role_listing_id):
         start_time = time.time()
         try:
-            read_role_sql = '''
+            read_role_sql = f'''
                 SELECT rlt.Skills
                 FROM spm.Role_Listing_Table rlt
-                WHERE rlt.Role_Listing_ID = %(Role_Listing)s; 
+                WHERE rlt.Role_Listing_ID = {role_listing_id}; 
                 ''' 
-            params = {
-                'Role_Listing': role_listing_id,
-            }
-            res = self.repository.getListingSkills(read_role_sql, params)
 
-            read_staff_skills_sql = '''
+            res = self.repository.getListingSkills(read_role_sql)
+
+            read_staff_skills_sql = f'''
                 SELECT st.Skills
                 FROM spm.Staff_Table st
-                WHERE st.Staff_ID = %(StaffID)s;         
+                WHERE st.Staff_ID = {StaffID};           
                 '''
-            params = {
-                'StaffID': StaffID,
-            }
             
-            res2 = self.repository.getStaffSkills(read_staff_skills_sql, params)
+            res2 = self.repository.getStaffSkills(read_staff_skills_sql)
             resx = res.split(",")
             resy = []
             for skill in resx:
