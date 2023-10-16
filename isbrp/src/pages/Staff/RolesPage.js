@@ -15,7 +15,7 @@ import IsbrpSnackbar from "../../components/Standard/isbrpSnackBar";
 import { departments } from "../../utils/constants";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FiFilter } from "react-icons/fi";
-import { hrReadRoleListings } from "../../services/api";
+import { hrReadRoleListings, staffReadRoleSkillMatch } from "../../services/api";
 import { hrReadRoleApplicants } from "../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
@@ -36,6 +36,7 @@ function ViewRoleListing() {
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [roleListings, setRoleListings] = useState([]);
   const [applicants, setApplicants] = useState([]);
+  const [skillMatchData, setSkillMatchData] = useState([]);
 
   const openSnackbar = (value) => {
     if (value === "createApplicationSuccess") {
@@ -130,7 +131,6 @@ function ViewRoleListing() {
       setLoading(true);
       hrReadRoleListings()
         .then(function (response) {
-          console.log("Read Role Listings Endpoint Called");
           if (response.data.length > 0) {
             let filteredData = [];
             for (let i = 0; i < response.data.length; i++) {
@@ -169,7 +169,6 @@ function ViewRoleListing() {
             data.push(response.data[i]);
           }
           setRoleListings(data);
-          console.log(data);
         }
         setLoading(false);
       })
@@ -204,51 +203,67 @@ function ViewRoleListing() {
       });
   };
   
-  const getAllData = () => {
-    // hrReadRoleApplicants()
-    // .then(function (response) {
-    //   console.log("Read Applicants Endpoint Called", response);
-    //   if (response.data.length > 0) {
-    //     let data = [];
-    //     for (let i = 0; i < response.data.length; i++) {
-    //       data.push(response.data[i]);
-    //     }
-    //     setApplicants(data);
-    //   }
-    //   setLoading(false);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    //   setApplicants([]);
-    // });
-
-    hrReadRoleListings()
-      .then(function (response) {
-        console.log("Read Role Listings Endpoint Called", response);
-        if (response.data.length > 0) {
-          let data = [];
-          for (let i = 0; i < response.data.length; i++) {
-            data.push(response.data[i]);
-          }
-          setRoleListings(data);
+  const getRoleSkillMatch = (Role_Listing_ID) => {
+    staffReadRoleSkillMatch({"Staff_ID": data.state.id, "Role_Listing_ID": Role_Listing_ID})
+    .then(function (response) {
+      console.log("Read Role Skill Match Endpoint Called");
+      console.log(response);
+      if (response.data.length > 0) {
+        let data = [];
+        for (let i = 0; i < response.data.length; i++) {
+          data.push(response.data[i]);
         }
-        setLoading(false);
-      })
-      .catch(function (error) {
-        console.log(error);
-        openSnackbar("getAllError");
-      });
+        console.log(data);
+        setSkillMatchData(data);
+      }
+      console.log(skillMatchData)
+    })
+    .catch(function (error) {
+      console.log(error);
+      setSkillMatchData([]);
+    });
   }
+
 
   useEffect(() => {
     document.title = "Available Roles";
-    window.scrollTo(0, 0);
-
     setLoading(true);
-    getAllData();
+    hrReadRoleListings()
+    .then(function (response) {
+      if (response.data.length > 0) {
+        let data = [];
+        for (let i = 0; i < response.data.length; i++) {
+          data.push(response.data[i]);
+        }
+        setRoleListings(data);
+      }
+      setLoading(false);
+    })
+    .catch(function (error) {
+      console.log(error);
+      openSnackbar("getAllError");
+    });
+
+    
+    let data = {};
+    data["Staff_ID"] = 'st1'
+    data["Role_Listing_ID"] = 'rl1'
+    console.log(data)
+    staffReadRoleSkillMatch(data)
+    .then(function (response) {
+      if (response.data.length > 0) {
+        let data = [];
+        for (let i = 0; i < response.data.length; i++) {
+          data.push(response.data[i]);
+        }
+      }
+      console.log(data)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }, []);
 
-  console.log("Applicants", applicants);
   return (
     <div>
       <StaffHeader />
@@ -316,7 +331,7 @@ function ViewRoleListing() {
                       <td className="bg-grey ps-3">{roles.Role_Name}</td>
                       <td className="bg-grey">{roles.Role_Desc}</td>
                       <td className="bg-grey">
-                        <ViewRoleDetailsModal className="bg-grey" staff={data.state.id} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
+                        <ViewRoleDetailsModal className="bg-grey" staff={data.state.id} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar}/>
                       </td>
                     </tr>
                   ))}

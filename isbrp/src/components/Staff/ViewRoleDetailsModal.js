@@ -16,10 +16,9 @@ function ViewRoleDetailsModal(props) {
   const [show, setShow] = useState(false);
   const currentModal = "details";
   const [appStatus, setAppStatus] = useState("");
-  console.log(props)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  
   const data = [
     { label: "Group A", value: 500, color: "#0088FE" },
     { label: "Group B", value: 300, color: "#00C49F" },
@@ -61,7 +60,9 @@ function ViewRoleDetailsModal(props) {
     return `${(percent * 100).toFixed(0)}%`;
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+  
+  }, []);
 
   return (
     <>

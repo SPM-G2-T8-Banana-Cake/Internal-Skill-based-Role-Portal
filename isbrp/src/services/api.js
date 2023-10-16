@@ -45,7 +45,10 @@ export function hrReadRoleApplicants() {
 
 // STAFF
 export function staffReadRoleSkillMatch(data) {
-  return axiosClient.post("/staff_read_role_skill_match", JSON.stringify(data));
+  return axiosClient.get("/get_matched_skills", JSON.stringify(data), 
+  {headers: {
+    'Content-Type': 'multipart/form-data'
+  }});
 }
 
 export function staffCreateRoleApplication(data) {
