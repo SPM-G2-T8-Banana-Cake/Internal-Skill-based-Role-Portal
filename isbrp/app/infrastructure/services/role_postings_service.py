@@ -254,7 +254,7 @@ class RolePostingsService(RolePostingsRepository):
             params = {
                 'Role_Listing': role_listing_id,
             }
-            res = self.repository.getListingSkills(read_role_sql)
+            res = self.repository.getListingSkills(read_role_sql, params)
 
             read_staff_skills_sql = '''
                 SELECT st.Skills
@@ -265,7 +265,7 @@ class RolePostingsService(RolePostingsRepository):
                 'StaffID': StaffID,
             }
             
-            res2 = self.repository.getStaffSkills(read_staff_skills_sql)
+            res2 = self.repository.getStaffSkills(read_staff_skills_sql, params)
             resx = res.split(",")
             resy = []
             for skill in resx:
