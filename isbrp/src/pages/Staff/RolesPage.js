@@ -230,6 +230,7 @@ function ViewRoleListing() {
     setLoading(true);
     hrReadRoleListings()
     .then(function (response) {
+      console.log(response)
       if (response.data.length > 0) {
         let data = [];
         for (let i = 0; i < response.data.length; i++) {
@@ -247,7 +248,7 @@ function ViewRoleListing() {
     
     let data = {};
     data["Staff_ID"] = 'st9'
-    data["Role_Listing_ID"] = 'rl10'
+    data["Role_Listing_ID"] = 'rl9'
     console.log(data)
     staffReadRoleSkillMatch(data)
     .then(function (response) {
