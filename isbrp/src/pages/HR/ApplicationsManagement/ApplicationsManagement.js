@@ -19,10 +19,8 @@ import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
 import ApplicantDetailsModal from "../../../components/HR/ApplicationsManagement/ApplicantDetailsModal";
 import { hrReadRoleApplicants } from "../../../services/api";
-import { useLocation } from "react-router-dom";
 
 function ApplicationsManagement() {
-  const data = useLocation();
   const [search, setSearch] = useState("");
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
