@@ -7,6 +7,7 @@ const axiosClient = axios.create({
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*'
     },
   });
 
@@ -45,7 +46,7 @@ export function hrReadRoleApplicants() {
 
 // STAFF
 export function staffReadRoleSkillMatch(data) {
-  return axiosClient.post("/staff_read_role_skill_match", JSON.stringify(data));
+  return axiosClient.post("/get_matched_skills", JSON.stringify(data))
 }
 
 export function staffCreateRoleApplication(data) {

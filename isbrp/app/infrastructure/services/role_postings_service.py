@@ -200,9 +200,12 @@ class RolePostingsService(RolePostingsRepository):
         start_time = time.time()
         try:
             read_role_sql = '''
-                SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RLT.Skills, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline
+                SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RLT.Skills, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline, ST.Skills, ST.Staff_ID
                 FROM spm.Role_Table RT
-                JOIN spm.Role_Listing_Table RLT ON RT.Role_ID = RLT.Role_ID;
+                JOIN spm.Role_Listing_Table RLT ON RT.Role_ID = RLT.Role_ID
+                JOIN spm.Role_Listing_Application_Table RLAT on RLAT.Role_Listing_ID = RLT.Role_Listing_ID
+                JOIN spm.Staff_Table ST on ST.Staff_ID = RLAT.Applicant_ID;
+                ;
                 '''
             res = self.repository.getRoleListings(read_role_sql)
         except (AttributeError, TypeError, KeyError, ValueError) as e:
@@ -213,10 +216,10 @@ class RolePostingsService(RolePostingsRepository):
             print("view_role_listings Time taken in seconds: " + str(time.time()-start_time))
             return res
 
-    def view_applicant_skills(self):
+    def view_applicants_skills(self):
         start_time = time.time()
         try:
-            get_applicant_skills_sql = '''
+            get_applicants_skills_sql = '''
                 SELECT
                     r.Role_Name, 
                     r.Role_Desc,
@@ -234,6 +237,27 @@ class RolePostingsService(RolePostingsRepository):
                     spm.Staff_Table st ON rlat.Applicant_ID = st.Staff_ID;
 
             '''
+            res = self.repository.getSkills(get_applicants_skills_sql)
+
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in get_applicants_skills_sql: {e}")
+            return {}
+        else:
+            print("get_applicants_skills_sql Time taken in seconds: " + str(time.time()-start_time))
+            return res
+        
+    def view_applicant_skills(self, staffID):
+        start_time = time.time()
+        try:
+            get_applicant_skills_sql = f'''
+                 SELECT
+                    st.Skills AS Staff_Skills
+                FROM
+					spm.Staff_Table st
+                WHERE st.Staff_ID = '{staffID}'
+                ;
+
+            '''
             res = self.repository.getSkills(get_applicant_skills_sql)
 
         except (AttributeError, TypeError, KeyError, ValueError) as e:
@@ -242,7 +266,7 @@ class RolePostingsService(RolePostingsRepository):
         else:
             print("get_applicant_skills_sql Time taken in seconds: " + str(time.time()-start_time))
             return res
-        
+
     def delete_role_listing(self, role_listing_id):
         start_time = time.time()
         try:
