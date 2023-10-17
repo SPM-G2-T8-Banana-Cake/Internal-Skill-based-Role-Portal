@@ -15,29 +15,27 @@ import IsbrpSnackbar from "../../components/Standard/isbrpSnackBar";
 import { departments } from "../../utils/constants";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FiFilter } from "react-icons/fi";
-import { hrReadRoleListings, staffReadRoleSkillMatch } from "../../services/api";
-import { hrReadRoleApplicants } from "../../services/api";
+import { readRoleListings } from "../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
 import Loader from "../../components/Standard/loader";
 import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
-import { useLocation } from "react-router-dom";
 
 function ViewRoleListing() {
-  const data = useLocation();
+  const appliedRoles = localStorage.getItem("appliedRoles");
+  console.log("Applied Roles", appliedRoles);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [staffSkills, setStaffSkills] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [roleListings, setRoleListings] = useState([]);
-  const [applicants, setApplicants] = useState([]);
-  const [skillMatchData, setSkillMatchData] = useState([]);
-
+  
   const openSnackbar = (value) => {
     if (value === "createApplicationSuccess") {
       setSeverity("success");
@@ -129,7 +127,7 @@ function ViewRoleListing() {
   const handleSearch = (value) => {
     if (value !== "") {
       setLoading(true);
-      hrReadRoleListings()
+      readRoleListings()
         .then(function (response) {
           if (response.data.length > 0) {
             let filteredData = [];
@@ -160,7 +158,7 @@ function ViewRoleListing() {
 
   const reloadRoleListings = () => {
     setLoading(true);
-    hrReadRoleListings()
+    readRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
@@ -180,7 +178,7 @@ function ViewRoleListing() {
 
   const sortByDepartment = (department) => {
     setLoading(true);
-    hrReadRoleListings()
+    readRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
@@ -202,39 +200,21 @@ function ViewRoleListing() {
         openSnackbar("filterError");
       });
   };
-  
-  const getRoleSkillMatch = (Role_Listing_ID) => {
-    staffReadRoleSkillMatch({"Staff_ID": data.state.id, "Role_Listing_ID": Role_Listing_ID})
-    .then(function (response) {
-      console.log("Read Role Skill Match Endpoint Called");
-      console.log(response);
-      if (response.data.length > 0) {
-        let data = [];
-        for (let i = 0; i < response.data.length; i++) {
-          data.push(response.data[i]);
-        }
-        console.log(data);
-        setSkillMatchData(data);
-      }
-      console.log(skillMatchData)
-    })
-    .catch(function (error) {
-      console.log(error);
-      setSkillMatchData([]);
-    });
-  }
 
 
   useEffect(() => {
     document.title = "Available Roles";
     setLoading(true);
-    hrReadRoleListings()
+    readRoleListings()
     .then(function (response) {
       console.log(response)
       if (response.data.length > 0) {
         let data = [];
         for (let i = 0; i < response.data.length; i++) {
           data.push(response.data[i]);
+          if (response.data[i].Staff_ID === localStorage.getItem("id")){
+            setStaffSkills(response.data[i].Staff_Skills);
+          }
         }
         setRoleListings(data);
       }
@@ -245,25 +225,6 @@ function ViewRoleListing() {
       openSnackbar("getAllError");
     });
 
-    
-    let data = {};
-    data["Staff_ID"] = 'st9'
-    data["Role_Listing_ID"] = 'rl9'
-    console.log(data)
-    staffReadRoleSkillMatch(data)
-    .then(function (response) {
-      console.log(response)
-      if (response.data.length > 0) {
-        let data = [];
-        for (let i = 0; i < response.data.length; i++) {
-          data.push(response.data[i]);
-        }
-      }
-      console.log(data)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
   }, []);
 
   return (
@@ -333,7 +294,7 @@ function ViewRoleListing() {
                       <td className="bg-grey ps-3">{roles.Role_Name}</td>
                       <td className="bg-grey">{roles.Role_Desc}</td>
                       <td className="bg-grey">
-                        <ViewRoleDetailsModal className="bg-grey" staff={data.state.id} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar}/>
+                        <ViewRoleDetailsModal className="bg-grey" staffSkills={staffSkills} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar}/>
                       </td>
                     </tr>
                   ))}

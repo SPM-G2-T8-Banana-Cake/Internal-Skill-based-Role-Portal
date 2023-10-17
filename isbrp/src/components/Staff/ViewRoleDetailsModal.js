@@ -6,7 +6,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import { FiMoreVertical, FiClock } from "react-icons/fi";
 import Chip from "@mui/material/Chip";
 import bgIcon from "../../assets/viewingIcon.png";
@@ -18,51 +19,39 @@ function ViewRoleDetailsModal(props) {
   const [appStatus, setAppStatus] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
-  const data = [
-    { label: "Group A", value: 500, color: "#0088FE" },
-    { label: "Group B", value: 300, color: "#00C49F" },
-    { label: "Group C", value: 300, color: "#FFBB28" },
-    { label: "Group D", value: 200, color: "#FF8042" },
-  ];
-
-  const sizing = {
-    margin: { right: 5 },
-    width: 200,
-    height: 200,
-    legend: { hidden: true },
-  };
-
-  const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
+  const requiredSkills = props.role.Required_Skills.includes(",") ? props.role.Required_Skills.split(",") : [props.role.Required_Skills];
+  const staffSkills = props.staffSkills.includes(",") ? props.staffSkills.split(",") : [props.staffSkills];
+  var matched = 0;
+  var matchedArray = [];
+  staffSkills.map((staffSkill) => {
+    if (requiredSkills.includes(staffSkill)) {
+      matched += 1;
+      matchedArray.push(staffSkill);
+    }
+    return [matched, matchedArray];
+  });
+  const roleSkillMatch = (matched / requiredSkills.length) * 100;
 
   const handleApplication = () => {
-
     let data = {};
     data["Role_Listing_ID"] = props.role.Role_Listing_ID;
     data["Applicant_ID"] = props.staff;
 
-    console.log(data)
+    console.log(data);
     staffCreateRoleApplication(data)
-    .then((response) => {
-      console.log(response);
-      setAppStatus("success");
-      props.openSnackbar("createApplicationSuccess");
-    })
+      .then((response) => {
+        console.log(response);
+        setAppStatus("success");
+        props.openSnackbar("createApplicationSuccess");
+      })
 
-    .catch((error) => {
-      console.error(error);
-      props.openSnackbar("createApplicationError");
-    })
+      .catch((error) => {
+        console.error(error);
+        props.openSnackbar("createApplicationError");
+      });
   };
 
-  const getArcLabel = (params) => {
-    const percent = params.value / TOTAL;
-    return `${(percent * 100).toFixed(0)}%`;
-  };
-
-  useEffect(() => {
-  
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -80,7 +69,7 @@ function ViewRoleDetailsModal(props) {
 
             <CloseButton variant="white" onClick={handleClose} />
           </Modal.Header>
-          <Modal.Body className="p-4 bg-light" style={{backgroundImage: `url(${bgIcon})`}}>
+          <Modal.Body className="p-4 bg-light" style={{ backgroundImage: `url(${bgIcon})` }}>
             <h3 className="">Role Details</h3>
             <hr />
             <Row className="mb-4">
@@ -108,34 +97,49 @@ function ViewRoleDetailsModal(props) {
               <Col>
                 <span className="fw-bold">Skills Required</span>
                 <br />
-                <span>{props.role.Skills}</span>
+                <span>{props.role.Required_Skills}</span>
               </Col>
             </Row>
             <Row className="mb-5">
               <Col>
                 <span className="fw-bold">Application Deadline</span>
                 <br />
-                <span><FiClock /> {props.role.Application_Deadline.split(",").slice(0, 2).join(" ").split(" ").slice(0, 5).join(" ")}</span>
+                <span>
+                  <FiClock /> {props.role.Application_Deadline.split(",").slice(0, 2).join(" ").split(" ").slice(0, 5).join(" ")}
+                </span>
               </Col>
             </Row>
             <h3>Role Skill Match</h3>
             <hr />
-            <PieChart
-              series={[
-                {
-                  outerRadius: 80,
-                  data,
-                  arcLabel: getArcLabel,
-                },
-              ]}
-              sx={{
-                [`& .${pieArcLabelClasses.root}`]: {
-                  fill: "white",
-                  fontSize: 14,
-                },
-              }}
-              {...sizing}
-            />
+            <Row className="mb-5">
+              <Col>
+                <div className="w-50">
+                  <CircularProgressbar value={roleSkillMatch} text={`${roleSkillMatch}%`} />
+                </div>
+              </Col>
+              <Col>
+                <span className="fw-bold">Your Skills</span>
+                <br />
+                <ul>
+                  {staffSkills.map((staffSkill, index) => {
+                    return <li key={index}>{staffSkill}</li>;
+                  })}
+                </ul>
+              </Col>
+              <Col>
+                <span className="fw-bold">Matched Skills ✔️</span>
+                <br />
+                <ul>
+                  {matchedArray.length === 0 ? (
+                    <>-</>
+                  ) : (
+                    matchedArray.map((matchedSkill, index) => {
+                      return <li key={index}>{matchedSkill}</li>;
+                    })
+                  )}
+                </ul>
+              </Col>
+            </Row>
           </Modal.Body>
           <Modal.Footer className="bg-details">
             {appStatus === "success" ? (

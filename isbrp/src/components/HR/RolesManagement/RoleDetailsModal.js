@@ -70,7 +70,7 @@ function RoleDetailsModal(props) {
               <Col>
                 <span className="fw-bold">Skills Required</span>
                 <br />
-                <span>{props.role.Skills}</span>
+                <span>{props.role.Required_Skills}</span>
               </Col>
             </Row>
             <Row className="mb-4">
