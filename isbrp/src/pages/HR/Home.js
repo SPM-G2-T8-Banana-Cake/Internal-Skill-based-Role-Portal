@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container.js";
 import HrHeader from "../../components/Header/HrHeader";
 import Footer from "../../components/Footer/Footer";
-import { hrReadRoleListings } from "../../services/api";
+import { readRoleListings } from "../../services/api";
 import Badge from "@mui/material/Badge";
 import { FiUser, FiBook } from "react-icons/fi";
 import bgIcon from "../../assets/staffHomeBg.png";
@@ -21,13 +21,14 @@ function HrHome() {
   const handleChange = (acc) => (event, isExpanded) => {
     setExpanded(isExpanded ? acc : false);
   };
+  
   useEffect(() => {
     let mounted = true;
     document.title = "Home";
     window.scrollTo(0, 0);
 
     if (mounted) {
-      hrReadRoleListings()
+      readRoleListings()
         .then(function (response) {
           console.log("Read Role Listings Endpoint Called");
           console.log(response);
@@ -67,6 +68,7 @@ function HrHome() {
     //     });
     //   }
   }, []);
+  
   console.log("Role Listing", roleListings);
   return (
     <>
@@ -94,7 +96,9 @@ function HrHome() {
         <AccordionSummary
           expandIcon={<FiMoreVertical/>}
         >
-       <p className="font-italic fw-bold">{Object.keys(roleListings)[dept]}</p>
+       <p className="font-italic fw-bold">{Object.keys(roleListings)[dept]}        <Badge badgeContent={Object.values(roleListings)[dept].length} color="primary">
+                  <FiBook color="black" />
+                </Badge></p>
         </AccordionSummary>
         <AccordionDetails>
         <ul>
