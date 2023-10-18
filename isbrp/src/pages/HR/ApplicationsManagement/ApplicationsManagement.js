@@ -224,8 +224,8 @@ function ApplicationsManagement() {
                   </tr>
                 </thead>
                 <tbody>
-                  {(rowsPerPage > 0 ? applicants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : applicants).map((applicant) => (
-                    <tr className="border-details" key={applicant.Staff_Name}>
+                  {(rowsPerPage > 0 ? applicants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : applicants).map((applicant, applicantNo) => (
+                    <tr className="border-details" key={applicantNo}>
                       <td className="bg-grey ps-3">{applicant.Staff_Name}</td>
                       <td className="bg-grey">{applicant.Staff_Skills}</td>
                       <td className="bg-grey">{applicant.Role_Name}</td>
