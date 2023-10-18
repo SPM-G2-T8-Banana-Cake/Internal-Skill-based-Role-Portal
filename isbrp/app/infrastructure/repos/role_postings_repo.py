@@ -111,6 +111,7 @@ class RolePostingsRepository(IRolePostingsRepository):
         res = self.cursor.execute(sql_query)
         results = self.cursor.fetchall()
         result_array = []
+        print("staffskills", staffskills)
         if results:
             for res in results:
                 result_obj = {}
@@ -122,7 +123,7 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Role_Listing_ID'] = res[5]
                 result_obj['Application_Deadline'] = res[6]
                 result_obj["Staff_Skills"] = staffskills
-
+                
                 skillsmatchcounter = 0
                 required_skills_array = []
                 staff_skills_array = []
@@ -137,11 +138,17 @@ class RolePostingsRepository(IRolePostingsRepository):
                     required_skills = res[3].split(",")
                     max_number_of_required_skills = len(required_skills)
                     for skill in required_skills:
-                        required_skills_array.append(skill.strip())
+                        required_skills_array.append(skill)
                 else:
                     max_number_of_required_skills = 1
                     required_skills_array.append(res[3])
-                    print(required_skills_array)
+                
+                if "," in staffskills:
+                    staff_skills = staffskills.split(",")
+                    for skill in staff_skills:
+                        staff_skills_array.append(skill)
+                else:
+                    staff_skills_array.append(staffskills)
 
 
                 if "," in staffskills:
