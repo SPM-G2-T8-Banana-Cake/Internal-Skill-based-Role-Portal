@@ -32,7 +32,7 @@ export function hrCreateRoleListing(data) {
     return axiosClient.post("/create_role_listing", JSON.stringify(data));
   }
 
-export function readRoleListings() {
+export function hrReadRoleListings() {
     return axiosClient.get("/hr_view_role_listings");
   }
 
@@ -46,6 +46,10 @@ export function hrReadRoleApplicants() {
   }
 
 // STAFF
+export function staffReadRoleListings(data) {
+  return axiosClient.post("/staff_view_role_listings/", JSON.stringify(data));
+}
+
 export function staffCreateRoleApplication(data) {
     return axiosClient.put("/create_role_application", JSON.stringify(data));
 }
