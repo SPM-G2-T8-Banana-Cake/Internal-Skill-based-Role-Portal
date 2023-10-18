@@ -46,6 +46,14 @@ function RolesManagement() {
       setSeverity("error");
       setMessage("Something went wrong while modifying role. Please try again.");
       setOpen(true);
+    } else if (value === "deleteRoleSuccess") {
+      setSeverity("error");
+      setMessage("Role deleted successfully.");
+      setOpen(true);
+    } else if (value === "deleteRoleError") {
+      setSeverity("error");
+      setMessage("Something went wrong while deleting the role. Please try again.");
+      setOpen(true);
     } else if (value === "getAllError") {
       setSeverity("error");
       setMessage("Something went wrong while getting all roles. Please try again.");
