@@ -33,8 +33,9 @@ export function hrCreateRoleListing(data) {
   }
 
 export function readRoleListings() {
-    return axiosClient.get("/view_role_listings");
+    return axiosClient.get("/hr_view_role_listings");
   }
+
 
 export function hrUpdateRoleListing(data) {
     return axiosClient.put("/update_role_listings", JSON.stringify(data))
