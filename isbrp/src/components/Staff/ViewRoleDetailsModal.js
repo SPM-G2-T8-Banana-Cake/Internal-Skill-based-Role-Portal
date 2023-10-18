@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { CircularProgressbar } from "react-circular-progressbar";
+// import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { FiMoreVertical, FiClock } from "react-icons/fi";
 import Chip from "@mui/material/Chip";
@@ -14,23 +14,32 @@ import bgIcon from "../../assets/viewingIcon.png";
 import { staffCreateRoleApplication } from "../../services/api";
 
 function ViewRoleDetailsModal(props) {
+  console.log("Props", props)
   const [show, setShow] = useState(false);
   const currentModal = "details";
   const [appStatus, setAppStatus] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const requiredSkills = props.role.Required_Skills.includes(",") ? props.role.Required_Skills.split(",") : [props.role.Required_Skills];
-  const staffSkills = props.staffSkills.includes(",") ? props.staffSkills.split(",") : [props.staffSkills];
-  var matched = 0;
-  var matchedArray = [];
-  staffSkills.map((staffSkill) => {
-    if (requiredSkills.includes(staffSkill)) {
-      matched += 1;
-      matchedArray.push(staffSkill);
-    }
-    return [matched, matchedArray];
-  });
-  const roleSkillMatch = (matched / requiredSkills.length) * 100;
+  // const requiredSkills = props.role.Required_Skills.includes(",") ? props.role.Required_Skills.split(",") : [props.role.Required_Skills];
+  // console.log("requiredskills", requiredSkills)
+
+
+  // const staffSkills = props.staffSkills[0].includes(",") ? props.staffSkills.split(",") : [props.staffSkills];
+  // console.log("staffskills", staffSkills)
+  // var matched = 0;
+  // var matchedArray = [];
+
+  // if(staffSkills !== undefined) {
+  //   staffSkills[0].map((staffSkill) => {
+  //     if (requiredSkills.includes(staffSkill)) {
+  //       matched += 1;
+  //       matchedArray.push(staffSkill);
+  //     }
+  //     return [matched, matchedArray];
+  //   });
+  // }
+
+  // const roleSkillMatch = (matched / requiredSkills.length) * 100;
 
   const handleApplication = () => {
     let data = {};
@@ -112,12 +121,12 @@ function ViewRoleDetailsModal(props) {
             <h3>Role Skill Match</h3>
             <hr />
             <Row className="mb-5">
-              <Col>
+              {/* <Col>
                 <div className="w-50">
                   <CircularProgressbar value={roleSkillMatch} text={`${roleSkillMatch}%`} />
                 </div>
-              </Col>
-              <Col>
+              </Col> */}
+              {/* <Col>
                 <span className="fw-bold">Your Skills</span>
                 <br />
                 <ul>
@@ -138,7 +147,7 @@ function ViewRoleDetailsModal(props) {
                     })
                   )}
                 </ul>
-              </Col>
+              </Col> */}
             </Row>
           </Modal.Body>
           <Modal.Footer className="bg-details">
