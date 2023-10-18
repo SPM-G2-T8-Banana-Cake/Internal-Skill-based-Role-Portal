@@ -212,9 +212,9 @@ function RolesManagement() {
     document.title = "Roles Management";
     window.scrollTo(0, 0);
     setLoading(true);
-readRoleListings()
+    readRoleListings()
       .then(function (response) {
-        console.log("Read Role Listings Endpoint Called");
+        console.log("Read Role Listings Endpoint Called", response);
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {
