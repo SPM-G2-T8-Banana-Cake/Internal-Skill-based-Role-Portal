@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -9,7 +9,12 @@ import logo from "../../assets/logo.png";
 
 function StaffHeader() {
   const location = useLocation();
-
+  const navigate = useNavigate();
+  
+  const logout = () => {
+    localStorage.clear();
+    navigate("/")
+  }
   const user = (
     <span>
       <FiUser />
@@ -42,7 +47,7 @@ function StaffHeader() {
           </NavLink>
         </Nav>
         <NavDropdown title={user} className="text-dark">
-          <NavDropdown.Item href="/">
+          <NavDropdown.Item onClick={logout}>
             <FiLogOut className="me-2" />
             Logout
           </NavDropdown.Item>
