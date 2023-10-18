@@ -47,7 +47,7 @@ export function hrReadRoleApplicants() {
 
 // STAFF
 export function staffReadRoleListings(data) {
-  return axiosClient.post("/staff_view_role_listings/", JSON.stringify(data));
+  return axiosClient.post("/staff_view_role_listings", JSON.stringify(data));
 }
 
 export function staffCreateRoleApplication(data) {

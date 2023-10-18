@@ -204,7 +204,7 @@ class RolePostingsRepository(IRolePostingsRepository):
     def getStaffSkills(self,sql_query):
         res = self.cursor.execute(sql_query)
         results = self.cursor.fetchall()
-        return results['Skills']
+        return results
 
 
 

@@ -218,7 +218,6 @@ class RolePostingsService(RolePostingsRepository):
     def staff_view_role_listings(self, staffID):
 
         start_time = time.time()
-        
         try:
             staff_skill_sql = f"SELECT Skills from spm.Staff_Table where Staff_ID = '{staffID}'"
             res = self.repository.getStaffSkills(staff_skill_sql)
