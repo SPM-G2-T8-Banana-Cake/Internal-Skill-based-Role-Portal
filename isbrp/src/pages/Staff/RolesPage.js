@@ -15,7 +15,7 @@ import IsbrpSnackbar from "../../components/Standard/isbrpSnackBar";
 import { departments } from "../../utils/constants";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FiFilter } from "react-icons/fi";
-import { readRoleListings } from "../../services/api";
+import { staffReadRoleListings } from "../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FiSearch } from "react-icons/fi";
@@ -24,8 +24,7 @@ import Loader from "../../components/Standard/loader";
 import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
 
 function ViewRoleListing() {
-  const appliedRoles = localStorage.getItem("appliedRoles");
-  console.log("Applied Roles", appliedRoles);
+  const id = localStorage.getItem("id");
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -127,7 +126,7 @@ function ViewRoleListing() {
   const handleSearch = (value) => {
     if (value !== "") {
       setLoading(true);
-      readRoleListings()
+      staffReadRoleListings({})
         .then(function (response) {
           if (response.data.length > 0) {
             let filteredData = [];
@@ -158,7 +157,7 @@ function ViewRoleListing() {
 
   const reloadRoleListings = () => {
     setLoading(true);
-    readRoleListings()
+    staffReadRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
@@ -178,7 +177,7 @@ function ViewRoleListing() {
 
   const sortByDepartment = (department) => {
     setLoading(true);
-    readRoleListings()
+    staffReadRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
@@ -205,27 +204,28 @@ function ViewRoleListing() {
   useEffect(() => {
     document.title = "Available Roles";
     setLoading(true);
-    readRoleListings()
+
+    staffReadRoleListings({Staff_ID: id})
     .then(function (response) {
       console.log(response)
-      if (response.data.length > 0) {
-        let data = [];
-        for (let i = 0; i < response.data.length; i++) {
-          data.push(response.data[i]);
-          if (response.data[i].Staff_ID === localStorage.getItem("id")){
-            setStaffSkills(response.data[i].Staff_Skills);
-          }
-        }
-        setRoleListings(data);
-      }
-      setLoading(false);
+    //   if (response.data.length > 0) {
+    //     let data = [];
+    //     for (let i = 0; i < response.data.length; i++) {
+    //       data.push(response.data[i]);
+    //       if (response.data[i].Staff_ID === localStorage.getItem("id")){
+    //         setStaffSkills(response.data[i].Staff_Skills);
+    //       }
+    //     }
+    //     setRoleListings(data);
+    //   }
+    //   setLoading(false);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    //   openSnackbar("getAllError");
+    // });
     })
-    .catch(function (error) {
-      console.log(error);
-      openSnackbar("getAllError");
-    });
-
-  }, []);
+  }, [id]);
 
   return (
     <div>
