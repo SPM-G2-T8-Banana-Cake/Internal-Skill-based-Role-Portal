@@ -24,8 +24,6 @@ import Loader from "../../components/Standard/loader";
 import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
 
 function ViewRoleListing() {
-  const appliedRoles = localStorage.getItem("appliedRoles");
-  console.log("Applied Roles", appliedRoles);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
@@ -35,7 +33,7 @@ function ViewRoleListing() {
   const [staffSkills, setStaffSkills] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [roleListings, setRoleListings] = useState([]);
-  
+
   const openSnackbar = (value) => {
     if (value === "createApplicationSuccess") {
       setSeverity("success");
@@ -201,30 +199,28 @@ function ViewRoleListing() {
       });
   };
 
-
   useEffect(() => {
     document.title = "Available Roles";
     setLoading(true);
     readRoleListings()
-    .then(function (response) {
-      console.log(response)
-      if (response.data.length > 0) {
-        let data = [];
-        for (let i = 0; i < response.data.length; i++) {
-          data.push(response.data[i]);
-          if (response.data[i].Staff_ID === localStorage.getItem("id")){
-            setStaffSkills(response.data[i].Staff_Skills);
+      .then(function (response) {
+        console.log(response);
+        if (response.data.length > 0) {
+          let data = [];
+          for (let i = 0; i < response.data.length; i++) {
+            data.push(response.data[i]);
+            if (response.data[i].Staff_ID === localStorage.getItem("id")) {
+              setStaffSkills(response.data[i].Staff_Skills);
+            }
           }
+          setRoleListings(data);
         }
-        setRoleListings(data);
-      }
-      setLoading(false);
-    })
-    .catch(function (error) {
-      console.log(error);
-      openSnackbar("getAllError");
-    });
-
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("getAllError");
+      });
   }, []);
 
   return (
@@ -294,7 +290,7 @@ function ViewRoleListing() {
                       <td className="bg-grey ps-3">{roles.Role_Name}</td>
                       <td className="bg-grey">{roles.Role_Desc}</td>
                       <td className="bg-grey">
-                        <ViewRoleDetailsModal className="bg-grey" staffSkills={staffSkills} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar}/>
+                        <ViewRoleDetailsModal className="bg-grey" staffSkills={staffSkills} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
                       </td>
                     </tr>
                   ))}
