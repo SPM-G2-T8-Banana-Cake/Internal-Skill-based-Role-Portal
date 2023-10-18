@@ -22,6 +22,7 @@ import { FiSearch } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
 import Loader from "../../components/Standard/loader";
 import ViewRoleDetailsModal from "../../components/Staff/ViewRoleDetailsModal";
+import { Chip } from "@mui/material";
 
 function ViewRoleListing() {
   const id = localStorage.getItem("id");
@@ -34,7 +35,7 @@ function ViewRoleListing() {
   const [staffSkills, setStaffSkills] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [roleListings, setRoleListings] = useState([]);
-  
+
   const openSnackbar = (value) => {
     if (value === "createApplicationSuccess") {
       setSeverity("success");
@@ -126,8 +127,9 @@ function ViewRoleListing() {
   const handleSearch = (value) => {
     if (value !== "") {
       setLoading(true);
-      staffReadRoleListings({})
+      staffReadRoleListings({ Staff_ID: id })
         .then(function (response) {
+          console.log("Staff Read Role Listings Endpoint Called");
           if (response.data.length > 0) {
             let filteredData = [];
             for (let i = 0; i < response.data.length; i++) {
@@ -157,9 +159,9 @@ function ViewRoleListing() {
 
   const reloadRoleListings = () => {
     setLoading(true);
-    staffReadRoleListings()
+    staffReadRoleListings({ Staff_ID: id })
       .then(function (response) {
-        console.log("Read Role Listings Endpoint Called");
+        console.log("Staff Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {
@@ -177,9 +179,9 @@ function ViewRoleListing() {
 
   const sortByDepartment = (department) => {
     setLoading(true);
-    staffReadRoleListings()
+    staffReadRoleListings({ Staff_ID: id })
       .then(function (response) {
-        console.log("Read Role Listings Endpoint Called");
+        console.log("Staff Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
           let filteredData = [];
           for (let i = 0; i < response.data.length; i++) {
@@ -200,29 +202,31 @@ function ViewRoleListing() {
       });
   };
 
-
   useEffect(() => {
     document.title = "Available Roles";
     setLoading(true);
 
-    staffReadRoleListings({Staff_ID: id})
-    .then(function (response) {
-      console.log(response)
-      if (response.data.length > 0) {
-        let data = [];
-        setStaffSkills(response.data[0].Staff_Skills[0]);
-        for (let i = 0; i < response.data.length; i++) {
-          data.push(response.data[i]);
+    staffReadRoleListings({ Staff_ID: id })
+      .then(function (response) {
+        console.log("Staff Read Role Listings Endpoint Called");
+        console.log(response);
+        if (response.data.length > 0) {
+          let data = [];
+          setStaffSkills(response.data[0].Staff_Skills[0]);
+          for (let i = 0; i < response.data.length; i++) {
+            if (localStorage.getItem(response.data[i].Role_Name) === response.data[i].Role_Name) {
+              response.data[i]["Applied"] = true;
+            }
+            data.push(response.data[i]);
+          }
+          setRoleListings(data);
         }
-        setRoleListings(data);
-      }
-      setLoading(false);
-    })
-    .catch(function (error) {
-      console.log(error);
-      openSnackbar("getAllError");
-    });
-    
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        openSnackbar("getAllError");
+      });
   }, [id]);
 
   return (
@@ -283,6 +287,7 @@ function ViewRoleListing() {
                     <th className="bg-details text-dark">Role Name</th>
                     <th className="bg-details text-dark">Role Description</th>
                     <th className="bg-details text-dark"></th>
+                    <th className="bg-details text-dark"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -291,8 +296,9 @@ function ViewRoleListing() {
                       <td className="bg-grey ps-3">{roles.Dept}</td>
                       <td className="bg-grey ps-3">{roles.Role_Name}</td>
                       <td className="bg-grey">{roles.Role_Desc}</td>
+                      <td className="bg-grey">{roles.Applied ? <Chip label="Applied" className="float-end bg-pending"></Chip> : null}</td>
                       <td className="bg-grey">
-                        <ViewRoleDetailsModal className="bg-grey" staffSkills={staffSkills} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar}/>
+                        <ViewRoleDetailsModal className="bg-grey" staffSkills={staffSkills} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
                       </td>
                     </tr>
                   ))}
