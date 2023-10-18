@@ -36,7 +36,6 @@ export function hrReadRoleListings() {
     return axiosClient.get("/hr_view_role_listings");
   }
 
-
 export function hrUpdateRoleListing(data) {
     return axiosClient.put("/update_role_listings", JSON.stringify(data))
 }
@@ -44,6 +43,10 @@ export function hrUpdateRoleListing(data) {
 export function hrReadRoleApplicants() {
     return axiosClient.get("/view_applicants_skills");
   }
+
+export function hrDeleteRoleListing(data) {
+  return axiosClient.delete("/delete_role_listing" + (data));
+}
 
 // STAFF
 export function staffReadRoleListings(data) {
