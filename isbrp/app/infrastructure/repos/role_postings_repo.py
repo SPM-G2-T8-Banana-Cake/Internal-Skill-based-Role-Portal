@@ -125,7 +125,13 @@ class RolePostingsRepository(IRolePostingsRepository):
 
                 skillsmatchcounter = 0
                 required_skills_array = []
-                staff_skills_array = []
+                # if "," in staffskills:
+                #     staff_skills = staffskills.split(",")
+                #     max_number_of_staff_skills = len(staff_skills)
+                #     for skill in max_number_of_staff_skills:
+                #         staff_skills_array.append(skill.strip())
+                # else:
+                #     staff_skills_array.append(staffskills)
                 if "," in res[3]:
                     required_skills = res[3].split(",")
                     max_number_of_required_skills = len(required_skills)
@@ -134,22 +140,19 @@ class RolePostingsRepository(IRolePostingsRepository):
                 else:
                     max_number_of_required_skills = 1
                     required_skills_array.append(res[3])
-                
-                if "," in staffskills:
-                    staff_skills = staffskills.split(",")
-                    max_number_of_staff_skills = len(staff_skills)
-                    for skill in max_number_of_staff_skills:
-                        staff_skills_array.append(skill.strip())
-                else:
-                    staff_skills_array.append(staffskills)
+                    print(required_skills_array)
 
-                for st_sk in staff_skills_array:
-                    if st_sk in required_skills_array:
+                if len(staffskills) >= 1:
+                    for skill in staffskills:
+                        if skill in required_skills_array:
+                            skillsmatchcounter += 1
+
+                elif len(staffskills) == 1:
+                    if staffskills[0] in required_skills_array:
                         skillsmatchcounter += 1
                 skill_match = math.ceil(skillsmatchcounter / max_number_of_required_skills * 100)
                 result_obj['Skill_Match'] = skill_match
                 result_array.append(result_obj)
-
         print(result_array)
         return result_array
     
@@ -204,7 +207,11 @@ class RolePostingsRepository(IRolePostingsRepository):
     def getStaffSkills(self,sql_query):
         res = self.cursor.execute(sql_query)
         results = self.cursor.fetchall()
-        return results
+        result_array = []
+        if results:
+            for res in results:
+                result_array.append(res[0])
+        return result_array
 
 
 
