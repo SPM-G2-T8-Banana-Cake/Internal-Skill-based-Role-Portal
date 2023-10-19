@@ -18,7 +18,7 @@ const SessionExpired = (props) => {
   return (
     <>
         <LoginHeader type={'bg-' + props.type} />
-        <Container fluid className={props.type === 'cse' ? 'contentBox p-4 d-flex align-items-center justify-content-center text-center' : 'pcContentBox p-4 d-flex align-items-center justify-content-center text-center'}>
+        <Container fluid className={props.type === 'hr' ? 'contentBox p-4 d-flex align-items-center justify-content-center text-center' : 'pcContentBox p-4 d-flex align-items-center justify-content-center text-center'}>
             <div>
                 <h3 className="mb-3">Session Expired</h3>
                 <p>Please login again.</p>
