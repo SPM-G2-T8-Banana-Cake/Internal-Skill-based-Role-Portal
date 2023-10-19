@@ -205,7 +205,6 @@ function ViewRoleListing() {
   useEffect(() => {
     document.title = "Available Roles";
     setLoading(true);
-
     staffReadRoleListings({ Staff_ID: id })
       .then(function (response) {
         console.log("Staff Read Role Listings Endpoint Called");

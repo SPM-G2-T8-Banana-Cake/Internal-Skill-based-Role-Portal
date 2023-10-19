@@ -222,7 +222,7 @@ function RolesManagement() {
     setLoading(true);
     hrReadRoleListings()
       .then(function (response) {
-        console.log("Read Role Listings Endpoint Called");
+        console.log("Read Role Listings Endpoint Called", response);
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {
