@@ -37,6 +37,8 @@ function Login() {
   const handleHRLogin = () => {
     if (username === "hr10001" && password === "password") {
       localStorage.setItem("id", "hr10001")
+      localStorage.setItem('token', 'test-token')
+      localStorage.setItem('userType', 'hr')
       navigate("/hr-home", { state: { id: "hr10001" } });
       setError(false);
     } else {
@@ -47,6 +49,8 @@ function Login() {
   const handleStaffLogin = () => {
     if (username.includes("st") && password === "password") {
       localStorage.setItem("id", username)
+      localStorage.setItem('userType', 'staff')
+      localStorage.setItem('token', 'test-token')
       navigate("/staff-home", { state: { id: username } });
       setError(false);
     } else {
