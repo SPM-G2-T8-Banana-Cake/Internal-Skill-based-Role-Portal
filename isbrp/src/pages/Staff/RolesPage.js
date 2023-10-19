@@ -208,23 +208,21 @@ function ViewRoleListing() {
     staffReadRoleListings({Staff_ID: id})
     .then(function (response) {
       console.log(response)
-    //   if (response.data.length > 0) {
-    //     let data = [];
-    //     for (let i = 0; i < response.data.length; i++) {
-    //       data.push(response.data[i]);
-    //       if (response.data[i].Staff_ID === localStorage.getItem("id")){
-    //         setStaffSkills(response.data[i].Staff_Skills);
-    //       }
-    //     }
-    //     setRoleListings(data);
-    //   }
-    //   setLoading(false);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    //   openSnackbar("getAllError");
-    // });
+      if (response.data.length > 0) {
+        let data = [];
+        setStaffSkills(response.data[0].Staff_Skills[0]);
+        for (let i = 0; i < response.data.length; i++) {
+          data.push(response.data[i]);
+        }
+        setRoleListings(data);
+      }
+      setLoading(false);
     })
+    .catch(function (error) {
+      console.log(error);
+      openSnackbar("getAllError");
+    });
+    
   }, [id]);
 
   return (
