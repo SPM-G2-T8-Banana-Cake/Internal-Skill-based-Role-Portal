@@ -13,7 +13,7 @@ function ModifyRoleModal(props) {
   const roleListingID = props.role.Role_Listing_ID;
   const [roleName, setRoleName] = useState(props.role.Role_Name);
   const [roleDesc, setRoleDesc] = useState(props.role.Role_Desc);
-  const [skillsRequired, setSkillsRequired] = useState(props.role.Skills);
+  const [skillsRequired, setSkillsRequired] = useState(props.role.Required_Skills);
   const [appDeadline, setAppDeadline] = useState(props.role.Application_Deadline);
   const [department, setDepartment] = useState(props.role.Dept);
 
