@@ -14,30 +14,24 @@ import bgIcon from "../../assets/viewingIcon.png";
 import { staffCreateRoleApplication } from "../../services/api";
 
 function ViewRoleDetailsModal(props) {
+  const requiredSkills = props.role.Required_Skills.includes(",") ? props.role.Required_Skills.split(",") : [props.role.Required_Skills];
+  const roleSkillMatch = props.role.Skill_Match;
+  const staffSkills = props.role.Staff_Skills;
   const [show, setShow] = useState(false);
   const currentModal = "details";
   const [appStatus, setAppStatus] = useState("");
-  const handleClose = () => setShow(false);
+  const handleClose = () => 
+  {
+    setShow(false); 
+    props.reloadRoleListings(); 
+  }
   const handleShow = () => setShow(true);
-  const requiredSkills = props.role.Required_Skills.includes(",") ? props.role.Required_Skills.split(",") : [props.role.Required_Skills];
-  const staffSkills = props.staffSkills.includes(",") ? props.staffSkills.split(",") : [props.staffSkills];
-  var matched = 0;
-  var matchedArray = [];
-  staffSkills.map((staffSkill) => {
-    if (requiredSkills.includes(staffSkill)) {
-      matched += 1;
-      matchedArray.push(staffSkill);
-    }
-    return [matched, matchedArray];
-  });
-  const roleSkillMatch = (matched / requiredSkills.length) * 100;
 
   const handleApplication = () => {
     let data = {};
     data["Role_Listing_ID"] = props.role.Role_Listing_ID;
-    data["Applicant_ID"] = props.staff;
+    data["Applicant_ID"] = localStorage.getItem("id");
 
-    console.log(data);
     staffCreateRoleApplication(data)
       .then((response) => {
         console.log(response);
@@ -129,15 +123,19 @@ function ViewRoleDetailsModal(props) {
               <Col>
                 <span className="fw-bold">Matched Skills ✔️</span>
                 <br />
-                <ul>
-                  {matchedArray.length === 0 ? (
-                    <>-</>
-                  ) : (
-                    matchedArray.map((matchedSkill, index) => {
-                      return <li key={index}>{matchedSkill}</li>;
-                    })
-                  )}
-                </ul>
+                {roleSkillMatch === 0 ? (
+                  <>-</>
+                ) : (
+                  <ul>
+                    {staffSkills.map((staffSkill) => {
+                      if (requiredSkills.includes(staffSkill)) {
+                        return <li key={staffSkill}>{staffSkill}</li>;
+                      }
+
+                      return <></>;
+                    })}
+                  </ul>
+                )}
               </Col>
             </Row>
           </Modal.Body>
@@ -147,8 +145,8 @@ function ViewRoleDetailsModal(props) {
                 Successfully Applied
               </Button>
             ) : (
-              <Button className="rounded-pill me-3" variant="secondary" size="sm" onClick={handleApplication}>
-                Apply for Role
+              <Button className="rounded-pill me-3" variant="secondary" size="sm" onClick={handleApplication}     disabled={!props.role.Applied ? "" : "disabled"}>
+                {!props.role.Applied ? <>Apply for Role</> : <>Applied</>}
               </Button>
             )}
           </Modal.Footer>

@@ -17,7 +17,7 @@ import IsbrpSnackbar from "../../../components/Standard/isbrpSnackBar";
 import { departments } from "../../../utils/constants";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FiFilter } from "react-icons/fi";
-import { readRoleListings } from "../../../services/api";
+import { hrReadRoleListings } from "../../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FaPlus } from "react-icons/fa";
@@ -45,6 +45,14 @@ function RolesManagement() {
     } else if (value === "modifyRoleError") {
       setSeverity("error");
       setMessage("Something went wrong while modifying role. Please try again.");
+      setOpen(true);
+    } else if (value === "deleteRoleSuccess") {
+      setSeverity("error");
+      setMessage("Role deleted successfully.");
+      setOpen(true);
+    } else if (value === "deleteRoleError") {
+      setSeverity("error");
+      setMessage("Something went wrong while deleting the role. Please try again.");
       setOpen(true);
     } else if (value === "getAllError") {
       setSeverity("error");
@@ -128,7 +136,7 @@ function RolesManagement() {
   const handleSearch = (value) => {
     if (value !== "") {
       setLoading(true);
-      readRoleListings()
+      hrReadRoleListings()
         .then(function (response) {
           console.log("Read Role Listings Endpoint Called");
           if (response.data.length > 0) {
@@ -160,7 +168,7 @@ function RolesManagement() {
 
   const reloadRoleListings = () => {
     setLoading(true);
-    readRoleListings()
+    hrReadRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
@@ -181,7 +189,7 @@ function RolesManagement() {
 
   const sortByDepartment = (department) => {
     setLoading(true);
-    readRoleListings()
+    hrReadRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
@@ -212,7 +220,7 @@ function RolesManagement() {
     document.title = "Roles Management";
     window.scrollTo(0, 0);
     setLoading(true);
-    readRoleListings()
+    hrReadRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called", response);
         if (response.data.length > 0) {

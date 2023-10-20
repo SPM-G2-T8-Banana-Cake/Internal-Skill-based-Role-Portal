@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container.js";
 import HrHeader from "../../components/Header/HrHeader";
 import Footer from "../../components/Footer/Footer";
-import { readRoleListings } from "../../services/api";
+import { hrReadRoleListings } from "../../services/api";
 import Badge from "@mui/material/Badge";
 import { FiUser, FiBook } from "react-icons/fi";
 import bgIcon from "../../assets/staffHomeBg.png";
@@ -23,16 +23,14 @@ function HrHome() {
   };
   
   useEffect(() => {
-    let mounted = true;
     document.title = "Home";
     window.scrollTo(0, 0);
 
-    if (mounted) {
-      readRoleListings()
+      hrReadRoleListings()
         .then(function (response) {
           console.log("Read Role Listings Endpoint Called");
           console.log(response);
-          if (mounted && response.data.length > 0) {
+          if (response.data.length > 0) {
             setNoRoleListings(response.data.length);
             let data = {};
             for (let i = 0; i < response.data.length; i++) {
@@ -42,7 +40,6 @@ function HrHome() {
                 data[response.data[i].Dept].push(response.data[i].Role_Name);
               }
             }
-
             setRoleListings(data);
           }
         })
@@ -52,22 +49,7 @@ function HrHome() {
           setRoleListings({});
         });
     }
-    //   if (mounted) {
-    //     hrReadRoleApplicants()
-    //     .then(function (response) {
-    //       console.log("Read Applicants Endpoint Called");
-    //       console.log(response);
-    //       if (mounted && response.data.length > 0) {
-
-    //         setNoApplications(response.data.length);
-    //       }
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //       setNoApplications(0);
-    //     });
-    //   }
-  }, []);
+  , []);
   
   console.log("Role Listing", roleListings);
   return (
