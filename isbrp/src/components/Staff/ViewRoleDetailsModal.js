@@ -14,8 +14,10 @@ import bgIcon from "../../assets/viewingIcon.png";
 import { staffCreateRoleApplication } from "../../services/api";
 
 function ViewRoleDetailsModal(props) {
+  console.log(props)
   const requiredSkills = props.role.Required_Skills.includes(",") ? props.role.Required_Skills.split(",") : [props.role.Required_Skills];
   const roleSkillMatch = props.role.Skill_Match;
+  // const staffSkillArray = props.role.Staff_Skills.includes(",") ? props.role.Staff_Skills.split(",") : props.role.Staff_Skills;
   const staffSkills = props.role.Staff_Skills;
   const [show, setShow] = useState(false);
   const currentModal = "details";
@@ -34,6 +36,7 @@ function ViewRoleDetailsModal(props) {
 
     staffCreateRoleApplication(data)
       .then((response) => {
+        localStorage.setItem(props.role.Role_Name, props.role.Role_Name)
         console.log(response);
         setAppStatus("success");
         props.openSnackbar("createApplicationSuccess");
