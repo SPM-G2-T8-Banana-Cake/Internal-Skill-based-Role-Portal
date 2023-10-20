@@ -146,7 +146,6 @@ function RolesManagement() {
                 filteredData.push(response.data[i]);
               }
             }
-
             setRoleListings(filteredData);
           } else {
             setRoleListings([]);
@@ -177,7 +176,6 @@ function RolesManagement() {
             data.push(response.data[i]);
           }
           setRoleListings(data);
-          console.log(data);
         }
         setLoading(false);
       })
@@ -199,7 +197,6 @@ function RolesManagement() {
               filteredData.push(response.data[i]);
             }
           }
-
           setRoleListings(filteredData);
         } else {
           setRoleListings([]);
@@ -222,7 +219,7 @@ function RolesManagement() {
     setLoading(true);
     hrReadRoleListings()
       .then(function (response) {
-        console.log("Read Role Listings Endpoint Called", response);
+        console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {

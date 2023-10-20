@@ -136,7 +136,6 @@ function ViewRoleListing() {
                 filteredData.push(response.data[i]);
               }
             }
-
             setRoleListings(filteredData);
           } else {
             setRoleListings([]);
@@ -161,7 +160,6 @@ function ViewRoleListing() {
     staffReadRoleListings({ Staff_ID: id })
       .then(function (response) {
         console.log("Staff Read Role Listings Endpoint Called");
-        console.log(response);
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {
@@ -204,7 +202,6 @@ function ViewRoleListing() {
               filteredData.push(data[i]);
             }
           }
-
           setRoleListings(filteredData);
         } else {
           setRoleListings([]);

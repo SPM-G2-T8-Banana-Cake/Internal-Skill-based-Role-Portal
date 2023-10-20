@@ -21,7 +21,6 @@ function StaffHome() {
     hrReadRoleApplicants()
       .then(function (response) {
         console.log("Read Applicants Endpoint Called");
-        console.log(response);
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {
