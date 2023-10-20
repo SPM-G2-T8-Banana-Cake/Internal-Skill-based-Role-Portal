@@ -3,7 +3,7 @@
 <img src="https://github.com/SPM-G2-T8-Banana-Cake/Internal-Skill-based-Role-Portal/assets/47893187/3617f77f-2555-4e9d-a724-774fbb1f176e" data-canonical-src="https://github.com/SPM-G2-T8-Banana-Cake/Internal-Skill-based-Role-Portal/assets/47893187/3617f77f-2555-4e9d-a724-774fbb1f176e" width="500" height="400" />
 </p>
 <p align="center">
-All-In-One Internal Skill-based Role Portal is an internal company web application that builds upon its Learning Journey Planning System (LJPS) database. It targets the current email blast faced, by providing functionalities that eliminate the hassle of HR having to collate all the data of Staff and handling their applications.
+All-In-One Internal Skill-based Role Portal is an internal company web application that builds upon its Learning Journey Planning System (LJPS) database. It targets the current email blast faced, by providing functionalities that eliminate the hassle of HR having to collate all the staff data and handling their applications.
 </p>
 
 # Getting Started with All-In-One Application
@@ -19,7 +19,7 @@ This will bring you to the correct folder directory to run the client view.
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-The page will reload when you make changes.
+
 
 
 
