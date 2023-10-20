@@ -144,14 +144,12 @@ class RolePostingsRepository(IRolePostingsRepository):
                     print(required_skills_array)
 
 
-                if "," in staffskills:
-                    staff_skills = staffskills.split(",")
-                    for skill in staff_skills:
-                        if skill.strip() in required_skills_array:
+                if len(staffskills) > 0:
+                    for skill in staffskills:
+                        if skill in required_skills_array:
                             skillsmatchcounter += 1
                 else:
-                    
-                    if [staffskills] in required_skills_array:
+                    if staffskills[0] in required_skills_array:
                         skillsmatchcounter += 1
 
                 skill_match = math.ceil(skillsmatchcounter / max_number_of_required_skills * 100)
