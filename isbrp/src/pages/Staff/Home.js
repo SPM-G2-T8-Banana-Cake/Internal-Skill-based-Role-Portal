@@ -12,11 +12,12 @@ import { Chip } from "@mui/material";
 function StaffHome() {
   const id = localStorage.getItem("id");
   const [applicants, setApplicants] = useState([]);
+  const [noApplications, setNoApplications] = useState([]);
 
   useEffect(() => {
     document.title = "Home";
     window.scrollTo(0, 0);
-  
+
     hrReadRoleApplicants()
       .then(function (response) {
         console.log("Read Applicants Endpoint Called");
@@ -26,16 +27,17 @@ function StaffHome() {
           for (let i = 0; i < response.data.length; i++) {
             if (response.data[i].Staff_ID === id) {
               data.push(response.data[i]);
-              localStorage.setItem(response.data[i].Role_Name, response.data[i].Role_Name)
+              localStorage.setItem(response.data[i].Role_Name, response.data[i].Role_Name);
             }
             setApplicants(data);
-           
+            setNoApplications(data.length);
           }
         }
       })
       .catch(function (error) {
         console.log(error);
         setApplicants([]);
+        setNoApplications(0);
       });
   }, [id]);
 
@@ -43,7 +45,10 @@ function StaffHome() {
     <>
       <StaffHeader />
       <Container fluid className="contentBox p-4">
-        <h1>Roles Applied to</h1>
+        <h1>Roles Application(s) Status</h1>
+        <p>
+          You currently have <b>{noApplications}</b> pending applications.
+        </p>
         <hr />
         <div className="p-2">
           {applicants.map((application, index) => {
