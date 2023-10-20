@@ -32,7 +32,6 @@ function ViewRoleListing() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
-  const [staffSkills, setStaffSkills] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [roleListings, setRoleListings] = useState([]);
 
@@ -162,10 +161,16 @@ function ViewRoleListing() {
     staffReadRoleListings({ Staff_ID: id })
       .then(function (response) {
         console.log("Staff Read Role Listings Endpoint Called");
+        console.log(response);
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {
-            data.push(response.data[i]);
+            if (localStorage.getItem(response.data[i].Role_Name) === response.data[i].Role_Name) {
+              response.data[i]["Applied"] = true;
+              data.push(response.data[i]);
+            } else {
+              data.push(response.data[i]);
+            }
           }
           setRoleListings(data);
         }
@@ -183,10 +188,20 @@ function ViewRoleListing() {
       .then(function (response) {
         console.log("Staff Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
-          let filteredData = [];
+          let data = [];
           for (let i = 0; i < response.data.length; i++) {
-            if (response.data[i].Dept === department) {
-              filteredData.push(response.data[i]);
+            if (localStorage.getItem(response.data[i].Role_Name) === response.data[i].Role_Name) {
+              response.data[i]["Applied"] = true;
+              data.push(response.data[i]);
+            } else {
+              data.push(response.data[i]);
+            }
+          }
+
+          let filteredData = [];
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].Dept === department) {
+              filteredData.push(data[i]);
             }
           }
 
@@ -211,12 +226,13 @@ function ViewRoleListing() {
         console.log(response);
         if (response.data.length > 0) {
           let data = [];
-          setStaffSkills(response.data[0].Staff_Skills[0]);
           for (let i = 0; i < response.data.length; i++) {
             if (localStorage.getItem(response.data[i].Role_Name) === response.data[i].Role_Name) {
               response.data[i]["Applied"] = true;
+              data.push(response.data[i]);
+            } else {
+              data.push(response.data[i]);
             }
-            data.push(response.data[i]);
           }
           setRoleListings(data);
         }
@@ -290,17 +306,27 @@ function ViewRoleListing() {
                   </tr>
                 </thead>
                 <tbody>
-                  {(rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
-                    <tr className="border-details" key={roles.Role_ID}>
-                      <td className="bg-grey ps-3">{roles.Dept}</td>
-                      <td className="bg-grey ps-3">{roles.Role_Name}</td>
-                      <td className="bg-grey">{roles.Role_Desc}</td>
-                      <td className="bg-grey">{roles.Applied ? <Chip label="Applied" className="float-end bg-pending"></Chip> : null}</td>
-                      <td className="bg-grey">
-                        <ViewRoleDetailsModal className="bg-grey" staffSkills={staffSkills} role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
-                      </td>
+                  {roleListings.length > 0 ? (
+                    (rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
+                      <tr className="border-details" key={roles.Role_ID}>
+                        <td className="bg-grey ps-3">{roles.Dept}</td>
+                        <td className="bg-grey">{roles.Role_Name}</td>
+                        <td className="bg-grey">{roles.Role_Desc}</td>
+                        <td className="bg-grey">{roles.Applied ? <Chip label="Applied" className="float-end bg-pending"></Chip> : null}</td>
+                        <td className="bg-grey">
+                          <ViewRoleDetailsModal className="bg-grey" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr className="border-details">
+                      <td className="bg-grey ps-3">No role Listings found. Check back again!</td>
+                      <td className="bg-grey"></td>
+                      <td className="bg-grey"></td>
+                      <td className="bg-grey"></td>
+                      <td className="bg-grey"></td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
                 <tfoot>
                   <tr>
