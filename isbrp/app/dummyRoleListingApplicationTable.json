@@ -108,18 +108,6 @@
             "Application_Status": "Pending"
         },
         {
-            "Role_Listing_App_ID":"rla18",
-            "Role_Listing_ID":"rl11",
-            "Applicant_ID": "st18",
-            "Application_Status": "Pending"
-        },
-        {
-            "Role_Listing_App_ID":"rla19",
-            "Role_Listing_ID":"rl11",
-            "Applicant_ID": "st19",
-            "Application_Status": "Pending"
-        },
-        {
             "Role_Listing_App_ID":"rla19",
             "Role_Listing_ID":"rl11",
             "Applicant_ID": "st19",
