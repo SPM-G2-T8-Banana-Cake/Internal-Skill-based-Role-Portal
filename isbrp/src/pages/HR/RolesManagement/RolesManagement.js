@@ -129,7 +129,7 @@ function RolesManagement() {
   };
 
   const handleChangeRowsPerPage = (e) => {
-    setRowsPerPage(parseInt(e.target.value, 10));
+    setRowsPerPage(parseInt(e.target.value));
     setPage(0);
   };
 
