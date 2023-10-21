@@ -221,21 +221,6 @@ class RolePostingsService(RolePostingsRepository):
         try:
             staff_skill_sql = f"SELECT Skills from spm.Staff_Table where Staff_ID = '{staffID}'"
             res = self.repository.getStaffSkills(staff_skill_sql)
-            print()
-            print()
-            print()
-            print()
-            print("FINDING RES")
-            print()
-            print()
-            print()
-            print()
-            print(res)
-            print()
-            print()
-            print()
-            print()
-            print()
             read_role_sql = '''
                 SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RLT.Skills, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline
                 FROM spm.Role_Table RT
