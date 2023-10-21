@@ -95,7 +95,7 @@ function ViewRoleDetailsModal(props) {
               <Col>
                 <span className="fw-bold">Skills Required</span>
                 <br />
-                <span>{props.role.Required_Skills}</span>
+                <span>{props.role.Required_Skills[1]}</span>
               </Col>
             </Row>
             <Row className="mb-5">
