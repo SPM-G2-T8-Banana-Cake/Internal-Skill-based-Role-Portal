@@ -14,10 +14,12 @@ import bgIcon from "../../assets/viewingIcon.png";
 import { staffCreateRoleApplication } from "../../services/api";
 
 function ViewRoleDetailsModal(props) {
-
-  const requiredSkills = props.role.Required_Skills.includes(",") ? props.role.Required_Skills.split(",") : [props.role.Required_Skills];
+  console.log(props)
+  const requiredSkills = props.role.Required_Skills[0];
   const roleSkillMatch = props.role.Skill_Match;
-  const staffSkills = props.role.Staff_Skills[0].includes(",") ?  props.role.Staff_Skills[0].split(",") : [props.role.Staff_Skills[0]];
+  const staffSkills = props.role.Staff_Skills[0].includes(",") ?  props.role.Staff_Skills[0].split(",") : props.role.Staff_Skills;
+  console.log("Required Skills", requiredSkills)
+  console.log("Staff skills", staffSkills)
   const [show, setShow] = useState(false);
   const currentModal = "details";
   const [appStatus, setAppStatus] = useState("");
