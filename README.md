@@ -20,7 +20,7 @@ All-In-One Internal Skill-based Role Portal is an internal company web applicati
 | bootstrap | Styling, Tooltips                     | [Bootstrap](https://getbootstrap.com/)                       |  
 | sass      | CSS extension language                | [SASS](https://sass-lang.com/)                               |
 | MUI       | Component library for styling         | [MUI](https://mui.com/)                                      |
-| formik    | Helps you with building forms         | [Formik](https://formik.org/docs/api/formik)                 |
+| formik    | Helps with building of forms          | [Formik](https://formik.org/docs/api/formik)                 |
 | yup       | Object schema builder                 | [Yup](https://www.npmjs.com/package/yup?activeTab=readme)    |
 
 ### Back End (Core Libraries)
