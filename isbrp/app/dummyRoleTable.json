@@ -95,12 +95,6 @@
         "Role_Desc": "A cybersecurity analyst safeguards an organization's digital assets from threats and attacks."
     },
     {
-        "Role_ID":"ro18",
-        "Role_Name": "Software Developer",
-        "Role_Desc": "A software developer is responsible for designing, coding, testing, and maintaining software applications and systems."
-
-    },
-    {
         "Role_ID": "ro19",
         "Role_Name": "Database Administrator",
         "Role_Desc": "A database administrator manages and optimizes database systems."
