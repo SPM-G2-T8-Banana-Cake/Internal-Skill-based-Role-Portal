@@ -58,5 +58,60 @@
         "Role_Name": "Content Writer",
         "Role_Desc": "A content writer creates written content for websites, blogs, marketing materials, and other platforms to engage and inform the audience."
 
+    },
+    {
+        "Role_ID":"ro11",
+        "Role_Name": "FullStack Developer",
+        "Role_Desc": "A fullstack developer deals with both frontend and backend infrastructure."
+    },
+    {
+        "Role_ID": "ro12",
+        "Role_Name": "Backend Developer",
+        "Role_Desc": "A backend developer focuses on server-side development and database management."
+    },
+    {
+        "Role_ID": "ro13",
+        "Role_Name": "Frontend Developer",
+        "Role_Desc": "A frontend developer works on the user interface and client-side scripting."
+    },
+    {
+        "Role_ID": "ro14",
+        "Role_Name": "DevOps Engineer",
+        "Role_Desc": "A DevOps engineer is responsible for automating and streamlining IT operations."
+    },
+    {
+        "Role_ID": "ro15",
+        "Role_Name": "Data Scientist",
+        "Role_Desc": "A data scientist analyzes and interprets complex data to make informed business decisions."
+    },
+    {
+        "Role_ID": "ro16",
+        "Role_Name": "Network Administrator",
+        "Role_Desc": "A network administrator manages and maintains an organization's network infrastructure."
+    },
+    {
+        "Role_ID": "ro17",
+        "Role_Name": "Cybersecurity Analyst",
+        "Role_Desc": "A cybersecurity analyst safeguards an organization's digital assets from threats and attacks."
+    },
+    {
+        "Role_ID": "ro19",
+        "Role_Name": "Database Administrator",
+        "Role_Desc": "A database administrator manages and optimizes database systems."
+    },
+    {
+        "Role_ID": "ro20",
+        "Role_Name": "Cloud Architect",
+        "Role_Desc": "A cloud architect designs and manages cloud-based infrastructure and services."
     }
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
 ]
