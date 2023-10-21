@@ -14,9 +14,10 @@ import bgIcon from "../../assets/viewingIcon.png";
 import { staffCreateRoleApplication } from "../../services/api";
 
 function ViewRoleDetailsModal(props) {
+
   const requiredSkills = props.role.Required_Skills.includes(",") ? props.role.Required_Skills.split(",") : [props.role.Required_Skills];
   const roleSkillMatch = props.role.Skill_Match;
-  const staffSkills = props.role.Staff_Skills;
+  const staffSkills = props.role.Staff_Skills[0].includes(",") ?  props.role.Staff_Skills[0].split(",") : [props.role.Staff_Skills[0]];
   const [show, setShow] = useState(false);
   const currentModal = "details";
   const [appStatus, setAppStatus] = useState("");
@@ -110,6 +111,17 @@ function ViewRoleDetailsModal(props) {
               <Col>
                 <div className="w-50">
                   <CircularProgressbar value={roleSkillMatch} text={`${roleSkillMatch}%`} />
+                  <div className="text-center">
+                  {roleSkillMatch > 50 ? <p>
+                    You are a good fit 😀
+                  </p>:
+                  roleSkillMatch > 80 ? <p>
+                    You are a potential fit 😀
+                  </p> 
+                  : <p>You are not that good of a fit ☹️</p> 
+                  }
+                  </div>
+              
                 </div>
               </Col>
               <Col>
@@ -127,15 +139,18 @@ function ViewRoleDetailsModal(props) {
                 {roleSkillMatch === 0 ? (
                   <>-</>
                 ) : (
+                 
                   <ul>
                     {staffSkills.map((staffSkill) => {
-                      if (requiredSkills.includes(staffSkill)) {
-                        return <li key={staffSkill}>{staffSkill}</li>;
+                      if (requiredSkills.includes(staffSkill.trim())) {
+                        return (
+                        <li key={staffSkill}>{staffSkill}</li>
+                        )
                       }
-
-                      return <></>;
+                      return <></>
                     })}
                   </ul>
+                  
                 )}
               </Col>
             </Row>
