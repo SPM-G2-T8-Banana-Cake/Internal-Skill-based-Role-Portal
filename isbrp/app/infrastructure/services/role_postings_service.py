@@ -196,18 +196,16 @@ class RolePostingsService(RolePostingsRepository):
             print(response_message)
             return response_message
 
-    def view_role_listings(self):
+
+    def hr_view_role_listings(self):
         start_time = time.time()
         try:
             read_role_sql = '''
-                SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RLT.Skills, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline, ST.Skills, ST.Staff_ID
+                SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RLT.Skills, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline
                 FROM spm.Role_Table RT
                 JOIN spm.Role_Listing_Table RLT ON RT.Role_ID = RLT.Role_ID
-                JOIN spm.Role_Listing_Application_Table RLAT on RLAT.Role_Listing_ID = RLT.Role_Listing_ID
-                JOIN spm.Staff_Table ST on ST.Staff_ID = RLAT.Applicant_ID;
-                ;
                 '''
-            res = self.repository.getRoleListings(read_role_sql)
+            res = self.repository.HRGetRoleListings(read_role_sql)
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in view_role_listings: {e}")
             return {}
@@ -215,6 +213,43 @@ class RolePostingsService(RolePostingsRepository):
         else:
             print("view_role_listings Time taken in seconds: " + str(time.time()-start_time))
             return res
+
+
+    def staff_view_role_listings(self, staffID):
+
+        start_time = time.time()
+        try:
+            staff_skill_sql = f"SELECT Skills from spm.Staff_Table where Staff_ID = '{staffID}'"
+            res = self.repository.getStaffSkills(staff_skill_sql)
+            print()
+            print()
+            print()
+            print()
+            print("FINDING RES")
+            print()
+            print()
+            print()
+            print()
+            print(res)
+            print()
+            print()
+            print()
+            print()
+            print()
+            read_role_sql = '''
+                SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RLT.Skills, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline
+                FROM spm.Role_Table RT
+                JOIN spm.Role_Listing_Table RLT ON RT.Role_ID = RLT.Role_ID
+                '''
+            res2 = self.repository.StaffGetRoleListings(read_role_sql, res)
+
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in view_role_listings: {e}")
+            return {}
+        
+        else:
+            print("view_role_listings Time taken in seconds: " + str(time.time()-start_time))
+            return res2
 
     def view_applicants_skills(self):
         start_time = time.time()

@@ -5,7 +5,7 @@ class SqlServicesWrapper:
     def __init__(self):
         self.host = 'is212g2t8db.cozufzqpaqz5.ap-southeast-1.rds.amazonaws.com'
         self.username = 'admin'
-        self.password = 'PinguDevelopers123!'
+        self.password = ''
         self.db = 'is212g2t8db'
 
         # Initialize the cursor when creating an instance

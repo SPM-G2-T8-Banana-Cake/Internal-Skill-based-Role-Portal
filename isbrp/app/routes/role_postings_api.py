@@ -26,10 +26,14 @@ def update_role_listing():
     res = role_postings_service.update_role_listing(role_listings_json)
     return res
 
+@role_postings_api.route('/hr_view_role_listings', methods=['GET'])
+def hr_view_role_listings():
+    return role_postings_service.hr_view_role_listings()
 
-@role_postings_api.route('/view_role_listings', methods=['GET'])
-def view_role_listings():
-    return role_postings_service.view_role_listings()
+@role_postings_api.route('/staff_view_role_listings', methods=['POST'])
+def staff_view_role_listings():
+    staffID = request.json['Staff_ID']
+    return role_postings_service.staff_view_role_listings(staffID)
 
 @role_postings_api.route('/view_applicants_skills', methods=['GET'])
 def view_applicants_skills():

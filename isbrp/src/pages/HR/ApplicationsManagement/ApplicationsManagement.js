@@ -96,10 +96,26 @@ function ApplicationsManagement() {
   const handleSearch = (value) => {
     if (value !== "") {
       setLoading(true);
-      let input = value;
-      if (input.includes(" ")) {
-        input = input.replace(/\s+/g, "-");
-      }
+      hrReadRoleApplicants()
+        .then(function (response) {
+          console.log("Read Applicants Endpoint Called");
+          if (response.data.length > 0) {
+            let filteredData = [];
+            for (let i = 0; i < response.data.length; i++) {
+              if (response.data[i].Staff_Name.toLowerCase().includes(value)) {
+                filteredData.push(response.data[i]);
+              }
+            }
+            setApplicants(filteredData);
+          } else {
+            setApplicants([]);
+          }
+          setLoading(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+          openSnackbar("searchError");
+        });
     }
   };
 
@@ -144,7 +160,6 @@ function ApplicationsManagement() {
             data.push(response.data[i]);
           }
           setApplicants(data);
-          console.log(data);
         }
         setLoading(false);
       })
@@ -162,7 +177,6 @@ function ApplicationsManagement() {
     hrReadRoleApplicants()
       .then(function (response) {
         console.log("Read Applicants Endpoint Called");
-        console.log(response);
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {
@@ -224,8 +238,8 @@ function ApplicationsManagement() {
                   </tr>
                 </thead>
                 <tbody>
-                  {(rowsPerPage > 0 ? applicants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : applicants).map((applicant) => (
-                    <tr className="border-details" key={applicant.Staff_Name}>
+                  {(rowsPerPage > 0 ? applicants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : applicants).map((applicant, applicantNo) => (
+                    <tr className="border-details" key={applicantNo}>
                       <td className="bg-grey ps-3">{applicant.Staff_Name}</td>
                       <td className="bg-grey">{applicant.Staff_Skills}</td>
                       <td className="bg-grey">{applicant.Role_Name}</td>

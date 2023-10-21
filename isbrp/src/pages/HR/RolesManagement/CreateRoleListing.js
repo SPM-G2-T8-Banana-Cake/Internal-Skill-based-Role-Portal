@@ -65,11 +65,9 @@ function CreateRoleListing() {
       rolePosting["Dept"] = formik.values.dept;
       rolePosting["Application_Deadline"] = formik.values.appDeadline;
       rolePosting["Skill_Name"] = formik.values.skillsRequired;
-      console.log(rolePosting);
 
       hrCreateRoleListing(rolePosting)
         .then((response) => {
-          console.log(response);
           window.scrollTo(0, 0);
           setSeverity("success");
           setMessage("Role listing created successfully.");
