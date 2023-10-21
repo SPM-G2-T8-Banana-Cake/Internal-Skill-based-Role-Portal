@@ -137,6 +137,69 @@
             "Dept": "IT",
             "Application_Deadline": "2023-06-02",
             "Skills": "Database Management, SQL, MySQL, Oracle, MongoDB, Backup and Recovery"
-        }
+        },
+        {
+            "Role_Listing_ID": "rl29",
+            "Role_ID": "ro11",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "FullStack Development, Frontend and Backend Development, Web Technologies"
+        },
+        {
+            "Role_Listing_ID": "rl21",
+            "Role_ID": "ro12",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Backend Development, Server-side Development, Database Management"
+        },
+        {
+            "Role_Listing_ID": "rl22",
+            "Role_ID": "ro13",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Frontend Development, User Interface, Client-side Scripting"
+        },
+        {
+            "Role_Listing_ID": "rl23",
+            "Role_ID": "ro14",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "DevOps, Automation, IT Operations, Continuous Integration"
+        },
+        {
+            "Role_Listing_ID": "rl24",
+            "Role_ID": "ro15",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Data Science, Data Analysis, Machine Learning, Data Interpretation"
+        },
+        {
+            "Role_Listing_ID": "rl25",
+            "Role_ID": "ro16",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Network Administration, Cisco, Routing and Switching"
+        },
+        {
+            "Role_Listing_ID": "rl26",
+            "Role_ID": "ro17",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Cybersecurity, Intrusion Detection, Penetration Testing"
+        },
+        {
+            "Role_Listing_ID": "rl27",
+            "Role_ID": "ro19",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Database Management, SQL, NoSQL, Backup and Recovery"
+        },
+        {
+            "Role_Listing_ID": "rl28",
+            "Role_ID": "ro20",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Cloud Architecture, AWS, Azure, GCP, Infrastructure as Code"
+        }        
     ]
     
