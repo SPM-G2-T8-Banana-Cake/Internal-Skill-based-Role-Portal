@@ -118,21 +118,23 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Role_ID'] = res[0]
                 result_obj['Role_Name'] = res[1]
                 result_obj['Role_Desc'] = res[2]
-                result_obj['Required_Skills'] = res[3]
                 result_obj['Dept'] = res[4]
                 result_obj['Role_Listing_ID'] = res[5]
                 result_obj['Application_Deadline'] = res[6]
                 result_obj["Staff_Skills"] = staffskills
                 skillsmatchcounter = 0
                 required_skills_array = []
+                print("required skills", res[3])
                 if "," in res[3]:
                     required_skills = res[3].split(",")
                     max_number_of_required_skills = len(required_skills)
-                    for skill in required_skills:
+                    for skill in required_skills:   
                         required_skills_array.append(skill.strip())
                 else:
                     max_number_of_required_skills = 1
                     required_skills_array.append(res[3])
+
+                result_obj['Required_Skills'] = [required_skills_array, res[3]]
 
                 if len(staffskills) > 0:
                     staff_skill_array = staffskills[0].split(",")
