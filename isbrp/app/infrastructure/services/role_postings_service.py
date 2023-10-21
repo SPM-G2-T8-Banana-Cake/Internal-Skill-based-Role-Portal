@@ -6,6 +6,7 @@ from domain.models.role_postings import StaffTable, RoleTable, RoleListingTable,
 from domain.models.constants import STAFF_PREFIX, ROLE_LISTING_APPLICATION_PREFIX, ROLE_LISTING_PREFIX, ROLE_PREFIX
 from infrastructure.repos.role_postings_repo import RolePostingsRepository
 from utils.aws_services_wrapper import SqlServicesWrapper
+from passlib.hash import sha256_crypt
 
 class RolePostingsService(RolePostingsRepository):
     def __init__(self, role_postings_repo : RolePostingsRepository) -> None:
@@ -338,3 +339,85 @@ class RolePostingsService(RolePostingsRepository):
                 response_message = f"create_app: Time taken in seconds: {time_taken}"
                 print(response_message)
                 return response_message
+            
+    def hr_log_in(self, username, password):
+        start_time = time.time()
+        try:
+            hr_details_sql = f"SELECT User_ID, Password from spm.HR_Auth_Table where User_ID = '{username}'"
+            res = self.repository.getUsernamePassword(hr_details_sql)
+            res2 = False
+            hashed = sha256_crypt.using(rounds=5000).hash(res['Password'])
+            if hashed == password:
+                res2 = True
+
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in hr_log_in: {e}")
+            return {}
+        
+        else:
+            print("hr_log_in Time taken in seconds: " + str(time.time()-start_time))
+            return res2
+
+    def staff_log_in(self, username, password):
+        start_time = time.time()
+        try:
+            staff_details_sql = f"SELECT User_ID, Password from spm.Staff_Auth_Table where User_ID = '{username}'"
+            res = self.repository.getUsernamePassword(staff_details_sql)
+            res2 = False
+            hashed = sha256_crypt.using(rounds=5000).hash(res['Password'])
+            if hashed == password:
+                res2 = True
+    
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in staff_log_in: {e}")
+            return {}
+        
+        else:
+            print("staff_log_in Time taken in seconds: " + str(time.time()-start_time))
+            return res2
+        
+    def create_hr_user(self, role_listings_json: RoleListingTable):
+        start_time = time.time()
+        try:
+            HR_Username = role_listings_json.get('Username')
+            # print("Role_Name = " + Role_Name)
+            HR_Password = role_listings_json.get('Password')
+            # print("Role_Desc = " + Role_Desc)
+            hashed = sha256_crypt.using(rounds=5000).hash(HR_Password)
+            create_user_sql = '''
+            INSERT INTO spm.HR_Auth_Table(User_ID, User_Password) VALUES (%s, %s)
+            '''
+            params = (HR_Username, hashed)
+            self.repository.create(create_user_sql, params)
+
+        except (TypeError, AttributeError) as e:
+            print(f"Error creating instance: {e}")
+            return f"Error creating instance: {e}"
+        else:
+            time_taken = time.time() - start_time
+            response_message = f"create_hr_user: Time taken in seconds: {time_taken}"
+            print(response_message)
+            return response_message
+        
+    def create_staff_user(self, role_listings_json: RoleListingTable):
+        start_time = time.time()
+        try:
+            Staff_Username = role_listings_json.get('Username')
+            # print("Role_Name = " + Role_Name)
+            Staff_Password = role_listings_json.get('Password')
+            # print("Role_Desc = " + Role_Desc)
+            hashed = sha256_crypt.using(rounds=5000).hash(Staff_Password)
+            create_user_sql = '''
+            INSERT INTO spm.Staff_Auth_Table(User_ID, User_Password) VALUES (%s, %s)
+            '''
+            params = (Staff_Username, hashed)
+            self.repository.create(create_user_sql, params)
+
+        except (TypeError, AttributeError) as e:
+            print(f"Error creating instance: {e}")
+            return f"Error creating instance: {e}"
+        else:
+            time_taken = time.time() - start_time
+            response_message = f"create_staff_user: Time taken in seconds: {time_taken}"
+            print(response_message)
+            return response_message
