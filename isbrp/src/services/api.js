@@ -26,6 +26,14 @@ axiosClient.interceptors.response.use(
     }
   );
 
+// LOGIN
+export function hrCreateAccount(data) {
+  return axiosClient.post("/create_hr_user", JSON.stringify(data));
+}
+
+export function staffCreateAccount(data) {
+  return axiosClient.post("/create_staff_user", JSON.stringify(data));
+}
 
 // HR ROLE MANAGEMENT
 export function hrCreateRoleListing(data) {

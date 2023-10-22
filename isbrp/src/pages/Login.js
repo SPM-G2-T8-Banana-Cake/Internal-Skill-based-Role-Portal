@@ -13,19 +13,27 @@ import Tooltip from "react-bootstrap/Tooltip";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import logo from "../assets/logo.png";
+import { ThreeDots } from "react-loader-spinner";
 
 import { BsPersonFillGear, BsFillBuildingsFill } from "react-icons/bs";
 import { FiArrowLeft } from "react-icons/fi";
+import { staffCreateAccount } from "../services/api.js";
 
 function Login() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [hrLogin, setHrLogin] = useState(false);
   const [staffLogin, setStaffLogin] = useState(false);
   const [termsOfUse, setTermsOfUse] = useState(false);
   const [privacyPolicy, setPrivacyPolicy] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [staffRegisterUsername, setStaffRegisterUsername] = useState("");
+  const [staffRegisterPassword, setStaffRegisterPassword] = useState("");
   const [error, setError] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [HrRegister, setHrRegister] = useState(false);
+  const [staffRegister, setStaffRegister] = useState(false);
 
   const handleEnter = (value) => {
     if (value === "Enter") {
@@ -36,9 +44,9 @@ function Login() {
 
   const handleHRLogin = () => {
     if (username === "hr10001" && password === "password") {
-      localStorage.setItem("id", "hr10001")
-      localStorage.setItem('token', 'test-token')
-      localStorage.setItem('userType', 'hr')
+      localStorage.setItem("id", "hr10001");
+      localStorage.setItem("token", "test-token");
+      localStorage.setItem("userType", "hr");
       navigate("/hr-home", { state: { id: "hr10001" } });
       setError(false);
     } else {
@@ -48,9 +56,57 @@ function Login() {
 
   const handleStaffLogin = () => {
     if (username.includes("st") && password === "password") {
-      localStorage.setItem("id", username)
-      localStorage.setItem('userType', 'staff')
-      localStorage.setItem('token', 'test-token')
+      localStorage.setItem("id", username);
+      localStorage.setItem("userType", "staff");
+      localStorage.setItem("token", "test-token");
+      navigate("/staff-home", { state: { id: username } });
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+
+  const handleStaffRegister = () => {
+    let errors = [];
+    if (staffRegisterUsername.length === 0) {
+      errors.push("Username is missing.");
+    }
+    if (staffRegisterPassword.length === 0) {
+      errors.push("Password is missing.");
+    }
+
+    setErrors(errors);
+
+    if (errors.length === 0) {
+      setLoading(true);
+      staffCreateAccount({ Username: staffRegisterUsername, Password: staffRegisterPassword })
+        .then(function (response) {
+          console.log("Staff Create Account Endpoint Called");
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+          setErrors(["Something went wrong with creating an account."]);
+        });
+      setLoading(false);
+    }
+
+    // if (username.includes("st") && password === "password") {
+    //   localStorage.setItem("id", username);
+    //   localStorage.setItem("userType", "staff");
+    //   localStorage.setItem("token", "test-token");
+    //   navigate("/staff-home", { state: { id: username } });
+    //   setError(false);
+    // } else {
+    //   setError(true);
+    // }
+  };
+
+  const handleHRRegister = () => {
+    if (username.includes("st") && password === "password") {
+      localStorage.setItem("id", username);
+      localStorage.setItem("userType", "staff");
+      localStorage.setItem("token", "test-token");
       navigate("/staff-home", { state: { id: username } });
       setError(false);
     } else {
@@ -64,9 +120,9 @@ function Login() {
 
   return (
     <>
-      <LoginHeader type={"bg-secondary"} />
-      <section className="vh-100 vw-70 bg-grey">
-        <Container className="py-5 h-100">
+      <LoginHeader />
+      <section className="mx-auto vh-100 bg-grey">
+        <Container className="h-100 w-100">
           <Row className="row d-flex justify-content-center align-items-center mt-4 h-100">
             <Col className="col col-xl-10">
               <div className="card" style={{ borderRadius: "1rem" }}>
@@ -78,7 +134,97 @@ function Login() {
                     <div className="card-body p-4 p-lg-5 text-black">
                       <Form>
                         <img src={logo} className="w-100 mb-4 mx-1" alt="Brand Logo" fluid style={{ borderRadius: "1rem 0 0 1rem" }} />
-                        {termsOfUse ? (
+                        {HrRegister ? (
+                          <>
+                            <Form.Group className="mt-2 mb-3">
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
+                                <Button
+                                  variant="light"
+                                  className="rounded-circle me-1 d-inline"
+                                  onClick={() => {
+                                    setHrRegister(false);
+                                    setHrLogin(true);
+                                    setError("");
+                                    setErrors([]);
+                                  }}
+                                >
+                                  <FiArrowLeft />
+                                </Button>
+                              </OverlayTrigger>
+                              &nbsp;
+                              <h5 class="d-inline fw-normal mb-3 pb-3" style={{ letterSpacing: "1px" }}>
+                                Register an account
+                              </h5>
+                              <br />
+                              <br />
+                              <Form.Label className="fw-bold">HR Username</Form.Label>
+                              <Form.Control className="bg-grey" defaultValue={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                              <Form.Label className="fw-bold">HR Password</Form.Label>
+                              <Form.Control className="bg-grey" defaultValue={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} type="password" />
+                            </Form.Group>
+                            {error ? <Alert variant="danger">Username or password is incorrect. Please try again.</Alert> : null}
+                            <div className="text-end">
+                              <Button variant="details" onClick={handleHRRegister}>
+                                Register
+                              </Button>
+                            </div>
+                          </>
+                        ) : staffRegister ? (
+                          <>
+                            <Form.Group className="mt-2 mb-3">
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
+                                <Button
+                                  variant="light"
+                                  className="rounded-circle me-1 d-inline"
+                                  onClick={() => {
+                                    setStaffRegister(false);
+                                    setStaffLogin(true);
+                                    setError("");
+                                    setErrors([]);
+                                  }}
+                                >
+                                  <FiArrowLeft />
+                                </Button>
+                              </OverlayTrigger>
+                              &nbsp;
+                              <h5 class="d-inline fw-normal mb-3 pb-3" style={{ letterSpacing: "1px" }}>
+                                Register an account
+                              </h5>
+                              <br />
+                              <br />
+                              <Form.Label className="fw-bold">Staff Username</Form.Label>
+                              <Form.Control className="bg-grey" defaultValue={staffRegisterUsername} onChange={(e) => setStaffRegisterUsername(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                              <Form.Label className="fw-bold">Staff Password</Form.Label>
+                              <Form.Control className="bg-grey" defaultValue={staffRegisterPassword} onChange={(e) => setStaffRegisterPassword(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} type="password" />
+                            </Form.Group>
+                            {errors.length !== 0 ? (
+                              <Alert variant="danger">
+                                <ul>
+                                  {errors.map((err) => {
+                                    return <li>{err}</li>;
+                                  })}
+                                </ul>
+                              </Alert>
+                            ) : errors.length === 1 ? (
+                              <Alert variant="danger">
+                                <p>{errors[0]}</p>
+                              </Alert>
+                            ) : null}
+                            <div className="text-end">
+                              {loading ? (
+                                <Button variant="details" onClick={handleStaffRegister}>
+                                  Register
+                                </Button>
+                              ) : (
+                                <ThreeDots wrapperStyle={{ display: "inline" }} color="grey" strokeWidth="5" animationDuration="0.75" width="30" visible={true} />
+                              )}
+                            </div>
+                          </>
+                        ) : termsOfUse ? (
                           <>
                             <Form.Group className="mt-2 mb-3">
                               <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
@@ -136,7 +282,7 @@ function Login() {
                         ) : hrLogin ? (
                           <>
                             <Form.Group className="mt-2 mb-3">
-                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Roles</Tooltip>}>
                                 <Button
                                   variant="light"
                                   className="rounded-circle me-1 d-inline"
@@ -163,6 +309,17 @@ function Login() {
                               <Form.Control className="bg-grey" defaultValue={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} type="password" />
                             </Form.Group>
                             {error ? <Alert variant="danger">Username or password is incorrect. Please try again.</Alert> : null}
+                            <span className="text-start fw-light">Don't have an account? Sign up </span>
+                            <Button
+                              className="ms-0 ps-0 text-hyperlink my-auto py-auto border-0 text-decoration-underline bg-transparent"
+                              onClick={() => {
+                                setHrRegister(true);
+                                setHrLogin(false);
+                                setError("");
+                              }}
+                            >
+                              here
+                            </Button>
                             <div className="text-end">
                               <Button variant="details" onClick={handleHRLogin}>
                                 Login
@@ -172,7 +329,7 @@ function Login() {
                         ) : staffLogin ? (
                           <>
                             <Form.Group className="mt-2 mb-3">
-                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Roles</Tooltip>}>
                                 <Button
                                   variant="light"
                                   className="rounded-circle me-1 d-inline"
@@ -199,6 +356,17 @@ function Login() {
                               <Form.Control className="bg-grey" defaultValue={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} type="password" />
                             </Form.Group>
                             {error ? <Alert variant="danger">Username or password is incorrect. Please try again.</Alert> : null}
+                            <span className="text-start fw-light">Don't have an account? Sign up </span>
+                            <Button
+                              className="p-0 m-0 text-hyperlink py-auto border-0 text-decoration-underline bg-transparent"
+                              onClick={() => {
+                                setStaffRegister(true);
+                                setStaffLogin(false);
+                                setError("");
+                              }}
+                            >
+                              here
+                            </Button>
                             <div className="text-end">
                               <Button variant="details" onClick={handleStaffLogin}>
                                 Login
