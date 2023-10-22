@@ -72,13 +72,13 @@ def staff_log_in():
     return res
 
 @role_postings_api.route('/create_hr_user', methods=['POST'])
-def create_role_listing():
+def create_hr_user():
     role_postings_json = request.json
     res = role_postings_service.create_hr_user(role_postings_json)
     return res
 
 @role_postings_api.route('/create_staff_user', methods=['POST'])
-def create_role_listing():
+def create_staff_user():
     role_postings_json = request.json
     res = role_postings_service.create_staff_user(role_postings_json)
     return res
