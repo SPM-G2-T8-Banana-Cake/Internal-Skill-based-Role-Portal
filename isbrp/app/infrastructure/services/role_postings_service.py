@@ -346,13 +346,13 @@ class RolePostingsService(RolePostingsRepository):
             hr_details_sql = f"SELECT User_ID, Password from spm.HR_Auth_Table where User_ID = '{username}'"
             res = self.repository.getUsernamePassword(hr_details_sql)
             res2 = False
-            hashed = sha256_crypt.using(rounds=5000).hash(res['Password'])
-            if hashed == password:
+            hashed = sha256_crypt.using(rounds=5000).hash(password)
+            if hashed == res['Password']:
                 res2 = True
 
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in hr_log_in: {e}")
-            return {}
+            return res2
         
         else:
             print("hr_log_in Time taken in seconds: " + str(time.time()-start_time))
@@ -364,13 +364,13 @@ class RolePostingsService(RolePostingsRepository):
             staff_details_sql = f"SELECT User_ID, Password from spm.Staff_Auth_Table where User_ID = '{username}'"
             res = self.repository.getUsernamePassword(staff_details_sql)
             res2 = False
-            hashed = sha256_crypt.using(rounds=5000).hash(res['Password'])
-            if hashed == password:
+            hashed = sha256_crypt.using(rounds=5000).hash(password)
+            if hashed == res['Password']:
                 res2 = True
     
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in staff_log_in: {e}")
-            return {}
+            return res2
         
         else:
             print("staff_log_in Time taken in seconds: " + str(time.time()-start_time))

@@ -55,7 +55,7 @@ def create_role_application():
     res = role_postings_service.create_role_application(role_app_json)
     return res
 
-@role_postings_api.route('/hr_log_in', methods=['GET'])
+@role_postings_api.route('/hr_log_in', methods=['POST'])
 def hr_log_in():
     role_app_json = request.json
     user = role_app_json['username']
@@ -63,7 +63,7 @@ def hr_log_in():
     res = role_postings_service.hr_log_in(user,password)
     return res
 
-@role_postings_api.route('/staff_log_in', methods=['GET'])
+@role_postings_api.route('/staff_log_in', methods=['POST'])
 def staff_log_in():
     role_app_json = request.json
     user = role_app_json['username']
