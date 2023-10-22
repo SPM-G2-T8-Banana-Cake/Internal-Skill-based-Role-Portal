@@ -343,11 +343,11 @@ class RolePostingsService(RolePostingsRepository):
     def hr_log_in(self, username, password):
         start_time = time.time()
         try:
-            hr_details_sql = f"SELECT User_ID, Password from spm.HR_Auth_Table where User_ID = '{username}'"
+            hr_details_sql = f"SELECT User_ID, User_Password from spm.HR_Auth_Table where User_ID = '{username}'"
             res = self.repository.getUsernamePassword(hr_details_sql)
             res2 = False
             hashed = sha256_crypt.using(rounds=5000).hash(password)
-            if hashed == res['Password']:
+            if hashed == res['User_Password']:
                 res2 = True
 
         except (AttributeError, TypeError, KeyError, ValueError) as e:
@@ -361,11 +361,11 @@ class RolePostingsService(RolePostingsRepository):
     def staff_log_in(self, username, password):
         start_time = time.time()
         try:
-            staff_details_sql = f"SELECT User_ID, Password from spm.Staff_Auth_Table where User_ID = '{username}'"
+            staff_details_sql = f"SELECT User_ID, User_Password from spm.Staff_Auth_Table where User_ID = '{username}'"
             res = self.repository.getUsernamePassword(staff_details_sql)
             res2 = False
             hashed = sha256_crypt.using(rounds=5000).hash(password)
-            if hashed == res['Password']:
+            if hashed == res['User_Password']:
                 res2 = True
     
         except (AttributeError, TypeError, KeyError, ValueError) as e:
