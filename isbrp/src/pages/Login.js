@@ -112,10 +112,15 @@ function Login() {
         .then(function (response) {
           console.log("Staff Login Account Endpoint Called");
           console.log(response);
+          if (response.data === "Exist"){
           localStorage.setItem("id", staffUsername);
           localStorage.setItem("token", "test-token");
           localStorage.setItem("userType", "staff");
           navigate("/staff-home", { state: { id: staffUsername } });
+          }
+          else {
+            setErrors(["Something went wrong with login."]);
+          }
         })
         .catch(function (error) {
           console.log(error);
