@@ -409,7 +409,6 @@ class RolePostingsService(RolePostingsRepository):
             '''
             params = (Staff_Username, hashed)
             self.repository.create(create_user_sql, params)
-            print(hashed)
         except (TypeError, AttributeError) as e:
             print(f"Error creating instance: {e}")
             return f"Error creating instance: {e}"
