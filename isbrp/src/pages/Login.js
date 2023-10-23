@@ -78,7 +78,7 @@ function Login() {
     setErrors(errors);
 
     if (errors.length === 0) {
-      setLoading(true);
+      // setLoading(true);
       staffCreateAccount({ Username: staffRegisterUsername, Password: staffRegisterPassword })
         .then(function (response) {
           console.log("Staff Create Account Endpoint Called");
@@ -88,7 +88,7 @@ function Login() {
           console.log(error);
           setErrors(["Something went wrong with creating an account."]);
         });
-      setLoading(false);
+      // setLoading(false);
     }
 
     // if (username.includes("st") && password === "password") {
@@ -195,11 +195,11 @@ function Login() {
                               <br />
                               <br />
                               <Form.Label className="fw-bold">Staff Username</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={staffRegisterUsername} onChange={(e) => setStaffRegisterUsername(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} />
+                              <Form.Control className="bg-grey" defaultValue={staffRegisterUsername} onChange={(e) => setStaffRegisterUsername(e.target.value)} />
                             </Form.Group>
                             <Form.Group className="mb-3">
                               <Form.Label className="fw-bold">Staff Password</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={staffRegisterPassword} onChange={(e) => setStaffRegisterPassword(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} type="password" />
+                              <Form.Control className="bg-grey" defaultValue={staffRegisterPassword} onChange={(e) => setStaffRegisterPassword(e.target.value)} type="password" />
                             </Form.Group>
                             {errors.length !== 0 ? (
                               <Alert variant="danger">
@@ -215,13 +215,10 @@ function Login() {
                               </Alert>
                             ) : null}
                             <div className="text-end">
-                              {loading ? (
+                           
                                 <Button variant="details" onClick={handleStaffRegister}>
                                   Register
                                 </Button>
-                              ) : (
-                                <ThreeDots wrapperStyle={{ display: "inline" }} color="grey" strokeWidth="5" animationDuration="0.75" width="30" visible={true} />
-                              )}
                             </div>
                           </>
                         ) : termsOfUse ? (
