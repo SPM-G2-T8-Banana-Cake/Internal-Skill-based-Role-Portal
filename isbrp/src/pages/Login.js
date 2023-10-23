@@ -77,7 +77,7 @@ function Login() {
 
     if (errors.length === 0) {
       setLoading(true);
-      staffLoginAccount({ username: hrUsername, password: hrPassword })
+      hrLoginAccount({ username: hrUsername, password: hrPassword })
         .then(function (response) {
           console.log("HR Login Account Endpoint Called");
           console.log(response);
@@ -112,7 +112,7 @@ function Login() {
         .then(function (response) {
           console.log("Staff Login Account Endpoint Called");
           console.log(response);
-          if (response.data === "Exist"){
+          if (response.data === "exists"){
           localStorage.setItem("id", staffUsername);
           localStorage.setItem("token", "test-token");
           localStorage.setItem("userType", "staff");
@@ -412,7 +412,19 @@ console.log("Errors", errors)
                               <Form.Control className="bg-grey" defaultValue={hrPassword} onChange={(e) => setHrPassword(e.target.value)} onKeyDown={(e) => handleHrLoginEnter(e.key)} type="password" />
                             </Form.Group>
                             {message ?  <Alert variant="success">{message}</Alert> : null }
-                            {error ? <Alert variant="danger">Username or password is incorrect. Please try again.</Alert> : null}
+                            {errors.length !== 0 ? (
+                              <Alert variant="danger">
+                                <ul>
+                                  {errors.map((err) => {
+                                    return <li>{err}</li>;
+                                  })}
+                                </ul>
+                              </Alert>
+                            ) : errors.length === 1 ? (
+                              <Alert variant="danger">
+                                <p>{errors[0]}</p>
+                              </Alert>
+                            ) : null}
                             <span className="text-start fw-light">Don't have an account? Sign up </span>
                             <Button
                               className="ms-0 ps-0 text-dark my-auto py-auto border-0 text-decoration-underline bg-transparent"
@@ -460,7 +472,19 @@ console.log("Errors", errors)
                               <Form.Label className="fw-bold">Staff Password</Form.Label>
                               <Form.Control className="bg-grey" defaultValue={staffPassword} onChange={(e) => setStaffPassword(e.target.value)} onKeyDown={(e) => handleStaffLoginEnter(e.key)} type="password" />
                             </Form.Group>
-                            {error ? <Alert variant="danger">Username or password is incorrect. Please try again.</Alert> : null}
+                            {errors.length !== 0 ? (
+                              <Alert variant="danger">
+                                <ul>
+                                  {errors.map((err) => {
+                                    return <li>{err}</li>;
+                                  })}
+                                </ul>
+                              </Alert>
+                            ) : errors.length === 1 ? (
+                              <Alert variant="danger">
+                                <p>{errors[0]}</p>
+                              </Alert>
+                            ) : null}
                             {message ?  <Alert variant="success">{message}</Alert> : null }
                             <span className="text-start fw-light">Don't have an account? Sign up </span>
                             <Button
