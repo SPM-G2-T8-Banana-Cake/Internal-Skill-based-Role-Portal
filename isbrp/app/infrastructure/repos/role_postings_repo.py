@@ -247,7 +247,9 @@ class RolePostingsRepository(IRolePostingsRepository):
                 # result_obj['Staff_ID'] = res[5]
                 # result_obj['Role_Skills'] = res[6]
                 result_obj['User_ID'] = res[0]
-                result_obj['Password'] = res[1]
+                result_obj['User_Password'] = res[1]
                 result_array.append(result_obj)
+                # print("Res0", res[0])
+                # print("Res1", res[1])
         return result_array
     

@@ -363,11 +363,14 @@ class RolePostingsService(RolePostingsRepository):
         try:
             staff_details_sql = f"SELECT User_ID, User_Password from spm.Staff_Auth_Table where User_ID = '{username}'"
             res = self.repository.getUsernamePassword(staff_details_sql)
-            res2 = False
-            hashed = sha256_crypt.using(rounds=5000).hash(password)
-            if hashed == res['User_Password']:
-                res2 = True
-    
+            res2 = "noExists"
+            # hashed = sha256_crypt.using(rounds=5000).hash(password)
+            # print("Hashed", hashed)
+            print("Plain password", password)
+            print("UseR_password", res[0]["User_Password"])
+            if password == res[0]["User_Password"]:
+                res2 = "exists"
+           
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in staff_log_in: {e}")
             return res2
@@ -375,7 +378,7 @@ class RolePostingsService(RolePostingsRepository):
         else:
             print("staff_log_in Time taken in seconds: " + str(time.time()-start_time))
             return res2
-        
+    
     def create_hr_user(self, role_listings_json: RoleListingTable):
         start_time = time.time()
         try:
@@ -406,11 +409,11 @@ class RolePostingsService(RolePostingsRepository):
             # print("Role_Name = " + Role_Name)
             Staff_Password = role_listings_json.get('Password')
             # print("Role_Desc = " + Role_Desc)
-            hashed = sha256_crypt.using(rounds=5000).hash(Staff_Password)
+            # hashed = sha256_crypt.using(rounds=5000).hash(Staff_Password)
             create_user_sql = '''
             INSERT INTO spm.Staff_Auth_Table(User_ID, User_Password) VALUES (%s, %s)
             '''
-            params = (Staff_Username, hashed)
+            params = (Staff_Username, Staff_Password)
             self.repository.create(create_user_sql, params)
 
         except (TypeError, AttributeError) as e:
