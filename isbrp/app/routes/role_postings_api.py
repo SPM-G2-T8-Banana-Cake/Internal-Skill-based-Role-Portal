@@ -55,6 +55,35 @@ def create_role_application():
     res = role_postings_service.create_role_application(role_app_json)
     return res
 
+@role_postings_api.route('/hr_log_in', methods=['POST'])
+def hr_log_in():
+    role_app_json = request.json
+    user = role_app_json['username']
+    password = role_app_json['password']
+    res = role_postings_service.hr_log_in(user,password)
+    return res
+
+@role_postings_api.route('/staff_log_in', methods=['POST'])
+def staff_log_in():
+    role_app_json = request.json
+    user = role_app_json['username']
+    password = role_app_json['password']
+    res = role_postings_service.staff_log_in(user,password)
+    return res
+
+@role_postings_api.route('/create_hr_user', methods=['POST'])
+def create_hr_user():
+    role_postings_json = request.json
+    res = role_postings_service.create_hr_user(role_postings_json)
+    return res
+
+@role_postings_api.route('/create_staff_user', methods=['POST'])
+def create_staff_user():
+    role_postings_json = request.json
+    res = role_postings_service.create_staff_user(role_postings_json)
+    return res
+
+
 #Run the 4 tests in sequential order else error
 @role_postings_api.route('/test')
 def ingest_staff_table_dummydata():

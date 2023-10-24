@@ -13,48 +13,194 @@ import Tooltip from "react-bootstrap/Tooltip";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import logo from "../assets/logo.png";
+import { ThreeDots } from "react-loader-spinner";
 
 import { BsPersonFillGear, BsFillBuildingsFill } from "react-icons/bs";
 import { FiArrowLeft } from "react-icons/fi";
+import { staffCreateAccount, staffLoginAccount, hrLoginAccount, hrCreateAccount } from "../services/api.js";
 
 function Login() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const [hrLogin, setHrLogin] = useState(false);
   const [staffLogin, setStaffLogin] = useState(false);
   const [termsOfUse, setTermsOfUse] = useState(false);
   const [privacyPolicy, setPrivacyPolicy] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [staffUsername, setStaffUsername] = useState("");
+  const [staffPassword, setStaffPassword] = useState("");
+  const [hrUsername, setHrUsername] = useState("");
+  const [hrPassword, setHrPassword] = useState("");
+  const [hrRegisterUsername, setHrRegisterUsername] = useState("");
+  const [hrRegisterPassword, setHrRegisterPassword] = useState("");
+  const [staffRegisterUsername, setStaffRegisterUsername] = useState("");
+  const [staffRegisterPassword, setStaffRegisterPassword] = useState("");
   const [error, setError] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [HrRegister, setHrRegister] = useState(false);
+  const [staffRegister, setStaffRegister] = useState(false);
 
-  const handleEnter = (value) => {
+  const handleStaffLoginEnter = (value) => {
     if (value === "Enter") {
-      handleHRLogin();
       handleStaffLogin();
     }
   };
 
+  const handleStaffRegisterEnter = (value) => {
+    if (value === "Enter") {
+      handleStaffRegister();
+    }
+  };
+
+  const handleHrLoginEnter = (value) => {
+    if (value === "Enter") {
+      handleHRLogin();
+    }
+  };
+
+  const handleHrRegisterEnter = (value) => {
+    if (value === "Enter") {
+      handleHRRegister();
+    }
+  };
+
   const handleHRLogin = () => {
-    if (username === "hr10001" && password === "password") {
-      localStorage.setItem("id", "hr10001")
-      localStorage.setItem('token', 'test-token')
-      localStorage.setItem('userType', 'hr')
-      navigate("/hr-home", { state: { id: "hr10001" } });
-      setError(false);
-    } else {
-      setError(true);
+    let errors = [];
+    if (hrUsername.length === 0) {
+      errors.push("Username is missing.");
+    }
+    if (hrPassword.length === 0) {
+      errors.push("Password is missing.");
+    }
+
+    setErrors(errors);
+
+    if (errors.length === 0) {
+      setLoading(true);
+      hrLoginAccount({ username: hrUsername, password: hrPassword })
+        .then(function (response) {
+          console.log("HR Login Account Endpoint Called");
+          console.log(response);
+          localStorage.setItem("id", hrUsername);
+          localStorage.setItem("token", "test-token");
+          localStorage.setItem("userType", "hr");
+          navigate("/hr-home", { state: { id: hrUsername } });
+        })
+        .catch(function (error) {
+          console.log(error);
+          setMessage("");
+          setErrors(["Something went wrong with login."]);
+        });
+      setLoading(false);
     }
   };
 
   const handleStaffLogin = () => {
-    if (username.includes("st") && password === "password") {
-      localStorage.setItem("id", username)
-      localStorage.setItem('userType', 'staff')
-      localStorage.setItem('token', 'test-token')
-      navigate("/staff-home", { state: { id: username } });
-      setError(false);
-    } else {
-      setError(true);
+    let errors = [];
+    if (staffLogin.length === 0) {
+      errors.push("Username is missing.");
+    }
+    if (staffPassword.length === 0) {
+      errors.push("Password is missing.");
+    }
+
+    setErrors(errors);
+
+    if (errors.length === 0) {
+      setLoading(true);
+      staffLoginAccount({ username: staffUsername, password: staffPassword })
+        .then(function (response) {
+          console.log("Staff Login Account Endpoint Called");
+          console.log(response);
+          if (response.data === "exists"){
+          localStorage.setItem("id", staffUsername);
+          localStorage.setItem("token", "test-token");
+          localStorage.setItem("userType", "staff");
+          navigate("/staff-home", { state: { id: staffUsername } });
+          }
+          else {
+            setErrors(["Something went wrong with login."]);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          setMessage("");
+          setErrors(["Something went wrong with login."]);
+        });
+      setLoading(false);
+    }
+  };
+
+  const handleStaffRegister = () => {
+    let errors = [];
+    if (staffRegisterUsername.length === 0) {
+      errors.push("Username is missing.");
+    }
+    if (staffRegisterPassword.length === 0) {
+      errors.push("Password is missing.");
+    }
+
+    setErrors(errors);
+
+    if (errors.length === 0) {
+      setMessage("Login successful. Redirecting you ...");
+      setLoading(true);
+      staffCreateAccount({ Username: staffRegisterUsername, Password: staffRegisterPassword })
+        .then(function (response) {
+          console.log("Staff Create Account Endpoint Called");
+          console.log(response);
+          setMessage("Successfully created an account. Please login.")
+          setStaffLogin(true);
+          setStaffRegister(false);
+          setStaffUsername(staffRegisterUsername);
+          setStaffPassword(staffRegisterPassword);
+        })
+        .catch(function (error) {
+          console.log(error);
+          setErrors(["Something went wrong with creating an account. A user with the username already exists."]);
+        });
+      setLoading(false);
+    }
+
+    // if (username.includes("st") && password === "password") {
+    //   localStorage.setItem("id", username);
+    //   localStorage.setItem("userType", "staff");
+    //   localStorage.setItem("token", "test-token");
+    //   navigate("/staff-home", { state: { id: username } });
+    //   setError(false);
+    // } else {
+    //   setError(true);
+    // }
+  };
+
+  const handleHRRegister = () => {
+    let errors = [];
+    if (hrRegisterUsername.length === 0) {
+      errors.push("Username is missing.");
+    }
+    if (hrRegisterPassword.length === 0) {
+      errors.push("Password is missing.");
+    }
+
+    setErrors(errors);
+
+    if (errors.length === 0) {
+      setLoading(true);
+      hrCreateAccount({ Username: hrRegisterUsername, Password: hrRegisterPassword })
+        .then(function (response) {
+          console.log("HR Create Account Endpoint Called");
+          console.log(response);
+          setMessage("Successfully created an account. Please login.")
+          setHrLogin(true);
+          setHrRegister(false);
+          setHrUsername(hrRegisterUsername);
+          setHrPassword(hrRegisterPassword);
+        })
+        .catch(function (error) {
+          console.log(error);
+          setErrors(["Something went wrong with creating an account. A user with the username already exists."]);
+        });
+      setLoading(false);
     }
   };
 
@@ -62,13 +208,14 @@ function Login() {
     document.title = "Login";
   }, []);
 
+console.log("Errors", errors)
   return (
     <>
-      <LoginHeader type={"bg-secondary"} />
-      <section className="vh-100 vw-70 bg-grey">
-        <Container className="py-5 h-100">
+      <LoginHeader />
+      <section className="mx-auto vh-100 bg-grey">
+        <Container className="h-100 w-100">
           <Row className="row d-flex justify-content-center align-items-center mt-4 h-100">
-            <Col className="col col-xl-10">
+            <Col className="col  col-md-12 col-xl-12">
               <div className="card" style={{ borderRadius: "1rem" }}>
                 <Row className="row g-0">
                   <Col className="col-md-6 col-lg-6 d-none d-md-block">
@@ -78,7 +225,106 @@ function Login() {
                     <div className="card-body p-4 p-lg-5 text-black">
                       <Form>
                         <img src={logo} className="w-100 mb-4 mx-1" alt="Brand Logo" fluid style={{ borderRadius: "1rem 0 0 1rem" }} />
-                        {termsOfUse ? (
+                        {HrRegister ? (
+                          <>
+                            <Form.Group className="mt-2 mb-3">
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
+                                <Button
+                                  variant="light"
+                                  className="rounded-circle me-1 d-inline"
+                                  onClick={() => {
+                                    setHrRegister(false);
+                                    setHrLogin(true);
+                                    setError("");
+                                    setErrors([]);
+                                  }}
+                                >
+                                  <FiArrowLeft />
+                                </Button>
+                              </OverlayTrigger>
+                              &nbsp;
+                              <h5 class="d-inline fw-normal mb-3 pb-3" style={{ letterSpacing: "1px" }}>
+                                Register an account
+                              </h5>
+                              <br />
+                              <br />
+                              <Form.Label className="fw-bold">HR Username</Form.Label>
+                              <Form.Control className="bg-grey" defaultValue={hrRegisterUsername} onChange={(e) => setHrRegisterUsername(e.target.value)} onKeyDown={(e) => handleHrRegisterEnter(e.key)} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                              <Form.Label className="fw-bold">HR Password</Form.Label>
+                              <Form.Control className="bg-grey" defaultValue={hrRegisterPassword} onChange={(e) => setHrRegisterPassword(e.target.value)} onKeyDown={(e) => handleHrRegisterEnter(e.key)} type="password" />
+                            </Form.Group>
+                            {errors.length !== 0 ? (
+                              <Alert variant="danger">
+                                <ul>
+                                  {errors.map((err) => {
+                                    return <li>{err}</li>;
+                                  })}
+                                </ul>
+                              </Alert>
+                            ) : errors.length === 1 ? (
+                              <Alert variant="danger">
+                                <p>{errors[0]}</p>
+                              </Alert>
+                            ) : null}
+                            {message ?  <Alert variant="success">{message}</Alert> : null }
+                            <div className="text-end">
+                              <Button variant="details" onClick={handleHRRegister}>
+                                Register
+                              </Button>
+                            </div>
+                          </>
+                        ) : staffRegister ? (
+                          <>
+                            <Form.Group className="mt-2 mb-3">
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
+                                <Button
+                                  variant="light"
+                                  className="rounded-circle me-1 d-inline"
+                                  onClick={() => {
+                                    setStaffRegister(false);
+                                    setStaffLogin(true);
+                                    setError("");
+                                    setErrors([]);
+                                  }}
+                                >
+                                  <FiArrowLeft />
+                                </Button>
+                              </OverlayTrigger>
+                              &nbsp;
+                              <h5 class="d-inline fw-normal mb-3 pb-3" style={{ letterSpacing: "1px" }}>
+                                Register an account
+                              </h5>
+                              <br />
+                              <br />
+                              <Form.Label className="fw-bold">Staff Username</Form.Label>
+                              <Form.Control className="bg-grey" defaultValue={staffRegisterUsername} onChange={(e) => setStaffRegisterUsername(e.target.value)} onKeyDown={(e) => handleStaffRegisterEnter(e.key)}/>
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                              <Form.Label className="fw-bold">Staff Password</Form.Label>
+                              <Form.Control className="bg-grey" defaultValue={staffRegisterPassword} onChange={(e) => setStaffRegisterPassword(e.target.value)} onKeyDown={(e) => handleStaffRegisterEnter(e.key)} type="password" />
+                            </Form.Group>
+                            {errors.length !== 0 ? (
+                              <Alert variant="danger">
+                                <ul>
+                                  {errors.map((err) => {
+                                    return <li>{err}</li>;
+                                  })}
+                                </ul>
+                              </Alert>
+                            ) : errors.length === 1 ? (
+                              <Alert variant="danger">
+                                <p>{errors[0]}</p>
+                              </Alert>
+                            ) : null}
+                            <div className="text-end">
+                              <Button variant="details" onClick={handleStaffRegister}>
+                                Register
+                              </Button>
+                            </div>
+                          </>
+                        ) : termsOfUse ? (
                           <>
                             <Form.Group className="mt-2 mb-3">
                               <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
@@ -87,6 +333,7 @@ function Login() {
                                   className="rounded-circle me-1 d-inline"
                                   onClick={() => {
                                     setTermsOfUse(false);
+                                    setErrors([]);
                                   }}
                                 >
                                   <FiArrowLeft />
@@ -116,6 +363,7 @@ function Login() {
                                   className="rounded-circle me-1 d-inline"
                                   onClick={() => {
                                     setPrivacyPolicy(false);
+                                    setErrors([]);
                                   }}
                                 >
                                   <FiArrowLeft />
@@ -136,7 +384,7 @@ function Login() {
                         ) : hrLogin ? (
                           <>
                             <Form.Group className="mt-2 mb-3">
-                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Roles</Tooltip>}>
                                 <Button
                                   variant="light"
                                   className="rounded-circle me-1 d-inline"
@@ -144,6 +392,7 @@ function Login() {
                                     setHrLogin(false);
                                     setStaffLogin(false);
                                     setError("");
+                                    setErrors([]);
                                   }}
                                 >
                                   <FiArrowLeft />
@@ -156,13 +405,37 @@ function Login() {
                               <br />
                               <br />
                               <Form.Label className="fw-bold">HR Username</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} />
+                              <Form.Control className="bg-grey" defaultValue={hrUsername} onChange={(e) => setHrUsername(e.target.value)} onKeyDown={(e) => handleHrLoginEnter(e.key)} />
                             </Form.Group>
                             <Form.Group className="mb-3">
                               <Form.Label className="fw-bold">HR Password</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} type="password" />
+                              <Form.Control className="bg-grey" defaultValue={hrPassword} onChange={(e) => setHrPassword(e.target.value)} onKeyDown={(e) => handleHrLoginEnter(e.key)} type="password" />
                             </Form.Group>
-                            {error ? <Alert variant="danger">Username or password is incorrect. Please try again.</Alert> : null}
+                            {message ?  <Alert variant="success">{message}</Alert> : null }
+                            {errors.length !== 0 ? (
+                              <Alert variant="danger">
+                                <ul>
+                                  {errors.map((err) => {
+                                    return <li>{err}</li>;
+                                  })}
+                                </ul>
+                              </Alert>
+                            ) : errors.length === 1 ? (
+                              <Alert variant="danger">
+                                <p>{errors[0]}</p>
+                              </Alert>
+                            ) : null}
+                            <span className="text-start fw-light">Don't have an account? Sign up </span>
+                            <Button
+                              className="ms-0 ps-0 text-dark my-auto py-auto border-0 text-decoration-underline bg-transparent"
+                              onClick={() => {
+                                setHrRegister(true);
+                                setHrLogin(false);
+                                setError("");
+                              }}
+                            >
+                              here
+                            </Button>
                             <div className="text-end">
                               <Button variant="details" onClick={handleHRLogin}>
                                 Login
@@ -172,7 +445,7 @@ function Login() {
                         ) : staffLogin ? (
                           <>
                             <Form.Group className="mt-2 mb-3">
-                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Login</Tooltip>}>
+                              <OverlayTrigger placement="top" overlay={<Tooltip>Back to Roles</Tooltip>}>
                                 <Button
                                   variant="light"
                                   className="rounded-circle me-1 d-inline"
@@ -180,6 +453,7 @@ function Login() {
                                     setHrLogin(false);
                                     setStaffLogin(false);
                                     setError("");
+                                    setErrors([]);
                                   }}
                                 >
                                   <FiArrowLeft />
@@ -192,13 +466,37 @@ function Login() {
                               <br />
                               <br />
                               <Form.Label className="fw-bold">Staff Username</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} />
+                              <Form.Control className="bg-grey" defaultValue={staffUsername} onChange={(e) => setStaffUsername(e.target.value)} onKeyDown={(e) => handleStaffLoginEnter(e.key)} />
                             </Form.Group>
                             <Form.Group className="mb-3">
                               <Form.Label className="fw-bold">Staff Password</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => handleEnter(e.key)} type="password" />
+                              <Form.Control className="bg-grey" defaultValue={staffPassword} onChange={(e) => setStaffPassword(e.target.value)} onKeyDown={(e) => handleStaffLoginEnter(e.key)} type="password" />
                             </Form.Group>
-                            {error ? <Alert variant="danger">Username or password is incorrect. Please try again.</Alert> : null}
+                            {errors.length !== 0 ? (
+                              <Alert variant="danger">
+                                <ul>
+                                  {errors.map((err) => {
+                                    return <li>{err}</li>;
+                                  })}
+                                </ul>
+                              </Alert>
+                            ) : errors.length === 1 ? (
+                              <Alert variant="danger">
+                                <p>{errors[0]}</p>
+                              </Alert>
+                            ) : null}
+                            {message ?  <Alert variant="success">{message}</Alert> : null }
+                            <span className="text-start fw-light">Don't have an account? Sign up </span>
+                            <Button
+                              className="p-0 m-0 text-dark py-auto border-0 text-decoration-underline bg-transparent"
+                              onClick={() => {
+                                setStaffRegister(true);
+                                setStaffLogin(false);
+                                setError("");
+                              }}
+                            >
+                              here
+                            </Button>
                             <div className="text-end">
                               <Button variant="details" onClick={handleStaffLogin}>
                                 Login
