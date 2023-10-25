@@ -46,8 +46,9 @@ class RolePostingsService(RolePostingsRepository):
                     Role_ID = d['Role_ID']
                     Role_Name = d['Role_Name']
                     Role_Desc = d['Role_Desc']
-                    create_role_table_sql = "INSERT INTO spm.Role_Table (Role_ID, Role_Name, Role_Desc) VALUES (%s, %s, %s)"
-                    val = (Role_ID, Role_Name, Role_Desc)
+                    Skills = d['Skills']
+                    create_role_table_sql = "INSERT INTO spm.Role_Table (Role_ID, Role_Name, Role_Desc, Skills) VALUES (%s, %s, %s, %s)"
+                    val = (Role_ID, Role_Name, Role_Desc, Skills)
                     self.repository.create(create_role_table_sql, val)
         return "Success"
 
@@ -130,11 +131,11 @@ class RolePostingsService(RolePostingsRepository):
             # print("Skill_Name = " + Skill_Name)
 
             create_role_sql = '''
-            INSERT INTO spm.Role_Table(Role_ID, Role_Name, Role_Desc) VALUES (%s, %s, %s)
+            INSERT INTO spm.Role_Table(Role_ID, Role_Name, Role_Desc, Skills) VALUES (%s, %s, %s, %s)
             '''
             Role_ID = ROLE_PREFIX +str(self.repository.get_Role_ID_Counter())
             print("Role_ID = " + Role_ID)
-            params = (Role_ID, Role_Name, Role_Desc)
+            params = (Role_ID, Role_Name, Role_Desc, Skills)
             self.repository.create(create_role_sql, params)
 
             create_role_listing_sql = '''
@@ -168,7 +169,7 @@ class RolePostingsService(RolePostingsRepository):
             BEGIN TRANSACTION;
 
             UPDATE spm.Role_Table 
-            SET Role_Name = %(Role_Name)s, Role_Desc = %(Role_Desc)s 
+            SET Role_Name = %(Role_Name)s, Role_Desc = %(Role_Desc)s, Skills=%(Skills)s 
             WHERE Role_ID = %(Role_ID)s;
 
             UPDATE spm.Role_Listing_Table 

@@ -5,6 +5,7 @@ class RoleTable:
     Role_ID: str
     Role_Name: str
     Role_Desc: str
+    Skills: str
 
 
 @dataclass
