@@ -2,107 +2,126 @@
     {
         "Role_ID":"ro1",
         "Role_Name": "Software Developer",
-        "Role_Desc": "A software developer is responsible for designing, coding, testing, and maintaining software applications and systems."
-
+        "Role_Desc": "A software developer is responsible for designing, coding, testing, and maintaining software applications and systems.",
+        "Skills": "Java"
     },
     {
         "Role_ID":"ro2",
         "Role_Name": "Data Analyst",
-        "Role_Desc": "A data analyst collects, processes, and analyzes data to provide insights and support decision-making within an organization."
-
+        "Role_Desc": "A data analyst collects, processes, and analyzes data to provide insights and support decision-making within an organization.",
+        "Skills": "SQL"
     },
     {
         "Role_ID":"ro3",
         "Role_Name": "UX Designer",
-        "Role_Desc": "A UX designer focuses on creating user-friendly and intuitive digital experiences by designing interfaces and conducting user research."
-
+        "Role_Desc": "A UX designer focuses on creating user-friendly and intuitive digital experiences by designing interfaces and conducting user research.",
+        "Skills": "User Research"
     },
     {
         "Role_ID":"ro4",
         "Role_Name": "Marketing Manager",
-        "Role_Desc": "A marketing manager oversees marketing campaigns, strategies, and initiatives to promote products or services."
-
+        "Role_Desc": "A marketing manager oversees marketing campaigns, strategies, and initiatives to promote products or services.",
+        "Skills": "Digital Marketing"
     },
     {
         "Role_ID":"ro5",
         "Role_Name": "Sales Representative",
-        "Role_Desc": "A sales representative builds and maintains relationships with clients to sell products or services and meet sales targets."
-
+        "Role_Desc": "A sales representative builds and maintains relationships with clients to sell products or services and meet sales targets.",
+        "Skills": "Negotiation"
     },
     {
         "Role_ID":"ro6",
         "Role_Name": "Data Scientist",
-        "Role_Desc": "A data scientist explores complex data sets, builds predictive models, and extracts valuable insights to support data-driven decisions."
-
+        "Role_Desc": "A data scientist explores complex data sets, builds predictive models, and extracts valuable insights to support data-driven decisions.",
+        "Skills": "Python"
     },
     {
         "Role_ID":"ro7",
         "Role_Name": "Web Developer",
-        "Role_Desc": "A web developer creates and maintains websites, web applications, and online platforms using various programming languages and technologies."
-
+        "Role_Desc": "A web developer creates and maintains websites, web applications, and online platforms using various programming languages and technologies.",
+        "Skills": "HTML/CSS"
     },
     {
         "Role_ID":"ro8",
         "Role_Name": "Graphic Designer",
-        "Role_Desc": "A graphic designer designs visual content and graphics for various mediums, including print and digital."
-
+        "Role_Desc": "A graphic designer designs visual content and graphics for various mediums, including print and digital.",
+        "Skills": "Adobe Illustrator"
     },
     {
         "Role_ID":"ro9",
         "Role_Name": "Product Manager",
-        "Role_Desc": "A product manager leads the development and management of a product from ideation to launch, focusing on its success in the market."
+        "Role_Desc": "A product manager leads the development and management of a product from ideation to launch, focusing on its success in the market.",
+        "Skills": "Product Lifecycle Management"
 
     },
     {
         "Role_ID":"ro10",
         "Role_Name": "Content Writer",
-        "Role_Desc": "A content writer creates written content for websites, blogs, marketing materials, and other platforms to engage and inform the audience."
-
+        "Role_Desc": "A content writer creates written content for websites, blogs, marketing materials, and other platforms to engage and inform the audience.",
+        "Skills": "Copywriting"
     },
     {
         "Role_ID":"ro11",
         "Role_Name": "FullStack Developer",
-        "Role_Desc": "A fullstack developer deals with both frontend and backend infrastructure."
+        "Role_Desc": "A fullstack developer deals with both frontend and backend infrastructure.",
+        "Skills": "PHP, HTML, CSS, Java, Python, JavaScript, Node.js, React, AWS"
+
     },
     {
         "Role_ID": "ro12",
         "Role_Name": "Backend Developer",
-        "Role_Desc": "A backend developer focuses on server-side development and database management."
+        "Role_Desc": "A backend developer focuses on server-side development and database management.",
+        "Skills": "Java, Python, Node.js, RESTful APIs, Database Management"
+
     },
     {
         "Role_ID": "ro13",
         "Role_Name": "Frontend Developer",
-        "Role_Desc": "A frontend developer works on the user interface and client-side scripting."
+        "Role_Desc": "A frontend developer works on the user interface and client-side scripting.",
+        "Skills": "HTML, CSS, JavaScript, React, Angular, Vue.js"
+
     },
     {
         "Role_ID": "ro14",
         "Role_Name": "DevOps Engineer",
-        "Role_Desc": "A DevOps engineer is responsible for automating and streamlining IT operations."
+        "Role_Desc": "A DevOps engineer is responsible for automating and streamlining IT operations.",
+        "Skills": "Docker, Kubernetes, Jenkins, CI/CD, Linux, AWS, Azure"
+
     },
     {
         "Role_ID": "ro15",
         "Role_Name": "Data Scientist",
-        "Role_Desc": "A data scientist analyzes and interprets complex data to make informed business decisions."
+        "Role_Desc": "A data scientist analyzes and interprets complex data to make informed business decisions.",
+        "Skills": "Data Analysis, Machine Learning, Python, R, Data Visualization, SQL"
+
     },
     {
         "Role_ID": "ro16",
         "Role_Name": "Network Administrator",
-        "Role_Desc": "A network administrator manages and maintains an organization's network infrastructure."
+        "Role_Desc": "A network administrator manages and maintains an organization's network infrastructure.",
+        "Skills": "Network Configuration, Cisco, Routing and Switching, Security Protocols"
+
     },
     {
         "Role_ID": "ro17",
         "Role_Name": "Cybersecurity Analyst",
-        "Role_Desc": "A cybersecurity analyst safeguards an organization's digital assets from threats and attacks."
+        "Role_Desc": "A cybersecurity analyst safeguards an organization's digital assets from threats and attacks.",
+        "Skills": "Cybersecurity, Intrusion Detection, Firewalls, Penetration Testing, SIEM"
+
     },
     {
         "Role_ID": "ro19",
         "Role_Name": "Database Administrator",
-        "Role_Desc": "A database administrator manages and optimizes database systems."
+        "Role_Desc": "A database administrator manages and optimizes database systems.",
+        "Skills": "Database Management, SQL, MySQL, Oracle, MongoDB, Backup and Recovery"
+
     },
     {
         "Role_ID": "ro20",
         "Role_Name": "Cloud Architect",
-        "Role_Desc": "A cloud architect designs and manages cloud-based infrastructure and services."
+        "Role_Desc": "A cloud architect designs and manages cloud-based infrastructure and services.",
+        "Skills": "Cloud Services (AWS, Azure, GCP), Infrastructure as Code, Security"
+
     }
     
 ]
