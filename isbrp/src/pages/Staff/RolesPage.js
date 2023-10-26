@@ -248,7 +248,7 @@ function ViewRoleListing() {
         <Loader />
       ) : (
         <>
-          <Container fluid className="contentBox pt-4">
+          <Container fluid className="contentBox bg-white pt-4">
             <Row className="mb-2 ms-1 me-4">
               <Col xs={12} md={6} lg={7}>
                 <h1>Available Roles</h1>
@@ -256,16 +256,16 @@ function ViewRoleListing() {
               <Col xs={9} md={4} lg={3}>
                 <InputGroup>
                   <OverlayTrigger placement="bottom" overlay={<Tooltip>Role Name: e.g. Data Analyst</Tooltip>}>
-                    <Form.Control className="bg-grey" placeholder="Search by Role Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
+                    <Form.Control className="bg-background" placeholder="Search by Role Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
                   </OverlayTrigger>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Search</Tooltip>}>
-                    <Button variant="grey" onClick={() => handleSearch(search)}>
+                    <Button variant="background" onClick={() => handleSearch(search)}>
                       <FiSearch />
                     </Button>
                   </OverlayTrigger>
                   <Dropdown>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
-                      <Dropdown.Toggle variant="grey" size="sm">
+                      <Dropdown.Toggle variant="background" size="sm">
                         <FiFilter />
                       </Dropdown.Toggle>
                     </OverlayTrigger>
@@ -283,7 +283,7 @@ function ViewRoleListing() {
               <Col xs={3} md={2} lg={2}>
                 <ButtonGroup>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Reload</Tooltip>}>
-                    <Button variant="light" className="rounded-circle" onClick={reloadRoleListings}>
+                    <Button variant="white" className="rounded-circle" onClick={reloadRoleListings}>
                       <TbReload />
                     </Button>
                   </OverlayTrigger>
@@ -306,22 +306,22 @@ function ViewRoleListing() {
                   {roleListings.length > 0 ? (
                     (rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
                       <tr className="border-details" key={roles.Role_ID}>
-                        <td className="bg-grey ps-3">{roles.Dept}</td>
-                        <td className="bg-grey">{roles.Role_Name}</td>
-                        <td className="bg-grey">{roles.Role_Desc}</td>
-                        <td className="bg-grey">{roles.Applied ? <Chip label="Applied" className="float-end bg-pending"></Chip> : null}</td>
-                        <td className="bg-grey">
-                          <ViewRoleDetailsModal className="bg-grey" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
+                        <td className="bg-background ps-3">{roles.Dept}</td>
+                        <td className="bg-background">{roles.Role_Name}</td>
+                        <td className="bg-background">{roles.Role_Desc}</td>
+                        <td className="bg-background">{roles.Applied ? <Chip label="Applied" className="float-end bg-pending"></Chip> : null}</td>
+                        <td className="bg-background">
+                          <ViewRoleDetailsModal className="bg-background" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr className="border-details">
-                      <td className="bg-grey ps-3">No role Listings found. Check back again!</td>
-                      <td className="bg-grey"></td>
-                      <td className="bg-grey"></td>
-                      <td className="bg-grey"></td>
-                      <td className="bg-grey"></td>
+                      <td className="bg-background ps-3">No role Listings found. Check back again!</td>
+                      <td className="bg-background"></td>
+                      <td className="bg-background"></td>
+                      <td className="bg-background"></td>
+                      <td className="bg-background"></td>
                     </tr>
                   )}
                 </tbody>

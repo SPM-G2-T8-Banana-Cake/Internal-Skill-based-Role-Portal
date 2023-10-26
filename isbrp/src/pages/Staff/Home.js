@@ -52,13 +52,13 @@ function StaffHome() {
         <div className="p-2">
           {applicants.map((application, index) => {
             return (
-              <div className="bg-grey rounded-2 p-3 mb-3" key={index}>
+              <div className="bg-background rounded-2 p-3 mb-3" key={index}>
                 <Row>
                   <Col xs={4} sm={3} md={2}>
                     <Image src={bgHero} alt="Application Icon" fluid />
                   </Col>
                   <Col>
-                    <span className="fs-5 bg-details rounded p-1">
+                    <span className="fs-5 bg-inputFields rounded p-1">
                       <b className="pb-2">Application #{index + 1}</b>
                     </span>
                     <Chip label="Pending" className="float-end bg-pending" />

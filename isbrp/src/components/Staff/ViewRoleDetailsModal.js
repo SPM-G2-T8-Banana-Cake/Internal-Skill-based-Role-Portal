@@ -53,8 +53,8 @@ function ViewRoleDetailsModal(props) {
 
   return (
     <>
-      <OverlayTrigger className="bg-light" placement="top" overlay={<Tooltip>View Role Details</Tooltip>}>
-        <Button className="rounded-circle" size="sm" variant="grey" onClick={handleShow}>
+      <OverlayTrigger className="bg-grey" placement="top" overlay={<Tooltip>View Role Details</Tooltip>}>
+        <Button className="rounded-circle" size="sm" variant="background" onClick={handleShow}>
           <FiMoreVertical />
         </Button>
       </OverlayTrigger>

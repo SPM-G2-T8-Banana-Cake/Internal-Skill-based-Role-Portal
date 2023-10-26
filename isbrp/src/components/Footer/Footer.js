@@ -7,7 +7,7 @@ import logo from "../../assets/logo.png";
 
 function Footer(props) {
   return (
-    <Navbar className={"bg-footer d-flex justify-content-between align-items-center py-1 text-black footerText"}>
+    <Navbar className={"bg-footer d-flex justify-content-between align-items-center py-1 text-white footerText"}>
       <Row className="mx-5">
         <Col style={{ width: "50vw" }} className="my-auto">
           <div>

@@ -250,16 +250,16 @@ function RolesManagement() {
               <Col xs={9} md={4} lg={3}>
                 <InputGroup>
                   <OverlayTrigger placement="bottom" overlay={<Tooltip>Role Name: e.g. Data Analyst</Tooltip>}>
-                    <Form.Control className="bg-grey" placeholder="Search by Role Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
+                    <Form.Control className="bg-background" placeholder="Search by Role Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
                   </OverlayTrigger>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Search</Tooltip>}>
-                    <Button variant="grey" onClick={() => handleSearch(search)}>
+                    <Button variant="background" onClick={() => handleSearch(search)}>
                       <FiSearch />
                     </Button>
                   </OverlayTrigger>
                   <Dropdown>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
-                      <Dropdown.Toggle variant="grey" size="sm">
+                      <Dropdown.Toggle variant="background" size="sm">
                         <FiFilter />
                       </Dropdown.Toggle>
                     </OverlayTrigger>
@@ -277,7 +277,7 @@ function RolesManagement() {
               <Col xs={3} md={2} lg={2}>
                 <ButtonGroup>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Create a role listing</Tooltip>}>
-                    <Button variant="button" className="rounded-pill px-4 me-2 my-auto text-end" onClick={toCreateRoles}>
+                    <Button variant="details" className="rounded-pill px-4 me-2 my-auto text-end" onClick={toCreateRoles}>
                       <FaPlus />
                       &nbsp;Add Role
                     </Button>
@@ -303,10 +303,10 @@ function RolesManagement() {
                 <tbody>
                   {(rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
                     <tr className="border-details" key={roles.Role_ID}>
-                      <td className="bg-grey ps-3">{roles.Role_ID}</td>
-                      <td className="bg-grey ps-3">{roles.Role_Name}</td>
-                      <td className="bg-grey">{roles.Role_Desc}</td>
-                      <td className="bg-grey">
+                      <td className="bg-background ps-3">{roles.Role_ID}</td>
+                      <td className="bg-background ps-3">{roles.Role_Name}</td>
+                      <td className="bg-background">{roles.Role_Desc}</td>
+                      <td className="bg-background">
                         <RolesDetailsModal className="bg-grey" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
                       </td>
                     </tr>

@@ -20,7 +20,7 @@ function ApplicantDetailsModal(props) {
   return (
     <>
       <OverlayTrigger className="bg-light" placement="top" overlay={<Tooltip>View Applicant Details</Tooltip>}>
-        <Button className="rounded-circle" size="sm" variant="grey" onClick={handleShow}>
+        <Button className="rounded-circle" size="sm" variant="background" onClick={handleShow}>
           <FiMoreVertical />
         </Button>
       </OverlayTrigger>
