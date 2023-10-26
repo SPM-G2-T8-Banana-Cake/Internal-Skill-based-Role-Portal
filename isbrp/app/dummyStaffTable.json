@@ -116,5 +116,110 @@
             "Access_Rights": 1,
             "Skills": "User Research"
 
-    }
+    },
+    {
+
+        "Staff_ID": "st11",
+        "Staff_FName": "Jia",
+        "Staff_LName": "Cheng",
+        "Dept": "IT",
+        "Country": "Singapore",
+        "Email": "jiacheng@example.com",
+        "Access_Rights": 1,
+        "Skills": "PHP, HTML, React, Java, Python, JavaScript, Vue.js, Content Creation, Graphic Design, Adobe" 
+    },
+    {
+
+        "Staff_ID": "st12",
+        "Staff_FName": "Jia",
+        "Staff_LName": "Yang",
+        "Dept": "IT",
+        "Country": "Singapore",
+        "Email": "jiayang@example.com",
+        "Access_Rights": 1,
+        "Skills": "PHP, HTML, Graphic Design, Adobe, Java" 
+    },
+    {
+
+        "Staff_ID": "st13",
+        "Staff_FName": "En",
+        "Staff_LName": "Qi",
+        "Dept": "IT",
+        "Country": "Singapore",
+        "Email": "enqi@examples.com",
+        "Access_Rights": 1,
+        "Skills": "PHP, HTML, JavaScript, React, Vue, AWS" 
+    },
+    {
+
+        "Staff_ID": "st14",
+        "Staff_FName": "Quan",
+        "Staff_LName": "Wah",
+        "Dept": "IT",
+        "Country": "Singapore",
+        "Email": "qw@examples.com",
+        "Access_Rights": 1,
+        "Skills": "PHP, HTML, JavaScript, React, Vue, AWS, Python, Java" 
+    },
+    {
+        "Staff_ID": "st15",
+        "Staff_FName": "Ella",
+        "Staff_LName": "Smith",
+        "Dept": "HR",
+        "Country": "USA",
+        "Email": "ella.smith@example.com",
+        "Access_Rights": 2,
+        "Skills": "Human Resources, Recruitment, Employee Relations"
+    },
+    {
+        "Staff_ID": "st16",
+        "Staff_FName": "Sarah",
+        "Staff_LName": "Johnson",
+        "Dept": "Marketing",
+        "Country": "USA",
+        "Email": "sarah.johnson@example.com",
+        "Access_Rights": 3,
+        "Skills": "Marketing Strategy, Social Media, SEO"
+    },
+    {
+        "Staff_ID": "st17",
+        "Staff_FName": "John",
+        "Staff_LName": "Doe",
+        "Dept": "Finance",
+        "Country": "Canada",
+        "Email": "john.doe@example.com",
+        "Access_Rights": 2,
+        "Skills": "Accounting, Budgeting, Financial Analysis"
+    },
+    {
+        "Staff_ID": "st18",
+        "Staff_FName": "Linda",
+        "Staff_LName": "Brown",
+        "Dept": "Sales",
+        "Country": "UK",
+        "Email": "linda.brown@example.com",
+        "Access_Rights": 2,
+        "Skills": "Sales, Customer Relations, Negotiation"
+    },
+    {
+        "Staff_ID": "st19",
+        "Staff_FName": "Michael",
+        "Staff_LName": "Chen",
+        "Dept": "Operations",
+        "Country": "Australia",
+        "Email": "michael.chen@example.com",
+        "Access_Rights": 1,
+        "Skills": "Logistics, Supply Chain Management"
+    },
+    {
+        "Staff_ID": "st20",
+        "Staff_FName": "Emily",
+        "Staff_LName": "Lee",
+        "Dept": "Marketing",
+        "Country": "Singapore",
+        "Email": "emily.lee@example.com",
+        "Access_Rights": 1,
+        "Skills": "Customer Service, Problem Solving"
+    } 
+    
 ]

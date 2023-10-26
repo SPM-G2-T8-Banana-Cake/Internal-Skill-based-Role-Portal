@@ -18,7 +18,7 @@ function HrHeader() {
   );
 
   return (
-    <Navbar fixed="top" expand="md" className="bg-secondary navbar-dark px-3">
+    <Navbar fixed="top" expand="md" className="bg-header navbar-dark px-3">
       <Navbar.Toggle className="text-dark" />
       <Navbar.Brand>
         <NavLink to="/hr-home" state={{ id: location.state.id }}>

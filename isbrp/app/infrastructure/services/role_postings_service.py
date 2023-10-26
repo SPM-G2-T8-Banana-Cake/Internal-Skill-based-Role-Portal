@@ -10,6 +10,7 @@ import paramiko
 import pandas as pd
 from pandas.errors import EmptyDataError
 import os
+from passlib.hash import pbkdf2_sha256
 
 class RolePostingsService(RolePostingsRepository):
     def __init__(self, role_postings_repo : RolePostingsRepository) -> None:
@@ -137,8 +138,9 @@ class RolePostingsService(RolePostingsRepository):
                     Role_ID = d['Role_ID']
                     Role_Name = d['Role_Name']
                     Role_Desc = d['Role_Desc']
-                    create_role_table_sql = "INSERT INTO spm.Role_Table (Role_ID, Role_Name, Role_Desc) VALUES (%s, %s, %s)"
-                    val = (Role_ID, Role_Name, Role_Desc)
+                    Skills = d['Skills']
+                    create_role_table_sql = "INSERT INTO spm.Role_Table (Role_ID, Role_Name, Role_Desc, Skills) VALUES (%s, %s, %s, %s)"
+                    val = (Role_ID, Role_Name, Role_Desc, Skills)
                     self.repository.create(create_role_table_sql, val)
         return "Success"
 
@@ -221,11 +223,11 @@ class RolePostingsService(RolePostingsRepository):
             # print("Skill_Name = " + Skill_Name)
 
             create_role_sql = '''
-            INSERT INTO spm.Role_Table(Role_ID, Role_Name, Role_Desc) VALUES (%s, %s, %s)
+            INSERT INTO spm.Role_Table(Role_ID, Role_Name, Role_Desc, Skills) VALUES (%s, %s, %s, %s)
             '''
             Role_ID = ROLE_PREFIX +str(self.repository.get_Role_ID_Counter())
             print("Role_ID = " + Role_ID)
-            params = (Role_ID, Role_Name, Role_Desc)
+            params = (Role_ID, Role_Name, Role_Desc, Skills)
             self.repository.create(create_role_sql, params)
 
             create_role_listing_sql = '''
@@ -259,7 +261,7 @@ class RolePostingsService(RolePostingsRepository):
             BEGIN TRANSACTION;
 
             UPDATE spm.Role_Table 
-            SET Role_Name = %(Role_Name)s, Role_Desc = %(Role_Desc)s 
+            SET Role_Name = %(Role_Name)s, Role_Desc = %(Role_Desc)s, Skills=%(Skills)s 
             WHERE Role_ID = %(Role_ID)s;
 
             UPDATE spm.Role_Listing_Table 
@@ -288,18 +290,16 @@ class RolePostingsService(RolePostingsRepository):
             print(response_message)
             return response_message
 
-    def view_role_listings(self):
+
+    def hr_view_role_listings(self):
         start_time = time.time()
         try:
             read_role_sql = '''
-                SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RLT.Skills, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline, ST.Skills, ST.Staff_ID
+                SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RLT.Skills, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline
                 FROM spm.Role_Table RT
                 JOIN spm.Role_Listing_Table RLT ON RT.Role_ID = RLT.Role_ID
-                JOIN spm.Role_Listing_Application_Table RLAT on RLAT.Role_Listing_ID = RLT.Role_Listing_ID
-                JOIN spm.Staff_Table ST on ST.Staff_ID = RLAT.Applicant_ID;
-                ;
                 '''
-            res = self.repository.getRoleListings(read_role_sql)
+            res = self.repository.HRGetRoleListings(read_role_sql)
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in view_role_listings: {e}")
             return {}
@@ -307,6 +307,28 @@ class RolePostingsService(RolePostingsRepository):
         else:
             print("view_role_listings Time taken in seconds: " + str(time.time()-start_time))
             return res
+
+
+    def staff_view_role_listings(self, staffID):
+
+        start_time = time.time()
+        try:
+            staff_skill_sql = f"SELECT Skills from spm.Staff_Table where Staff_ID = '{staffID}'"
+            res = self.repository.getStaffSkills(staff_skill_sql)
+            read_role_sql = '''
+                SELECT RT.Role_ID, RT.Role_Name, RT.Role_Desc, RLT.Skills, RLT.Dept, RLT.Role_Listing_ID, RLT.Application_Deadline
+                FROM spm.Role_Table RT
+                JOIN spm.Role_Listing_Table RLT ON RT.Role_ID = RLT.Role_ID
+                '''
+            res2 = self.repository.StaffGetRoleListings(read_role_sql, res)
+
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in view_role_listings: {e}")
+            return {}
+        
+        else:
+            print("view_role_listings Time taken in seconds: " + str(time.time()-start_time))
+            return res2
 
     def view_applicants_skills(self):
         start_time = time.time()
@@ -405,5 +427,3 @@ class RolePostingsService(RolePostingsRepository):
                 response_message = f"create_app: Time taken in seconds: {time_taken}"
                 print(response_message)
                 return response_message
-            
-        
