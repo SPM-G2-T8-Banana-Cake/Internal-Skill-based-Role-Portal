@@ -13,7 +13,6 @@ import Tooltip from "react-bootstrap/Tooltip";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import logo from "../assets/logo.png";
-import { ThreeDots } from "react-loader-spinner";
 
 import { BsPersonFillGear, BsFillBuildingsFill } from "react-icons/bs";
 import { FiArrowLeft } from "react-icons/fi";
@@ -21,7 +20,6 @@ import { staffCreateAccount, staffLoginAccount, hrLoginAccount, hrCreateAccount 
 
 function Login() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [hrLogin, setHrLogin] = useState(false);
   const [staffLogin, setStaffLogin] = useState(false);
@@ -76,7 +74,6 @@ function Login() {
     setErrors(errors);
 
     if (errors.length === 0) {
-      setLoading(true);
       hrLoginAccount({ username: hrUsername, password: hrPassword })
         .then(function (response) {
           console.log("HR Login Account Endpoint Called");
@@ -89,9 +86,8 @@ function Login() {
         .catch(function (error) {
           console.log(error);
           setMessage("");
-          setErrors(["Something went wrong with login."]);
+          setErrors(["Username or password is incorrect."]);
         });
-      setLoading(false);
     }
   };
 
@@ -107,19 +103,17 @@ function Login() {
     setErrors(errors);
 
     if (errors.length === 0) {
-      setLoading(true);
       staffLoginAccount({ username: staffUsername, password: staffPassword })
         .then(function (response) {
           console.log("Staff Login Account Endpoint Called");
           console.log(response);
-          if (response.data === "exists"){
-          localStorage.setItem("id", staffUsername);
-          localStorage.setItem("token", "test-token");
-          localStorage.setItem("userType", "staff");
-          navigate("/staff-home", { state: { id: staffUsername } });
-          }
-          else {
-            setErrors(["Something went wrong with login."]);
+          if (response.data === "exists") {
+            localStorage.setItem("id", staffUsername);
+            localStorage.setItem("token", "test-token");
+            localStorage.setItem("userType", "staff");
+            navigate("/staff-home", { state: { id: staffUsername } });
+          } else {
+            setErrors(["Username or password is incorrect."]);
           }
         })
         .catch(function (error) {
@@ -127,7 +121,6 @@ function Login() {
           setMessage("");
           setErrors(["Something went wrong with login."]);
         });
-      setLoading(false);
     }
   };
 
@@ -144,12 +137,11 @@ function Login() {
 
     if (errors.length === 0) {
       setMessage("Login successful. Redirecting you ...");
-      setLoading(true);
       staffCreateAccount({ Username: staffRegisterUsername, Password: staffRegisterPassword })
         .then(function (response) {
           console.log("Staff Create Account Endpoint Called");
           console.log(response);
-          setMessage("Successfully created an account. Please login.")
+          setMessage("Successfully created account. Please login.");
           setStaffLogin(true);
           setStaffRegister(false);
           setStaffUsername(staffRegisterUsername);
@@ -159,18 +151,7 @@ function Login() {
           console.log(error);
           setErrors(["Something went wrong with creating an account. A user with the username already exists."]);
         });
-      setLoading(false);
     }
-
-    // if (username.includes("st") && password === "password") {
-    //   localStorage.setItem("id", username);
-    //   localStorage.setItem("userType", "staff");
-    //   localStorage.setItem("token", "test-token");
-    //   navigate("/staff-home", { state: { id: username } });
-    //   setError(false);
-    // } else {
-    //   setError(true);
-    // }
   };
 
   const handleHRRegister = () => {
@@ -185,12 +166,11 @@ function Login() {
     setErrors(errors);
 
     if (errors.length === 0) {
-      setLoading(true);
       hrCreateAccount({ Username: hrRegisterUsername, Password: hrRegisterPassword })
         .then(function (response) {
           console.log("HR Create Account Endpoint Called");
           console.log(response);
-          setMessage("Successfully created an account. Please login.")
+          setMessage("Successfully created account. Please login.");
           setHrLogin(true);
           setHrRegister(false);
           setHrUsername(hrRegisterUsername);
@@ -200,7 +180,6 @@ function Login() {
           console.log(error);
           setErrors(["Something went wrong with creating an account. A user with the username already exists."]);
         });
-      setLoading(false);
     }
   };
 
@@ -208,7 +187,8 @@ function Login() {
     document.title = "Login";
   }, []);
 
-console.log("Errors", errors)
+  console.log("Error", error);
+
   return (
     <>
       <LoginHeader />
@@ -268,7 +248,7 @@ console.log("Errors", errors)
                                 <p>{errors[0]}</p>
                               </Alert>
                             ) : null}
-                            {message ?  <Alert variant="success">{message}</Alert> : null }
+                            {message ? <Alert variant="success">{message}</Alert> : null}
                             <div className="text-end">
                               <Button variant="details" onClick={handleHRRegister}>
                                 Register
@@ -299,7 +279,7 @@ console.log("Errors", errors)
                               <br />
                               <br />
                               <Form.Label className="fw-bold">Staff Username</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={staffRegisterUsername} onChange={(e) => setStaffRegisterUsername(e.target.value)} onKeyDown={(e) => handleStaffRegisterEnter(e.key)}/>
+                              <Form.Control className="bg-grey" defaultValue={staffRegisterUsername} onChange={(e) => setStaffRegisterUsername(e.target.value)} onKeyDown={(e) => handleStaffRegisterEnter(e.key)} />
                             </Form.Group>
                             <Form.Group className="mb-3">
                               <Form.Label className="fw-bold">Staff Password</Form.Label>
@@ -405,13 +385,13 @@ console.log("Errors", errors)
                               <br />
                               <br />
                               <Form.Label className="fw-bold">HR Username</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={hrUsername} onChange={(e) => setHrUsername(e.target.value)} onKeyDown={(e) => handleHrLoginEnter(e.key)} />
+                              <input className="bg-grey border-0 rounded p-2 w-100" defaultValue={hrUsername} onChange={(e) => setHrUsername(e.target.value)} onKeyDown={(e) => handleHrLoginEnter(e.key)} />
                             </Form.Group>
                             <Form.Group className="mb-3">
                               <Form.Label className="fw-bold">HR Password</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={hrPassword} onChange={(e) => setHrPassword(e.target.value)} onKeyDown={(e) => handleHrLoginEnter(e.key)} type="password" />
+                              <input className="bg-grey border-0 rounded p-2 w-100" defaultValue={hrPassword} onChange={(e) => setHrPassword(e.target.value)} onKeyDown={(e) => handleHrLoginEnter(e.key)} type="password" />
                             </Form.Group>
-                            {message ?  <Alert variant="success">{message}</Alert> : null }
+                            {message ? <Alert variant="success">{message}</Alert> : null}
                             {errors.length !== 0 ? (
                               <Alert variant="danger">
                                 <ul>
@@ -466,11 +446,13 @@ console.log("Errors", errors)
                               <br />
                               <br />
                               <Form.Label className="fw-bold">Staff Username</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={staffUsername} onChange={(e) => setStaffUsername(e.target.value)} onKeyDown={(e) => handleStaffLoginEnter(e.key)} />
+                              <br />
+                              <input className="bg-grey border-0 rounded p-2 w-100" defaultValue={staffUsername} onChange={(e) => setStaffUsername(e.target.value)} onKeyDown={(e) => handleStaffLoginEnter(e.key)} />
                             </Form.Group>
                             <Form.Group className="mb-3">
                               <Form.Label className="fw-bold">Staff Password</Form.Label>
-                              <Form.Control className="bg-grey" defaultValue={staffPassword} onChange={(e) => setStaffPassword(e.target.value)} onKeyDown={(e) => handleStaffLoginEnter(e.key)} type="password" />
+                              <br />
+                              <input className="bg-grey border-0 rounded p-2 w-100" defaultValue={staffPassword} onChange={(e) => setStaffPassword(e.target.value)} onKeyDown={(e) => handleStaffLoginEnter(e.key)} type="password" />
                             </Form.Group>
                             {errors.length !== 0 ? (
                               <Alert variant="danger">
@@ -485,7 +467,7 @@ console.log("Errors", errors)
                                 <p>{errors[0]}</p>
                               </Alert>
                             ) : null}
-                            {message ?  <Alert variant="success">{message}</Alert> : null }
+                            {message ? <Alert variant="success">{message}</Alert> : null}
                             <span className="text-start fw-light">Don't have an account? Sign up </span>
                             <Button
                               className="p-0 m-0 text-dark py-auto border-0 text-decoration-underline bg-transparent"

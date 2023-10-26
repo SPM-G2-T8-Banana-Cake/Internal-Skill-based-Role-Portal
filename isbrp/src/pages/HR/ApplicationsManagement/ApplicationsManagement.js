@@ -208,10 +208,10 @@ function ApplicationsManagement() {
               <Col xs={9} md={4} lg={3}>
                 <InputGroup>
                   <OverlayTrigger placement="bottom" overlay={<Tooltip>Applicant Name: e.g. John Doe</Tooltip>}>
-                    <Form.Control className="bg-grey" placeholder="Search by Applicant Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
+                    <Form.Control className="bg-background" placeholder="Search by Applicant Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
                   </OverlayTrigger>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Search</Tooltip>}>
-                    <Button variant="grey" onClick={() => handleSearch(search)}>
+                    <Button variant="background" onClick={() => handleSearch(search)}>
                       <FiSearch />
                     </Button>
                   </OverlayTrigger>
@@ -240,10 +240,10 @@ function ApplicationsManagement() {
                 <tbody>
                   {(rowsPerPage > 0 ? applicants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : applicants).map((applicant, applicantNo) => (
                     <tr className="border-details" key={applicantNo}>
-                      <td className="bg-grey ps-3">{applicant.Staff_Name}</td>
-                      <td className="bg-grey">{applicant.Staff_Skills}</td>
-                      <td className="bg-grey">{applicant.Role_Name}</td>
-                      <td className="bg-grey">
+                      <td className="bg-background ps-3">{applicant.Staff_Name}</td>
+                      <td className="bg-background">{applicant.Staff_Skills}</td>
+                      <td className="bg-background">{applicant.Role_Name}</td>
+                      <td className="bg-background">
                         <ApplicantDetailsModal className="bg-grey" applicant={applicant} />
                       </td>
                     </tr>
