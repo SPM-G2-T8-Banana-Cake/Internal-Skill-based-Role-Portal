@@ -14,10 +14,20 @@ scheduler.api_enabled = True
 scheduler.init_app(app)
 scheduler.start()
 
-@scheduler.task('interval', id='schedule_send_recommender_email', seconds=10, misfire_grace_time=900)
-# @scheduler.task('cron', id='schedule_send_recommender_email', week='*', day_of_week='mon', hour=9, minute=0)
+# @scheduler.task('interval', id='cron_update_staff_hrms', seconds=2, misfire_grace_time=500)
+@scheduler.task('cron', id='cron_update_staff_hrms', week='*', day_of_week='tue,wed,thu,fri,sat', hour=0, minute=1)
 def cron_update_staff_hrms(url = "http://localhost:5000/cron_update_staff_hrms"):
-    return requests.get(url)
+    return requests.get(url, timeout=10000)
+
+# @scheduler.task('interval', id='cron_update_staff_skill_lms', seconds=3, misfire_grace_time=500)
+@scheduler.task('cron', id='cron_update_staff_skill_lms', week='*', day_of_week='tue,wed,thu,fri,sat', hour=0, minute=2)
+def cron_update_staff_skill_lms(url = "http://localhost:5000/cron_update_staff_skill_lms"):
+    return requests.get(url, timeout=10000)
+
+# @scheduler.task('interval', id='cron_update_role_skill_ljps', seconds=4, misfire_grace_time=500)
+@scheduler.task('cron', id='cron_update_role_skill_ljps', week='*', day_of_week='tue,wed,thu,fri,sat', hour=0, minute=3)
+def cron_update_role_skill_ljps(url = "http://localhost:5000/cron_update_role_skill_ljps"):
+    return requests.get(url, timeout=10000)
 
 cors = CORS(app)
 

@@ -18,6 +18,16 @@ def cron_update_staff_hrms():
     result = role_postings_service.cron_update_staff_hrms()
     return jsonify({'message': result})
 
+@role_postings_api.route('/cron_update_staff_skill_lms', methods=['GET'])
+def cron_update_staff_skill_lms():
+    result = role_postings_service.cron_update_staff_skill_lms()
+    return jsonify({'message': result})
+
+@role_postings_api.route('/cron_update_role_skill_ljps', methods=['GET'])
+def cron_update_role_skill_ljps():
+    result = role_postings_service.cron_update_role_skill_ljps()
+    return jsonify({'message': result})
+
 @role_postings_api.route('/create_role_listing', methods=['POST'])
 def create_role_listing():
     role_postings_json = request.json
