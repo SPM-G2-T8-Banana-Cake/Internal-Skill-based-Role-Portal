@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from utils.aws_services_wrapper import SqlServicesWrapper
 from infrastructure.repos.role_postings_repo import RolePostingsRepository
 from infrastructure.services.role_postings_service import RolePostingsService
@@ -12,6 +12,11 @@ role_postings_service = RolePostingsService(role_postings_repo = role_postings_r
 # @js_particulars_api.route('/test_jsp_endpoint', methods=['GET'])
 # def test_endpoint():
 #     return 'Default JS particulars endpoint returned.'
+
+@role_postings_api.route('/cron_update_staff_hrms', methods=['GET'])
+def cron_update_staff_hrms():
+    result = role_postings_service.cron_update_staff_hrms()
+    return jsonify({'message': result})
 
 @role_postings_api.route('/create_role_listing', methods=['POST'])
 def create_role_listing():

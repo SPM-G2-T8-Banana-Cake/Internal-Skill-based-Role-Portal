@@ -170,4 +170,15 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Role_Skills'] = res[6]
                 result_array.append(result_obj)
         return result_array
+
+    def getStaff(self, sql_query):
+        res_obj = {}
+        res = self.cursor.execute(sql_query)
+        staff_arr = self.cursor.fetchall()
+        if staff_arr != []:
+            res_obj['Staff_Dept'] = staff_arr[0][0]
+            return res_obj
+        else:
+            return {}
+       
     

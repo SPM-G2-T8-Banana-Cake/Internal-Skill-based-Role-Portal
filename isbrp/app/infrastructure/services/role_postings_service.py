@@ -6,10 +6,102 @@ from domain.models.role_postings import StaffTable, RoleTable, RoleListingTable,
 from domain.models.constants import STAFF_PREFIX, ROLE_LISTING_APPLICATION_PREFIX, ROLE_LISTING_PREFIX, ROLE_PREFIX
 from infrastructure.repos.role_postings_repo import RolePostingsRepository
 from utils.aws_services_wrapper import SqlServicesWrapper
+import paramiko
+import pandas as pd
+from pandas.errors import EmptyDataError
+import os
 
 class RolePostingsService(RolePostingsRepository):
     def __init__(self, role_postings_repo : RolePostingsRepository) -> None:
         self.repository = role_postings_repo
+
+    def connect_to_remote_system(self):
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(os.environ.get('REMOTE_SSH_HOST_IPADDR'),
+                    username = os.environ.get('REMOTE_SSH_HOST_USERNAME'),
+                    password = os.environ.get('REMOTE_SSH_HOST_PASSWORD'))
+
+        # Define the path to the CSV file on the remote system
+        remote_csv_path = '/home/peterwjy/cron_data/staff_details.csv'
+        return ssh, remote_csv_path
+    
+    def download_csv_from_remote(self):
+        ssh, remote_csv_path = self.connect_to_remote_system()
+        local_csv_path = './cron_data/staff.csv'
+        try:
+            sftp = ssh.open_sftp()
+            sftp.get(remote_csv_path, local_csv_path)
+            sftp.close()
+            ssh.close()
+            return "Success download: staff.csv"
+        
+        except FileNotFoundError as e:
+            print(f"Error: {e}")
+
+    def extract_csv_to_arr(self, filepath):
+        try:
+            df = pd.read_csv(filepath, encoding='latin1')
+            df = df.where(pd.notnull(df), None)
+            df = df.to_dict('records')
+            return df
+        except EmptyDataError as e: 
+            print("Caught EmptyDataError: The CSV file is empty.")
+
+    def cron_update_staff_hrms(self, staff_csv_arr=None, filepath='./cron_data/staff.csv'):
+        # Deletes all items from staff table every night and re-ingest from csv
+        # - Add to database. Add item with staff_ID using id from hrms
+        # - Item contains all field except for skills. Skills column set as empty
+        try:
+            if staff_csv_arr is None:
+                staff_csv_arr = self.extract_csv_to_arr(filepath)
+            for staff in staff_csv_arr:
+                staff_ID = staff['Staff_ID']
+                res = self.get_staff(staff_ID)
+                if res != {}:
+                    update_sql = '''
+                    UPDATE spm.Staff_Table 
+                    SET Staff_FName = %(Staff_FName)s, Staff_LName = %(Staff_LName)s,
+                        Dept = %(Dept)s, Country = %(Country)s, Email = %(Email)s,
+                        Access_Rights = %(Access_Rights)s, 'Role': staff['Role']
+                    WHERE Staff_ID = %(Staff_ID)s;
+                    '''
+                    params = {
+                        'Staff_FName': staff['Staff_FName'],
+                        'Staff_LName': staff['Staff_LName'],
+                        'Dept': staff['Dept'],
+                        'Country': staff['Country'],
+                        'Email': staff['Email'],
+                        'Access_Rights' : staff['Access_Rights'],
+                        'Role': staff['Role']
+                    }
+                self.repository.update(update_sql, params)
+            return {}
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+
+    def cron_update_staff_skills_lms(self, staff_csv_arr=None, filepath='./cron_data/staff.csv'):
+        # Checks if staff ID exists in staff table
+        # - If not exist, add to database, set other fields as Empty. Set staff_ID using id from lms
+        # - If exist, update existing record matching staff_ID from lms for skills
+        try:
+            if staff_csv_arr is None:
+                staff_csv_arr = self.extract_csv_to_arr(filepath)
+            for staff in staff_csv_arr:
+                staff_ID = staff['Staff_ID']
+                res = self.get_staff(staff_ID)
+                print(res)
+            return {}
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+
+    def cron_update_role_ljps(self, role_csv_arr=None, filepath='../cron_data/staff.csv'):
+        # Checks if role exists in role_listing table based on Role_ID instead of Role_Listing_ID
+        # - If not exist, add to database
+        # - If exist
+        staff_csv_arr = self.extract_csv_to_arr(filepath)
+        return staff_csv_arr
+
 
     def ingest_staff_table(self, file_name):
         with open (file_name, 'r') as json_file:
@@ -279,6 +371,16 @@ class RolePostingsService(RolePostingsRepository):
             print("delete_role_listing Time taken in seconds: " + str(time.time()-start_time))
             return self.repository.delete(delete_role_sql)
         
+    def get_staff(self, staff_ID):
+        try:
+            sql_query = f"SELECT st.Dept AS Staff_Dept FROM spm.Staff_Table st WHERE st.Staff_ID = '{staff_ID}'"
+            res = self.repository.getStaff(sql_query)
+        except (AttributeError, TypeError, KeyError, ValueError) as e:
+            print(f"An error occurred in delete_role_listing: {e}")
+        else:
+            print("delete_role_listing Time taken in seconds: ")
+            return res
+        
     def create_role_application(self, role_app_json: RoleApplicationTable):
             start_time = time.time()
             try:
@@ -303,3 +405,5 @@ class RolePostingsService(RolePostingsRepository):
                 response_message = f"create_app: Time taken in seconds: {time_taken}"
                 print(response_message)
                 return response_message
+            
+        
