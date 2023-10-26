@@ -13,7 +13,7 @@ function ModifyRoleModal(props) {
   const roleListingID = props.role.Role_Listing_ID;
   const [roleName, setRoleName] = useState(props.role.Role_Name);
   const [roleDesc, setRoleDesc] = useState(props.role.Role_Desc);
-  const [skillsRequired, setSkillsRequired] = useState(props.role.Required_Skills);
+  const skillsRequired = (props.role.Required_Skills);
   const [appDeadline, setAppDeadline] = useState(props.role.Application_Deadline);
   const [department, setDepartment] = useState(props.role.Dept);
 
@@ -90,7 +90,7 @@ function ModifyRoleModal(props) {
               <span className="fw-bold">Role Name</span>
               <br />
               <Form.Group controlId="roleName">
-                <Form.Control type="text" defaultValue={roleName} className="bg-inputFields" onChange={(e) => setRoleName(e.target.value)} required />
+                <Form.Control type="text" defaultValue={roleName} className="bg-background" onChange={(e) => setRoleName(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
                 <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
               </Form.Group>
@@ -102,7 +102,7 @@ function ModifyRoleModal(props) {
               <span className="fw-bold">Role Description</span>
               <br />
               <Form.Group controlId="roleDesc">
-                <textarea className="form-control w-100 bg-inputFields" rows="3" defaultValue={roleDesc} onChange={(e) => setRoleDesc(e.target.value)} required />
+                <textarea className="form-control w-100 bg-background" rows="3" defaultValue={roleDesc} onChange={(e) => setRoleDesc(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
                 <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
               </Form.Group>
@@ -113,7 +113,7 @@ function ModifyRoleModal(props) {
               <span className="fw-bold">Department</span>
               <br />
               <Form.Group controlId="dept">
-                <Form.Select defaultValue={department} className="bg-inputFields" onChange={(e) => setDepartment(e.target.value)} required>
+                <Form.Select defaultValue={department} className="bg-background" onChange={(e) => setDepartment(e.target.value)} required>
                   {departments.map((department) => {
                     return <option key={department}>{department}</option>;
                   })}
@@ -128,9 +128,9 @@ function ModifyRoleModal(props) {
               <span className="fw-bold">Skills Required</span>
               <br />
               <Form.Group controlId="skillsRequired">
-                <Form.Control type="text" defaultValue={skillsRequired} className="bg-inputFields" onChange={(e) => setSkillsRequired(e.target.value)} required />
-                <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
-                <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
+                <p className="bg-background rounded p-2 ps-2">{skillsRequired}</p>
+                {/* <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+                <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback> */}
               </Form.Group>
             </Col>
           </Row>
@@ -139,7 +139,7 @@ function ModifyRoleModal(props) {
               <span className="fw-bold">Application Deadline</span>
               <br />
               <Form.Group controlId="appDeadline">
-                <Form.Control type="date" defaultValue={structuredDate} className="bg-inputFields" min={new Date().toJSON().slice(0, 10)} onChange={(e) => setAppDeadline(e.target.value)} required />
+                <Form.Control type="date" defaultValue={structuredDate} className="bg-background" min={new Date().toJSON().slice(0, 10)} onChange={(e) => setAppDeadline(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
                 <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
               </Form.Group>
