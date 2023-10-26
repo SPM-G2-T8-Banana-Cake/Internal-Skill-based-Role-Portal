@@ -102,7 +102,7 @@ function ApplicationsManagement() {
           if (response.data.length > 0) {
             let filteredData = [];
             for (let i = 0; i < response.data.length; i++) {
-              if (response.data[i].Staff_Name.toLowerCase().includes(value)) {
+              if (response.data[i].Staff_Name.toLowerCase().includes(value.toLowerCase())) {
                 filteredData.push(response.data[i]);
               }
             }
