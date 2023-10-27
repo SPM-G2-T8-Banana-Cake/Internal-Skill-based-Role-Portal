@@ -17,9 +17,9 @@ class RolePostingsRepository(IRolePostingsRepository):
         self.cursor.execute(sql_query, params)
         self.cursor.connection.commit()
         return "Updated Role Listing Success"
-    
-    def delete(self, params: dict):
-        res = self.cursor.execute(**params)
+
+    def delete(self, params: str):
+        res = self.cursor.execute(params)
         self.cursor.connection.commit()
         return res
 
@@ -194,6 +194,28 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Role_Skills'] = res[6]
                 result_array.append(result_obj)
         return result_array
+
+    def schedulerGetStaff(self, sql_query):
+        res_obj = {}
+        res = self.cursor.execute(sql_query)
+        staff_arr = self.cursor.fetchall()
+        if staff_arr != []:
+            res_obj['Skills'] = staff_arr[0][0]
+            return res_obj
+        else:
+            return {}
+        
+    def schedulerGetRoleSkill(self, sql_query):
+        res_obj = {}
+        res = self.cursor.execute(sql_query)
+        role_arr = self.cursor.fetchall()
+        if role_arr != []:
+            res_obj['Role_Name'] = role_arr[0][0]
+            res_obj['Skills'] = role_arr[0][1]
+            return res_obj
+        else:
+            return {}
+       
     
     def getUsernamePassword(self, sql_query):
         res = self.cursor.execute(sql_query)
