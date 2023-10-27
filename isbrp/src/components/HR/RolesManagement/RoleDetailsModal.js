@@ -9,6 +9,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import ModifyRoleModal from "./ModifyRoleModal";
 import bgIcon from "../../../assets/viewingIcon.png";
 import { FiMoreVertical, FiEdit, FiClock } from "react-icons/fi";
+import DeleteRoleModal from "./DeleteRoleModal";
 
 function RoleDetailsModal(props) {
   const [show, setShow] = useState(false);
@@ -21,8 +22,8 @@ function RoleDetailsModal(props) {
 
   return (
     <>
-      <OverlayTrigger className="bg-light" placement="top" overlay={<Tooltip>View Role Details</Tooltip>}>
-        <Button className="rounded-circle" size="sm" variant="grey" onClick={handleShow}>
+      <OverlayTrigger className="bg-grey" placement="top" overlay={<Tooltip>View Role Details</Tooltip>}>
+        <Button className="rounded-circle" size="sm" variant="background" onClick={handleShow}>
           <FiMoreVertical />
         </Button>
       </OverlayTrigger>
@@ -81,12 +82,15 @@ function RoleDetailsModal(props) {
               </Col>
             </Row>
           </Modal.Body>
-          <Modal.Footer className="bg-light">{/* <Button className="rounded-pill me-3" variant="danger" size='sm' onClick={() => setCurrentModal('delete')}>
-                        Delete Role Listing
-                    </Button> */}</Modal.Footer>
+          <Modal.Footer className="bg-details p-4">
+            {/* <Button className="rounded-pill me-3" variant="secondary" size='sm' onClick={() => setCurrentModal('delete')}>
+                Delete Role Listing
+            </Button> */}
+          </Modal.Footer>
         </Modal>
       ) : null}
       {currentModal === "modify" ? <ModifyRoleModal role={props.role} setCurrentModal={setCurrentModal} openSnackbar={props.openSnackbar} reloadRoleListings={props.reloadRoleListings} /> : null}
+      {currentModal === 'delete' ? <DeleteRoleModal role={props.role} setCurrentModal={setCurrentModal} setShow={setShow} openSnackbar={props.openSnackbar} reloadProfiles={props.reloadRoleListings} /> : null}
     </>
   );
 }

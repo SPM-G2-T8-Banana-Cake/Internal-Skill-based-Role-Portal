@@ -68,6 +68,68 @@
             "Dept": "Marketing",
             "Application_Deadline": "2023-06-02",
             "Skills": "Copywriting"
-        }
+        },
+        {
+            "Role_Listing_ID":"rl11",
+            "Role_ID": "ro11",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "PHP, HTML, CSS, Java, Python, JavaScript, Node.js, React, AWS"
+        },
+        {
+            "Role_Listing_ID":"rl12",
+            "Role_ID": "ro12",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Java, Python, Node.js, RESTful APIs, Database Management"
+        },
+        {
+            "Role_Listing_ID":"rl13",
+            "Role_ID": "ro13",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "HTML, CSS, JavaScript, React, Angular, Vue.js"
+        },
+        {
+            "Role_Listing_ID":"rl14",
+            "Role_ID": "ro14",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Docker, Kubernetes, Jenkins, CI/CD, Linux, AWS, Azure"
+        },        {
+            "Role_Listing_ID":"rl15",
+            "Role_ID": "ro15",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Data Analysis, Machine Learning, Python, R, Data Visualization, SQL"
+        },
+        {
+            "Role_Listing_ID":"rl16",
+            "Role_ID": "ro16",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Network Configuration, Cisco, Routing and Switching, Security Protocols"
+        },
+        {
+            "Role_Listing_ID":"rl17",
+            "Role_ID": "ro17",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Cybersecurity, Intrusion Detection, Firewalls, Penetration Testing, SIEM"
+        },
+        {
+            "Role_Listing_ID":"rl20",
+            "Role_ID": "ro20",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Cloud Services (AWS, Azure, GCP), Infrastructure as Code, Security"
+        },
+        {
+            "Role_Listing_ID":"rl19",
+            "Role_ID": "ro19",
+            "Dept": "IT",
+            "Application_Deadline": "2023-06-02",
+            "Skills": "Database Management, SQL, MySQL, Oracle, MongoDB, Backup and Recovery"
+        }      
     ]
     

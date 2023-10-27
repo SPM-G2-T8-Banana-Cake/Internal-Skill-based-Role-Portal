@@ -18,8 +18,8 @@ function HrHeader() {
   );
 
   return (
-    <Navbar fixed="top" expand="md" className="bg-secondary navbar-dark px-3">
-      <Navbar.Toggle className="text-dark" />
+    <Navbar fixed="top" expand="md" className="bg-header text-white px-3">
+      <Navbar.Toggle className="text-white" />
       <Navbar.Brand>
         <NavLink to="/hr-home" state={{ id: location.state.id }}>
           <Image src={logo} alt="Logo" width="50" />
@@ -29,11 +29,11 @@ function HrHeader() {
         <Nav className="me-auto">
           <NavLink
             to="/roles-management"
-            className="text-decoration-none text-dark me-3"
+            className="text-decoration-none text-white me-3"
             style={({ isActive, isPending }) => {
               return {
                 fontWeight: isActive ? "bold" : "",
-                color: isPending ? "black" : "black",
+                color: isPending ? "white" : "white",
               };
             }}
             state={{ id: location.state.id }}
@@ -46,16 +46,16 @@ function HrHeader() {
             style={({ isActive, isPending }) => {
               return {
                 fontWeight: isActive ? "bold" : "",
-                color: isPending ? "black" : "black",
+                color: isPending ? "white" : "white",
               };
             }}
             state={{ id: location.state.id }}
-            className="text-decoration-none text-dark"
+            className="text-decoration-none text-white"
           >
             Applications Management
           </NavLink>
         </Nav>
-        <NavDropdown title={user} className="text-dark">
+        <NavDropdown title={user} className="text-white">
           <NavDropdown.Item href="/">
             <FiLogOut className="me-2" />
             Logout

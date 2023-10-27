@@ -17,7 +17,7 @@ import IsbrpSnackbar from "../../../components/Standard/isbrpSnackBar";
 import { departments } from "../../../utils/constants";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FiFilter } from "react-icons/fi";
-import { readRoleListings } from "../../../services/api";
+import { hrReadRoleListings } from "../../../services/api";
 import { styled } from "@mui/system";
 import { TablePagination, tablePaginationClasses as classes } from "@mui/base/TablePagination";
 import { FaPlus } from "react-icons/fa";
@@ -45,6 +45,14 @@ function RolesManagement() {
     } else if (value === "modifyRoleError") {
       setSeverity("error");
       setMessage("Something went wrong while modifying role. Please try again.");
+      setOpen(true);
+    } else if (value === "deleteRoleSuccess") {
+      setSeverity("error");
+      setMessage("Role deleted successfully.");
+      setOpen(true);
+    } else if (value === "deleteRoleError") {
+      setSeverity("error");
+      setMessage("Something went wrong while deleting the role. Please try again.");
       setOpen(true);
     } else if (value === "getAllError") {
       setSeverity("error");
@@ -121,24 +129,23 @@ function RolesManagement() {
   };
 
   const handleChangeRowsPerPage = (e) => {
-    setRowsPerPage(parseInt(e.target.value, 10));
+    setRowsPerPage(parseInt(e.target.value));
     setPage(0);
   };
 
   const handleSearch = (value) => {
     if (value !== "") {
       setLoading(true);
-      readRoleListings()
+      hrReadRoleListings()
         .then(function (response) {
           console.log("Read Role Listings Endpoint Called");
           if (response.data.length > 0) {
             let filteredData = [];
             for (let i = 0; i < response.data.length; i++) {
-              if (response.data[i].Role_Name.toLowerCase().includes(value)) {
+              if (response.data[i].Role_Name.toLowerCase().includes(value.toLowerCase())) {
                 filteredData.push(response.data[i]);
               }
             }
-
             setRoleListings(filteredData);
           } else {
             setRoleListings([]);
@@ -160,7 +167,7 @@ function RolesManagement() {
 
   const reloadRoleListings = () => {
     setLoading(true);
-    readRoleListings()
+    hrReadRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
@@ -169,7 +176,6 @@ function RolesManagement() {
             data.push(response.data[i]);
           }
           setRoleListings(data);
-          console.log(data);
         }
         setLoading(false);
       })
@@ -181,7 +187,7 @@ function RolesManagement() {
 
   const sortByDepartment = (department) => {
     setLoading(true);
-    readRoleListings()
+    hrReadRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
@@ -191,7 +197,6 @@ function RolesManagement() {
               filteredData.push(response.data[i]);
             }
           }
-
           setRoleListings(filteredData);
         } else {
           setRoleListings([]);
@@ -212,7 +217,7 @@ function RolesManagement() {
     document.title = "Roles Management";
     window.scrollTo(0, 0);
     setLoading(true);
-readRoleListings()
+    hrReadRoleListings()
       .then(function (response) {
         console.log("Read Role Listings Endpoint Called");
         if (response.data.length > 0) {
@@ -245,16 +250,16 @@ readRoleListings()
               <Col xs={9} md={4} lg={3}>
                 <InputGroup>
                   <OverlayTrigger placement="bottom" overlay={<Tooltip>Role Name: e.g. Data Analyst</Tooltip>}>
-                    <Form.Control className="bg-grey" placeholder="Search by Role Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
+                    <Form.Control className="bg-background" placeholder="Search by Role Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
                   </OverlayTrigger>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Search</Tooltip>}>
-                    <Button variant="grey" onClick={() => handleSearch(search)}>
+                    <Button variant="background" onClick={() => handleSearch(search)}>
                       <FiSearch />
                     </Button>
                   </OverlayTrigger>
                   <Dropdown>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Filter</Tooltip>}>
-                      <Dropdown.Toggle variant="grey" size="sm">
+                      <Dropdown.Toggle variant="background" size="sm">
                         <FiFilter />
                       </Dropdown.Toggle>
                     </OverlayTrigger>
@@ -272,7 +277,7 @@ readRoleListings()
               <Col xs={3} md={2} lg={2}>
                 <ButtonGroup>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Create a role listing</Tooltip>}>
-                    <Button variant="button" className="rounded-pill px-4 me-2 my-auto text-end" onClick={toCreateRoles}>
+                    <Button variant="details" className="rounded-pill px-4 me-2 my-auto text-end" onClick={toCreateRoles}>
                       <FaPlus />
                       &nbsp;Add Role
                     </Button>
@@ -298,10 +303,10 @@ readRoleListings()
                 <tbody>
                   {(rowsPerPage > 0 ? roleListings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : roleListings).map((roles) => (
                     <tr className="border-details" key={roles.Role_ID}>
-                      <td className="bg-grey ps-3">{roles.Role_ID}</td>
-                      <td className="bg-grey ps-3">{roles.Role_Name}</td>
-                      <td className="bg-grey">{roles.Role_Desc}</td>
-                      <td className="bg-grey">
+                      <td className="bg-background ps-3">{roles.Role_ID}</td>
+                      <td className="bg-background ps-3">{roles.Role_Name}</td>
+                      <td className="bg-background">{roles.Role_Desc}</td>
+                      <td className="bg-background">
                         <RolesDetailsModal className="bg-grey" role={roles} reloadRoleListings={reloadRoleListings} openSnackbar={openSnackbar} />
                       </td>
                     </tr>

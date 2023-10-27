@@ -89,17 +89,33 @@ function ApplicationsManagement() {
   };
 
   const handleChangeRowsPerPage = (e) => {
-    setRowsPerPage(parseInt(e.target.value, 10));
+    setRowsPerPage(parseInt(e.target.value));
     setPage(0);
   };
 
   const handleSearch = (value) => {
     if (value !== "") {
       setLoading(true);
-      let input = value;
-      if (input.includes(" ")) {
-        input = input.replace(/\s+/g, "-");
-      }
+      hrReadRoleApplicants()
+        .then(function (response) {
+          console.log("Read Applicants Endpoint Called");
+          if (response.data.length > 0) {
+            let filteredData = [];
+            for (let i = 0; i < response.data.length; i++) {
+              if (response.data[i].Staff_Name.toLowerCase().includes(value.toLowerCase())) {
+                filteredData.push(response.data[i]);
+              }
+            }
+            setApplicants(filteredData);
+          } else {
+            setApplicants([]);
+          }
+          setLoading(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+          openSnackbar("searchError");
+        });
     }
   };
 
@@ -144,7 +160,6 @@ function ApplicationsManagement() {
             data.push(response.data[i]);
           }
           setApplicants(data);
-          console.log(data);
         }
         setLoading(false);
       })
@@ -162,7 +177,6 @@ function ApplicationsManagement() {
     hrReadRoleApplicants()
       .then(function (response) {
         console.log("Read Applicants Endpoint Called");
-        console.log(response);
         if (response.data.length > 0) {
           let data = [];
           for (let i = 0; i < response.data.length; i++) {
@@ -194,10 +208,10 @@ function ApplicationsManagement() {
               <Col xs={9} md={4} lg={3}>
                 <InputGroup>
                   <OverlayTrigger placement="bottom" overlay={<Tooltip>Applicant Name: e.g. John Doe</Tooltip>}>
-                    <Form.Control className="bg-grey" placeholder="Search by Applicant Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
+                    <Form.Control className="bg-background" placeholder="Search by Applicant Name..." value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleSearchEnter(e.key)} />
                   </OverlayTrigger>
                   <OverlayTrigger placement="top" overlay={<Tooltip>Search</Tooltip>}>
-                    <Button variant="grey" onClick={() => handleSearch(search)}>
+                    <Button variant="background" onClick={() => handleSearch(search)}>
                       <FiSearch />
                     </Button>
                   </OverlayTrigger>
@@ -224,12 +238,12 @@ function ApplicationsManagement() {
                   </tr>
                 </thead>
                 <tbody>
-                  {(rowsPerPage > 0 ? applicants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : applicants).map((applicant) => (
-                    <tr className="border-details" key={applicant.Staff_Name}>
-                      <td className="bg-grey ps-3">{applicant.Staff_Name}</td>
-                      <td className="bg-grey">{applicant.Staff_Skills}</td>
-                      <td className="bg-grey">{applicant.Role_Name}</td>
-                      <td className="bg-grey">
+                  {(rowsPerPage > 0 ? applicants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : applicants).map((applicant, applicantNo) => (
+                    <tr className="border-details" key={applicantNo}>
+                      <td className="bg-background ps-3">{applicant.Staff_Name}</td>
+                      <td className="bg-background">{applicant.Staff_Skills}</td>
+                      <td className="bg-background">{applicant.Role_Name}</td>
+                      <td className="bg-background">
                         <ApplicantDetailsModal className="bg-grey" applicant={applicant} />
                       </td>
                     </tr>

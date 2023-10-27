@@ -4,7 +4,7 @@ import Image from 'react-bootstrap/Image'
 
 function LoginHeader(props) {
     return (
-        <Navbar fixed='top' className={props.type +' navbar-grey px-2'}>
+        <Navbar fixed='top' className='bg-header px-2'>
             <Navbar.Brand>
                 <Image src={require('../../assets/logo.png')} alt='Logo' width='60' />
             </Navbar.Brand>

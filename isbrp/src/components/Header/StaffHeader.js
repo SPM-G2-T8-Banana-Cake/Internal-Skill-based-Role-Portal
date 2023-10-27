@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -9,7 +9,12 @@ import logo from "../../assets/logo.png";
 
 function StaffHeader() {
   const location = useLocation();
-
+  const navigate = useNavigate();
+  
+  const logout = () => {
+    localStorage.clear();
+    navigate("/")
+  }
   const user = (
     <span>
       <FiUser />
@@ -18,8 +23,8 @@ function StaffHeader() {
   );
 
   return (
-    <Navbar fixed="top" expand="md" className="bg-secondary navbar-dark px-3">
-      <Navbar.Toggle className="text-dark" />
+    <Navbar fixed="top" expand="md" className="bg-header navbar-dark px-3">
+      <Navbar.Toggle className="text-white" />
       <Navbar.Brand>
         <NavLink to="/staff-home" state={{ id: location.state.id }}>
           <Image src={logo} alt="Logo" width="50" />
@@ -29,11 +34,11 @@ function StaffHeader() {
         <Nav className="me-auto">
           <NavLink
             to="/available-roles"
-            className="text-decoration-none text-dark me-3"
+            className="text-decoration-none text-white me-3"
             style={({ isActive, isPending }) => {
               return {
                 fontWeight: isActive ? "bold" : "",
-                color: isPending ? "black" : "black",
+                color: isPending ? "white" : "white",
               };
             }}
             state={{ id: location.state.id }}
@@ -41,8 +46,8 @@ function StaffHeader() {
             Avaliable Roles
           </NavLink>
         </Nav>
-        <NavDropdown title={user} className="text-dark">
-          <NavDropdown.Item href="/">
+        <NavDropdown title={user} className="text-white">
+          <NavDropdown.Item onClick={logout}>
             <FiLogOut className="me-2" />
             Logout
           </NavDropdown.Item>

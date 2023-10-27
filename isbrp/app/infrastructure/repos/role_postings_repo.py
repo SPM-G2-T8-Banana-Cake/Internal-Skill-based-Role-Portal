@@ -107,7 +107,51 @@ class RolePostingsRepository(IRolePostingsRepository):
         else:
             print("No Role_Listing_App_ID_Counter exists")
 
-    def getRoleListings(self, sql_query):
+    def StaffGetRoleListings(self, sql_query, staffskills):
+        res = self.cursor.execute(sql_query)
+        results = self.cursor.fetchall()
+        result_array = []
+        counter = 1
+        if results:
+            for res in results:
+                result_obj = {}
+                result_obj['Role_ID'] = res[0]
+                result_obj['Role_Name'] = res[1]
+                result_obj['Role_Desc'] = res[2]
+                result_obj['Dept'] = res[4]
+                result_obj['Role_Listing_ID'] = res[5]
+                result_obj['Application_Deadline'] = res[6]
+                result_obj["Staff_Skills"] = staffskills
+                skillsmatchcounter = 0
+                required_skills_array = []
+                print("required skills", res[3])
+                if "," in res[3]:
+                    required_skills = res[3].split(",")
+                    max_number_of_required_skills = len(required_skills)
+                    for skill in required_skills:   
+                        required_skills_array.append(skill.strip())
+                else:
+                    max_number_of_required_skills = 1
+                    required_skills_array.append(res[3])
+
+                result_obj['Required_Skills'] = [required_skills_array, res[3]]
+
+                if len(staffskills) > 0:
+                    staff_skill_array = staffskills[0].split(",")
+                    for skill in staff_skill_array:
+                        if skill.strip() in required_skills_array:
+                            skillsmatchcounter += 1
+                else:
+                    if staffskills[0].strip() in required_skills_array:
+                        skillsmatchcounter += 1
+                counter += 1
+
+                skill_match = math.ceil(skillsmatchcounter / max_number_of_required_skills * 100)
+                result_obj['Skill_Match'] = skill_match
+                result_array.append(result_obj)
+        return result_array
+    
+    def HRGetRoleListings(self, sql_query):
         res = self.cursor.execute(sql_query)
         results = self.cursor.fetchall()
         result_array = []
@@ -121,40 +165,20 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Dept'] = res[4]
                 result_obj['Role_Listing_ID'] = res[5]
                 result_obj['Application_Deadline'] = res[6]
-                result_obj["Staff_Skills"] = res[7]
-                result_obj["Staff_ID"] = res[8]
-                skillsmatchcounter = 0
-                required_skills_array = []
-                staff_skills_array = []
-                if "," in res[3]:
-                    print("more than one required skill")
-                    required_skills = res[3].split(",")
-                    max_number_of_required_skills = len(required_skills)
-                    print(max_number_of_required_skills)
-                    for skill in required_skills:
-                        required_skills_array.append(skill.strip())
-                else:
-                    max_number_of_required_skills = 1
-                    required_skills_array.append(res[3])
-                
-                if "," in res[7]:
-                    print("more than one required skill")
-                    staff_skills = res[7].split(",")
-                    max_number_of_staff_skills = len(staff_skills)
-                    for skill in max_number_of_staff_skills:
-                        staff_skills_array.append(skill.strip())
-                else:
-                    staff_skills_array.append(res[7])
-
-                for st_sk in staff_skills_array:
-                    if st_sk in required_skills_array:
-                        skillsmatchcounter += 1
-                skill_match = math.ceil(skillsmatchcounter / max_number_of_required_skills * 100)
-                result_obj['skill_match'] = skill_match
                 result_array.append(result_obj)
-        print(result_array)
         return result_array
-    
+
+    def getStaffSkills(self,sql_query):
+        res = self.cursor.execute(sql_query)
+        results = self.cursor.fetchall()
+        result_array = []
+        if results:
+            for res in results:
+                result_array.append(res[0])
+        return result_array
+
+
+
     def getSkills(self, sql_query):
         res = self.cursor.execute(sql_query)
         results = self.cursor.fetchall()
@@ -169,5 +193,25 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj['Staff_ID'] = res[5]
                 result_obj['Role_Skills'] = res[6]
                 result_array.append(result_obj)
+        return result_array
+    
+    def getUsernamePassword(self, sql_query):
+        res = self.cursor.execute(sql_query)
+        results = self.cursor.fetchall()
+        result_array = []
+        if results:
+            for res in results:
+                result_obj = {}
+                # result_obj['Role_Name'] = res[0]
+                # result_obj['Role_Desc']=res[1]
+                # result_obj['Staff_Name'] = res[2] + " " + res[3]
+                # result_obj['Staff_Skills'] = res[4]
+                # result_obj['Staff_ID'] = res[5]
+                # result_obj['Role_Skills'] = res[6]
+                result_obj['User_ID'] = res[0]
+                result_obj['User_Password'] = res[1]
+                result_array.append(result_obj)
+                # print("Res0", res[0])
+                # print("Res1", res[1])
         return result_array
     

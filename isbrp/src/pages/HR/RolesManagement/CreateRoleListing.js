@@ -65,11 +65,9 @@ function CreateRoleListing() {
       rolePosting["Dept"] = formik.values.dept;
       rolePosting["Application_Deadline"] = formik.values.appDeadline;
       rolePosting["Skill_Name"] = formik.values.skillsRequired;
-      console.log(rolePosting);
 
       hrCreateRoleListing(rolePosting)
         .then((response) => {
-          console.log(response);
           window.scrollTo(0, 0);
           setSeverity("success");
           setMessage("Role listing created successfully.");
@@ -163,13 +161,13 @@ function CreateRoleListing() {
               backgroundRepeat: "no-repeat",
             }}
           ></motion.div>
-          <div className="bg-inputFields p-5 border border-details" style={{ height: "160px" }}>
+          <div className="bg-details p-5" style={{ height: "160px" }}>
             <h3 style={{ fontWeight: "bold" }}>Role Listing Creation</h3>
-            <h6 style={{ fontWeight: "lighter" }}>Fill the form below accurately.</h6>
+            <h6 style={{ fontWeight: "lighter" }}>Fill the form below accurately to create a new role listing.</h6>
           </div>
           <div className="personalParticulars">
             <h3 className="text-center mt-5" style={{ fontWeight: "normal" }}>
-              Role Details
+              Role Listing Details
             </h3>
             <Formik validateOnChange={false} and validateOnBlur={false}>
               <motion.div animate={{ x: "5px" }} className="inputFields box-shadow p-5 d-flex justify-content-center mx-auto">
@@ -181,7 +179,7 @@ function CreateRoleListing() {
                           Role Name&nbsp;
                           <span style={{ color: "red" }}>*</span>
                         </Form.Label>
-                        <Form.Control className="bg-grey p-2" name="roleName" type="text" placeholder="" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleName} />
+                        <Form.Control className="bg-background p-2" name="roleName" type="text" placeholder="" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleName} />
                         {formik.touched.roleName && formik.errors.roleName ? <p className="text-error">{formik.errors.roleName}</p> : null}
                       </Form.Group>
                     </Col>
@@ -193,7 +191,7 @@ function CreateRoleListing() {
                           Role Description&nbsp;
                           <span style={{ color: "red" }}>*</span>
                         </Form.Label>
-                        <Form.Control className="bg-grey p-2" name="roleDesc" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleDesc} />
+                        <Form.Control className="bg-background p-2" name="roleDesc" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.roleDesc} />
                         {formik.touched.roleDesc && formik.errors.roleDesc ? <p className="text-error">{formik.errors.roleDesc}</p> : null}
                       </Form.Group>
                     </Col>
@@ -205,7 +203,7 @@ function CreateRoleListing() {
                           Department&nbsp;
                           <span style={{ color: "red" }}>*</span>
                         </Form.Label>
-                        <Form.Select className="bg-grey p-2" name="dept" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.dept}>
+                        <Form.Select className="bg-background p-2" name="dept" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.dept}>
                           <option value="">--- Select a department ---</option>
                           {departments.map((department) => {
                             return (
@@ -226,7 +224,7 @@ function CreateRoleListing() {
                           Skills Required&nbsp;
                           <span style={{ color: "red" }}>*</span>
                         </Form.Label>
-                        <textarea className="bg-grey form-control p-2" name="skillsRequired" placeholder="Enter various skills required separated by ','" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.skillsRequired} />
+                        <textarea className="bg-background form-control p-2" name="skillsRequired" placeholder="Enter various skills required separated by ','" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.skillsRequired} />
                         {formik.touched.skillsRequired && formik.errors.skillsRequired ? <p className="text-error">{formik.errors.skillsRequired}</p> : null}
                       </Form.Group>
                     </Col>
@@ -238,7 +236,7 @@ function CreateRoleListing() {
                           Application Deadline&nbsp;
                           <span style={{ color: "red" }}>*</span>
                         </Form.Label>
-                        <Form.Control className="bg-grey p-2" name="appDeadline" type="date" min={new Date().toJSON().slice(0, 10)} max="" placeholder="dd-mm-yy" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.appDeadline} />
+                        <Form.Control className="bg-background p-2" name="appDeadline" type="date" min={new Date().toJSON().slice(0, 10)} max="" placeholder="dd-mm-yy" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.appDeadline} />
                         {formik.touched.appDeadline && formik.errors.appDeadline ? <p className="text-error">{formik.errors.appDeadline}</p> : null}
                       </Form.Group>
                     </Col>
@@ -278,7 +276,7 @@ function CreateRoleListing() {
                     <Col className="mx-5">
                       <hr />
                       <Button
-                        className="bg-button"
+                        className="bg-details"
                         style={{
                           float: "right",
                           color: "black",
