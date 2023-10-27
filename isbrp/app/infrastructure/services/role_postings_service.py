@@ -24,18 +24,17 @@ class RolePostingsService(RolePostingsRepository):
                     password = os.environ.get('REMOTE_SSH_HOST_PASSWORD'))
 
         # Define the path to the CSV file on the remote system
-        remote_csv_path = '/home/peterwjy/cron_data/staff_details.csv'
-        return ssh, remote_csv_path
+        # remote_csv_path = '/home/peterwjy/cron_data/staff.csv'
+        return ssh
     
-    def download_csv_from_remote(self):
-        ssh, remote_csv_path = self.connect_to_remote_system()
-        local_csv_path = './cron_data/staff.csv'
+    def download_csv_from_remote(self, remote_csv_path, local_csv_path):
+        ssh = self.connect_to_remote_system()
         try:
             sftp = ssh.open_sftp()
             sftp.get(remote_csv_path, local_csv_path)
             sftp.close()
             ssh.close()
-            return "Success download: staff.csv"
+            return "Success download"
         
         except FileNotFoundError as e:
             print(f"Error: {e}")
@@ -49,13 +48,15 @@ class RolePostingsService(RolePostingsRepository):
         except EmptyDataError as e: 
             print("Caught EmptyDataError: The CSV file is empty.")
 
-    def cron_update_staff_hrms(self, staff_csv_arr=None, filepath='./cron_data/staff.csv'):
+    def cron_update_staff_hrms(self, staff_csv_arr=None, remote_csv_path='/home/peterwjy/cron_data/staff.csv', local_csv_path='./cron_data/staff.csv'):
         # Checks if staff ID exists in staff table
         # - If not exist, add to database, set fields. Set staff_ID using id from lms
         # - If exist, update existing record matching staff_ID
         try:
+            self.download_csv_from_remote(remote_csv_path, local_csv_path)
+
             if staff_csv_arr is None:
-                staff_csv_arr = self.extract_csv_to_arr(filepath)
+                staff_csv_arr = self.extract_csv_to_arr(local_csv_path)
 
             for staff in staff_csv_arr:
                 # Check if staff_ID exists in staff table
@@ -99,10 +100,12 @@ class RolePostingsService(RolePostingsRepository):
         except Exception as e:
             print(f"An error occurred: {str(e)}")
 
-    def cron_update_staff_skill_lms(self, staff_skill_csv_arr=None, filepath='./cron_data/staff_skill.csv'):
+    def cron_update_staff_skill_lms(self, staff_skill_csv_arr=None, remote_csv_path='/home/peterwjy/cron_data/staff_skill.csv', local_csv_path='./cron_data/staff_skill.csv'):
         try:
+            self.download_csv_from_remote(remote_csv_path, local_csv_path)
+
             if staff_skill_csv_arr is None:
-                staff_skill_csv_arr = self.extract_csv_to_arr(filepath)
+                staff_skill_csv_arr = self.extract_csv_to_arr(local_csv_path)
 
             for staff in staff_skill_csv_arr:
                 staff_ID = staff['Staff_ID']
@@ -137,10 +140,12 @@ class RolePostingsService(RolePostingsRepository):
         except Exception as e:
             print(f"An error occurred: {str(e)}")
     
-    def cron_update_role_skill_ljps(self, role_skill_csv_arr=None, filepath='./cron_data/role_skill.csv'):
+    def cron_update_role_skill_ljps(self, role_skill_csv_arr=None, remote_csv_path='/home/peterwjy/cron_data/role_skill.csv', local_csv_path='./cron_data/role_skill.csv'):
         try:
+            self.download_csv_from_remote(remote_csv_path, local_csv_path)
+            
             if role_skill_csv_arr is None:
-                role_skill_csv_arr = self.extract_csv_to_arr(filepath)
+                role_skill_csv_arr = self.extract_csv_to_arr(local_csv_path)
 
             for role in role_skill_csv_arr:
                 role_name = role['Role_Name']
