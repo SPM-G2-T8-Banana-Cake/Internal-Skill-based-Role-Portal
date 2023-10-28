@@ -58,9 +58,10 @@ def view_applicants_skills():
 def delete_role_listing(role_listing_id):
     return role_postings_service.delete_role_listing(role_listing_id)
 
-@role_postings_api.route('/view_applicant_skills/<staffID>', methods=['POST'])
+@role_postings_api.route('/view_applicant_skills', methods = ['POST'])
 def view_applicant_skills():
-    staffID = request.json
+    request_data = request.get_json()
+    staffID = request_data.get('staffID')
     res = role_postings_service.view_applicant_skills(staffID)
     return res
 
