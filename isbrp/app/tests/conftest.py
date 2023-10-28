@@ -1,6 +1,6 @@
 import pytest
 from flask import Flask, request, jsonify
-from ..server import app
+from server import app
 
 @pytest.fixture()
 def client():
