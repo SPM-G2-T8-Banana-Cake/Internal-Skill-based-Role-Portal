@@ -320,7 +320,7 @@ class RolePostingsService(RolePostingsRepository):
             time_taken = time.time() - start_time
             response_message = f"create_role_listing: Time taken in seconds: {time_taken}"
             print(response_message)
-            return response_message
+            return [response_message, Role_ID, Role_Listing_ID]
 
     def update_role_listing(self, role_listings_json: RoleListingTable):
         start_time = time.time()
@@ -447,9 +447,8 @@ class RolePostingsService(RolePostingsRepository):
 					spm.Staff_Table st
                 WHERE st.Staff_ID = '{staffID}'
                 ;
-
             '''
-            res = self.repository.getSkills(get_applicant_skills_sql)
+            res = self.repository.getStaffSkills(get_applicant_skills_sql)
 
         except (AttributeError, TypeError, KeyError, ValueError) as e:
             print(f"An error occurred in get_applicant_skills_sql: {e}")

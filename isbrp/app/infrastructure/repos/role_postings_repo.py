@@ -124,7 +124,7 @@ class RolePostingsRepository(IRolePostingsRepository):
                 result_obj["Staff_Skills"] = staffskills
                 skillsmatchcounter = 0
                 required_skills_array = []
-                print("required skills", res[3])
+                # print("required skills", res[3])
                 if "," in res[3]:
                     required_skills = res[3].split(",")
                     max_number_of_required_skills = len(required_skills)

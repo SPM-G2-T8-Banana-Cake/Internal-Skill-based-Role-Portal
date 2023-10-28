@@ -27,5 +27,5 @@ jobs:
       run: |
         python -m pip install -r isbrp/app/requirements.txt
     - name: Test with pytest
-      run: |
-        pytest
+      working-directory: isbrp/app
+      run: pytest tests/
