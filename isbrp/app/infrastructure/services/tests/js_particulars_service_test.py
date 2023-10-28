@@ -1,3 +1,5 @@
+# To run pytest: python3 -m pytest -s
+
 ROLE_LISTING_CREATE_JSON = {
     "Role_Name" : "This Is Test Name", 
     "Role_Desc" : "This Is Test Role Desc", 
@@ -35,7 +37,6 @@ APPLICATION_STAFF_CREATE_JSON = {
     "Applicant_ID" : "st1"
 }
 APPLICATION_STAFF_CREATE_EXPECTED_STATUS = 200
-
 
 def test_default():
     assert "test" == "test"
