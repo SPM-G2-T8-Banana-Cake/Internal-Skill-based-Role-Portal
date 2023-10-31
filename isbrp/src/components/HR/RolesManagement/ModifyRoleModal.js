@@ -11,6 +11,7 @@ import { hrUpdateRoleListing } from "../../../services/api";
 function ModifyRoleModal(props) {
   const roleID = props.role.Role_ID;
   const roleListingID = props.role.Role_Listing_ID;
+  const refRoleName = props.role.Role_Name;
   const [roleName, setRoleName] = useState(props.role.Role_Name);
   const [roleDesc, setRoleDesc] = useState(props.role.Role_Desc);
   const skillsRequired = (props.role.Required_Skills);
@@ -80,7 +81,7 @@ function ModifyRoleModal(props) {
         }}
       >
         <Modal.Header className="bg-details text-black p-2 ps-4">
-          <Modal.Title className="me-2">Edit Role: {roleName}</Modal.Title>
+          <Modal.Title className="me-2">Edit Role: {refRoleName}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-4 bg-light">
           <h3 className="mb-4">Role Details</h3>
