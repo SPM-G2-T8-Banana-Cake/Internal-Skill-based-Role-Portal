@@ -55,7 +55,7 @@ function HrHeader() {
             Applications Management
           </NavLink>
         </Nav>
-        <NavDropdown title={user} className="text-white">
+        <NavDropdown style={{width: '150px'}} title={user} className="text-end text-white">
           <NavDropdown.Item href="/">
             <FiLogOut className="me-2" />
             Logout
