@@ -46,7 +46,7 @@ function StaffHeader() {
             Avaliable Roles
           </NavLink>
         </Nav>
-        <NavDropdown title={user} className="text-white">
+        <NavDropdown style={{width: '150px'}} title={user} className="text-end text-white">
           <NavDropdown.Item onClick={logout}>
             <FiLogOut className="me-2" />
             Logout
