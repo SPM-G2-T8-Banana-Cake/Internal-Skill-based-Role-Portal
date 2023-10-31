@@ -22,7 +22,7 @@ const SessionExpired = (props) => {
             <div>
                 <h3 className="mb-3">Session Expired</h3>
                 <p>Please login again.</p>
-                <Button variant={props.type} size="sm" className="rounded-pill" onClick={toLogin}>
+                <Button variant="details" size="sm" className="rounded-pill" onClick={toLogin}>
                     Return to login
                 </Button>
             </div>
