@@ -114,10 +114,10 @@ function ViewRoleDetailsModal(props) {
                 <div className="w-50">
                   <CircularProgressbar value={roleSkillMatch} text={`${roleSkillMatch}%`} />
                   <div className="text-center">
-                  {roleSkillMatch > 50 ? <p>
+                  {roleSkillMatch > 80 ? <p>
                     You are a good fit 😀
                   </p>:
-                  roleSkillMatch > 80 ? <p>
+                  roleSkillMatch > 50 ? <p>
                     You are a potential fit 😀
                   </p> 
                   : <p>You are not that good of a fit ☹️</p> 
