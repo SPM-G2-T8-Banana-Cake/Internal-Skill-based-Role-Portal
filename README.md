@@ -37,6 +37,12 @@ All-In-One Internal Skill-based Role Portal is an internal company web applicati
 
 
 ## Getting Started with All-In-One Application
+
+> Due to dummy data registered in the database, to view relevant up-to-date role listings and applications, 
+- Register for a HR account with username starting with hr and follow by a number from 10001 - 10010, eg. hr10001
+- Register for a Staff account with username starting with st and follow by a number from 1-10, eg. st1
+
+<br/>
 Two terminals will be needed to run the web application.
 
 ### Running the application view
