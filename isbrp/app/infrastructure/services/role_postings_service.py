@@ -49,9 +49,6 @@ class RolePostingsService(RolePostingsRepository):
             print("Caught EmptyDataError: The CSV file is empty.")
 
     def cron_update_staff_hrms(self, staff_csv_arr=None, remote_csv_path='/home/peterwjy/cron_data/staff.csv', local_csv_path='./cron_data/staff.csv'):
-        # Checks if staff ID exists in staff table
-        # - If not exist, add to database, set fields. Set staff_ID using id from lms
-        # - If exist, update existing record matching staff_ID
         try:
             self.download_csv_from_remote(remote_csv_path, local_csv_path)
 
