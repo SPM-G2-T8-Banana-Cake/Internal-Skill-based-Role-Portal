@@ -1,6 +1,5 @@
-from infrastructure.repos.interfaces.repo_interfaces import IRolePostingsRepository
 import math
-class RolePostingsRepository(IRolePostingsRepository):
+class RolePostingsRepository():
     def __init__(self, cursor) -> None:
         self.cursor = cursor
 
