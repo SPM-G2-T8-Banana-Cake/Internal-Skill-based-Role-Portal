@@ -52,10 +52,8 @@ function ModifyRoleModal(props) {
         Application_Deadline: localAppDeadline,
         Dept: department,
       };
-      console.log(modifiedData);
       hrUpdateRoleListing(modifiedData)
         .then(function (response) {
-          console.log(response);
           props.reloadRoleListings();
           props.setCurrentModal("details");
           props.openSnackbar("modifyRoleSuccess");
@@ -141,7 +139,7 @@ function ModifyRoleModal(props) {
               <br />
               <Form.Group controlId="appDeadline">
                 <Form.Control type="date" defaultValue={structuredDate} className="bg-background" min={new Date().toJSON().slice(0, 10)} onChange={(e) => setAppDeadline(e.target.value)} required />
-                <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback>
+                 {/* <Form.Control.Feedback type="invalid">Please fill this in.</Form.Control.Feedback> */}
                 <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Col>
