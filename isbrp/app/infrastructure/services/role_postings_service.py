@@ -5,7 +5,7 @@ from uuid import uuid4
 from domain.models.role_postings import StaffTable, RoleTable, RoleListingTable, RoleApplicationTable, CounterTable
 from domain.models.constants import STAFF_PREFIX, ROLE_LISTING_APPLICATION_PREFIX, ROLE_LISTING_PREFIX, ROLE_PREFIX
 from infrastructure.repos.role_postings_repo import RolePostingsRepository
-from utils.aws_services_wrapper import SqlServicesWrapper
+from utils.SQL_services_wrapper import SqlServicesWrapper
 import paramiko
 import pandas as pd
 from pandas.errors import EmptyDataError
@@ -272,14 +272,6 @@ class RolePostingsService(RolePostingsRepository):
                         val = (Ct, Staff_ID_Counter, Role_ID_Counter, Role_Listing_ID_Counter, Role_Listing_App_ID_Counter)
                         self.repository.create(create_counter_table_sql, val)
             return "Success"
-
-    def testingcounter(self):
-        print(self.repository.get_Role_ID_Counter())
-        print(self.repository.get_Role_Listing_App_ID_Counter())
-        print(self.repository.get_Role_Listing_ID_Counter())
-        print(self.repository.get_Staff_ID_Counter())
-        return "Success"
-
 
     def create_role_listing(self, role_listings_json: RoleListingTable):
         start_time = time.time()

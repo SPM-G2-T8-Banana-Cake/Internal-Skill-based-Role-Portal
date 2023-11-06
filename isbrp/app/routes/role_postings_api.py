@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from utils.aws_services_wrapper import SqlServicesWrapper
+from utils.SQL_services_wrapper import SqlServicesWrapper
 from infrastructure.repos.role_postings_repo import RolePostingsRepository
 from infrastructure.services.role_postings_service import RolePostingsService
 
