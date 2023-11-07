@@ -8,7 +8,6 @@ export const convertDateTime = (date, tzString) => {
     );
   };
 
-
 // CONSTANTS
 export const departments = [
     'Finance',
